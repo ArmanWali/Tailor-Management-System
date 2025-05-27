@@ -86,20 +86,27 @@ elements.collar_type.addEventListener('change', function () {
         collarBenLabel.textContent = 'بین اسٹائل';
         collarBenOptions.style.display = 'flex'; // Use flex to maintain layout
 
-        // Add option for ben
-        const option = document.createElement('option');
-        option.value = "چورس / کٹ / گول (for ben)";
-        option.textContent = "چورس / کٹ / گول (for ben)";
-        collarStyleDropdown.appendChild(option);
+        // Add options for ben
+        const benOptions = ["چورس", "کٹ", "گول"];
+        benOptions.forEach(option => {
+            const optElement = document.createElement('option');
+            optElement.value = option;
+            optElement.textContent = option;
+            collarStyleDropdown.appendChild(optElement);
+        });
 
     } else if (selectedValue === 'کالر') {
         collarBenLabel.textContent = 'کالر اسٹائل';
         collarBenOptions.style.display = 'flex'; // Use flex to maintain layout
 
-        // Add option for collar
-        const option = document.createElement('option');
-        option.value = "انگلش / فرنچ / نوک والا (for collar)";
-        option.textContent = "انگلش / فرنچ / نوک والا (for collar)";
+        // Add options for collar
+        const collarOptions = ["انگلش", "فرنچ", "نوک والا"];
+        collarOptions.forEach(option => {
+            const optElement = document.createElement('option');
+            optElement.value = option;
+            optElement.textContent = option;
+            collarStyleDropdown.appendChild(optElement);
+        });
         collarStyleDropdown.appendChild(option);
 
     } else {

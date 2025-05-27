@@ -20,7 +20,7 @@ Each customer document contains the following fields:
 ### Measurements
 The `measurements` object contains all measurements for the customer:
 
-#### Shalwar Qameez (شلوار قمیص)
+#### Qameez (قمیص)
 - `lambai`: String - Length (لمبائی)
 - `asteen`: String - Sleeve (آستین)
 - `tera`: String - Shoulder width (تیرا)
@@ -39,6 +39,15 @@ The `measurements` object contains all measurements for the customer:
 - `button_color`: String - Button color (رنگ بٹن) - Options: کراچی, عام
 - `button`: String - Button details (بٹن)
 - `button_size`: String - Button size (بٹن سائز)
+- `cuff_plate`: String - Cuff/plate style (پلیٹ والا کف / پلیٹ کے بغیر) - Options: پلیٹ والا کف, پلیٹ کے بغیر, NO, سنڈ, کٹ, چورس
+- `cuff_kaj`: String - Cuff button style (کف کاج) - Options: سنگل, ڈبل, سیدہ
+- `chak_patti`: String - Side slit style (چک پٹی) - Options: چورس, نوک, گول
+- `chak_patti_kaj`: String - Side slit button style (چک پٹی کاج) - Options: سنگل, ڈبل, NO
+- `daman`: String - Bottom style (دامن) - Options: گول, چورس
+- `shoulder_style`: String - Shoulder style (شولڈر) - Options: نارمل, سیدها, ڈاؤن
+- `sleeve_type`: String - Sleeve type (آستین) - Options: فل, فٹ, بافی
+- `gol_asteen`: String - Round sleeve (گول آستین)
+- `extra_demand`: String - Additional requirements (ایکسٹرا ڈیمانڈ)
 
 #### Shalwar (شلوار)
 - `shalwar_lambai`: String - Shalwar length (شلوار لمبائی)
@@ -49,17 +58,6 @@ The `measurements` object contains all measurements for the customer:
 - `ander`: String - Inner measurements (اندر)
 - `shalwar_pocket`: String - Shalwar pocket (شلوار پاکٹ) - Yes/No
 - `patti`: String - Border style (پٹی) - Options: پلیٹ والی, نوک والی, عام, گول
-
-#### Cuff/Plate (کف / پلیٹ)
-- `cuff_plate`: String - Cuff/plate style (پلیٹ والا کف / پلیٹ کے بغیر) - Options: پلیٹ والا کف, پلیٹ کے بغیر, NO, سنڈ, کٹ, چورس
-- `cuff_kaj`: String - Cuff button style (کف کاج) - Options: سنگل, ڈبل, سیدہ
-- `chak_patti`: String - Side slit style (چک پٹی) - Options: چورس, نوک, گول
-- `chak_patti_kaj`: String - Side slit button style (چک پٹی کاج) - Options: سنگل, ڈبل, NO
-- `daman`: String - Bottom style (دامن) - Options: گول, چورس
-- `extra_demand`: String - Additional requirements (اینکشرا دیماند)
-- `shoulder_style`: String - Shoulder style (شولڈر) - Options: نارمل, سیدها, ڈاؤن
-- `sleeve_type`: String - Sleeve type (آستین) - Options: فل, فٹ, بافی
-- `gol_asteen`: String - Round sleeve (گول آستین)
 
 ## User Collection
 

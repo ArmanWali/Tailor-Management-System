@@ -17,12 +17,16 @@ A desktop application for managing customer measurement data for tailors. This s
 
 The application includes a comprehensive measurement system for traditional Pakistani clothing:
 
-1. **Shalwar Qameez (شلوار قمیص)** section includes:
+1. **Qameez (قمیص)** section includes:
    - Basic measurements (لمبائی, آستین, تیرا)
    - Collar options (بین/کالر with specific styles)
    - Body measurements (چھاتی, کمر, گیرہ, موزہ)
    - Pocket options (ڈبل سائیڈ پاکٹ, سنگل پاکٹ, فرنٹ پاکٹ)
    - Stitching details (سلائی, بٹن)
+   - Cuff options (پلیٹ والا کف/پلیٹ کے بغیر, کف کاج)
+   - Side slit options (چک پٹی, چک پٹی کاج)
+   - Bottom style and sleeve options (دامن, شولڈر, آستین)
+   - Additional customizations (ایکسٹرا ڈیمانڈ)
 
 2. **Shalwar (شلوار)** section includes:
    - Length and type (شلوار لمبائی, عام/ٹروزر/سانجھا)
@@ -123,7 +127,9 @@ MIT
 ## Recent Updates (May 2025)
 
 ### Measurement System Improvements
-- **Enhanced Collar/Ben Functionality**: Implemented dynamic dropdown behavior for collar type selection (بین/کالر) in both Add New Customer and Customer Details views
+- **Enhanced Collar/Ben Functionality**: Fixed dropdown behavior for collar type selection (بین/کالر) to show proper options (چورس/کٹ/گول for بین, انگلش/فرنچ/نوک والا for کالر)
+- **Reorganized Measurement Categories**: Changed "شلوار قمیص" to just "قمیص" and moved cuff/plate fields to appropriate sections
+- **Fixed Terminology**: Corrected "اینکشرا دیماند" to "ایکسٹرا ڈیمانڈ" for better clarity
 - **Unified Measurement Interface**: Ensured all measurement fields are consistent between Add New Customer form and Customer Details view
 - **Improved User Experience**: Added proper CSS styling for measurement sections with better form layout and responsive design
 
