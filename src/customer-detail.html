@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self';">
+    <title>Customer Details</title>
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="details-container" id="print-container">
+        <div class="print-header header-section text-center">
+            <img src="assets/img/logo-pic.png" alt="Noor & Sons Tailors And Fabrics" class="logo-img logo">
+            <h2>Noor & Sons Tailors And Fabrics</h2>
+            <p>We offer you stitching of your choice</p>
+        </div>
+
+        <div class="button-group no-print">
+            <button id="print-btn" class="print-button">Print</button>
+            <button id="back-btn" class="back-button">Back</button>
+        </div>
+
+        <div class="customer-details customer-info">
+            <div class="info-row">
+                <div class="info-item">
+                    <div class="detail-item">
+                        <label class="detail-label">Code Number:</label>
+                        <input type="text" id="input-codeNumber" class="form-input" title="Code Number">
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="detail-item">
+                        <label class="detail-label">Order Date:</label>
+                        <input type="date" id="input-orderDate" class="form-input" title="Order Date">
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-item">
+                    <div class="detail-item">
+                        <label class="detail-label">Name:</label>
+                        <input type="text" id="input-name" class="form-input" title="Name">
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="detail-item">
+                        <label class="detail-label">Return Date:</label>
+                        <input type="date" id="input-returnDate" class="form-input" title="Return Date">
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-item">
+                    <div class="detail-item">
+                        <label class="detail-label">Cell Number:</label>
+                        <input type="text" id="input-cellNumber" class="form-input" title="Cell Number">
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="detail-item">
+                        <label class="detail-label">Address:</label>
+                        <input type="text" id="input-address" class="form-input" title="Address">
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-item">
+                    <div class="detail-item">
+                        <label class="detail-label">Cutting No:</label>
+                        <input type="text" id="input-cuttingNo" class="form-input" title="Cutting No">
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="detail-item">
+                        <label class="detail-label">Age:</label>
+                        <input type="number" id="input-age" class="form-input" title="Age">
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-item">
+                    <div class="detail-item">
+                        <label class="detail-label">Quantity:</label>
+                        <input type="number" id="input-quantity" class="form-input" title="Quantity">
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="detail-item">
+                        <label class="detail-label">Entered By:</label>
+                        <input type="text" id="input-enteredBy" class="form-input" title="Entered By">
+                    </div>
+                </div>
+            </div>
+
+            <hr class="section-divider">
+
+            <h3 class="measurements-title">Measurements</h3>
+
+            <div class="measurements-section">
+                <h4 class="urdu-text rtl-text">شلوار قمیص</h4>
+
+                <div class="measurement-row">
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">لمبائی</label>
+                            <input type="text" id="input-lambai" class="form-input" title="لمبائی">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">آستین</label>
+                            <input type="text" id="input-asteen" class="form-input" title="آستین">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">تیرا</label>
+                            <input type="text" id="input-tera" class="form-input" title="تیرا">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">بین / کالر</label>
+                            <select id="input-collar_type" class="form-input urdu-text rtl-text" title="بین / کالر">
+                                <option value="">منتخب کریں</option>
+                                <option value="بین">بین</option>
+                                <option value="کالر">کالر</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conditional dropdowns for بین / کالر -->
+                <div class="measurement-row" id="collar-ben-options">
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label" id="collar-ben-label">اسٹائل</label>
+                            <select id="input-collar_style" class="form-input urdu-text rtl-text"
+                                title="Collar / Ben Style">
+                                <option value="">منتخب کریں</option>
+                                <!-- Options for collar -->
+                                <option value="انگلش" class="collar-option">انگلش / فرنچ / نوک والا (for collar)
+                                </option>
+                                <!-- Options for ben -->
+                                <option value="چورس" class="ben-option">چورس / کٹ / گول (for ben)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <!-- Empty for layout -->
+                    </div>
+                    <div class="measurement-item">
+                        <!-- Empty for layout -->
+                    </div>
+                    <div class="measurement-item">
+                        <!-- Empty for layout -->
+                    </div>
+                </div>
+
+                <div class="measurement-row">
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">چھاتی</label>
+                            <input type="text" id="input-chati" class="form-input" title="چھاتی">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">کمر</label>
+                            <input type="text" id="input-kamar" class="form-input" title="کمر">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">گیره</label>
+                            <input type="text" id="input-gira" class="form-input" title="گیره">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">موزہ</label>
+                            <input type="text" id="input-moza" class="form-input" title="موزہ">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="measurement-row">
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">ڈبل سائیڈ پاکٹ</label>
+                            <select id="input-double_side_pocket" class="form-input urdu-text rtl-text"
+                                title="ڈبل سائیڈ پاکٹ">
+                                <option value="">منتخب کریں</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">سنگل پاکٹ</label>
+                            <select id="input-single_pocket" class="form-input urdu-text rtl-text" title="سنگل پاکٹ">
+                                <option value="">منتخب کریں</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">فرنٹ پاکٹ</label>
+                            <select id="input-front_pocket" class="form-input urdu-text rtl-text" title="فرنٹ پاکٹ">
+                                <option value="">منتخب کریں</option>
+                                <option value="چورس">چورس</option>
+                                <option value="گول">گول</option>
+                                <option value="نوک والا">نوک والا</option>
+                                <option value="NO">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">سلائی</label>
+                            <select id="input-silai" class="form-input urdu-text rtl-text" title="سلائی">
+                                <option value="">منتخب کریں</option>
+                                <option value="ساده">ساده</option>
+                                <option value="چمک دار">چمک دار</option>
+                                <option value="ڈبل چمک دار">ڈبل چمک دار</option>
+                                <option value="کم">کم</option>
+                                <option value="چین">چین</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="measurement-row">
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">رنگ بٹن</label>
+                            <select id="input-button_color" class="form-input urdu-text rtl-text" title="رنگ بٹن">
+                                <option value="">منتخب کریں</option>
+                                <option value="کراچی">کراچی</option>
+                                <option value="عام">عام</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">بٹن</label>
+                            <input type="text" id="input-button" class="form-input" title="بٹن">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">بٹن سائز</label>
+                            <input type="text" id="input-button_size" class="form-input" title="بٹن سائز">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <!-- Empty for layout -->
+                    </div>
+                </div>
+
+
+                <h4 class="urdu-text rtl-text">شلوار</h4>
+
+                <div class="measurement-row">
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">شلوار لمبائی</label>
+                            <input type="text" id="input-shalwar_lambai" class="form-input" title="شلوار لمبائی">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">عام / ٹروزر / سانجھا</label>
+                            <select id="input-shalwar_type" class="form-input urdu-text rtl-text"
+                                title="عام / ٹروزر / سانجھا">
+                                <option value="">منتخب کریں</option>
+                                <option value="عام">عام</option>
+                                <option value="ٹروزر">ٹروزر</option>
+                                <option value="سانجھا">سانجھا</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">شلوار</label>
+                            <input type="text" id="input-shalwar" class="form-input" title="شلوار">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">پانچہ</label>
+                            <input type="text" id="input-pacha" class="form-input" title="پانچہ">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="measurement-row">
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">لب</label>
+                            <input type="text" id="input-lib" class="form-input" title="لب">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">اندر</label>
+                            <input type="text" id="input-ander" class="form-input" title="اندر">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">شلوار پاکٹ</label>
+                            <select id="input-shalwar_pocket" class="form-input urdu-text rtl-text" title="شلوار پاکٹ">
+                                <option value="">منتخب کریں</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">پٹی</label>
+                            <select id="input-patti" class="form-input urdu-text rtl-text" title="پٹی">
+                                <option value="">منتخب کریں</option>
+                                <option value="پلیٹ والی">پلیٹ والی</option>
+                                <option value="نوک والی">نوک والی</option>
+                                <option value="عام">عام</option>
+                                <option value="گول">گول</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="urdu-text rtl-text">کف / پلیٹ</h4>
+
+                <div class="measurement-row">
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">پلیٹ والا کف / پلیٹ کے بغیر</label>
+                            <select id="input-cuff_plate" class="form-input urdu-text rtl-text"
+                                title="پلیٹ والا کف / پلیٹ کے بغیر">
+                                <option value="">منتخب کریں</option>
+                                <option value="پلیٹ والا کف">پلیٹ والا کف</option>
+                                <option value="پلیٹ کے بغیر">پلیٹ کے بغیر</option>
+                                <option value="NO">NO</option>
+                                <option value="سنڈ">سنڈ</option>
+                                <option value="کٹ">کٹ</option>
+                                <option value="چورس">چورس</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">کف کاج</label>
+                            <select id="input-cuff_kaj" class="form-input urdu-text rtl-text" title="کف کاج">
+                                <option value="">منتخب کریں</option>
+                                <option value="سنگل">سنگل</option>
+                                <option value="ڈبل">ڈبل</option>
+                                <option value="سیدہ">سیدہ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">چک پٹی</label>
+                            <select id="input-chak_patti" class="form-input urdu-text rtl-text" title="چک پٹی">
+                                <option value="">منتخب کریں</option>
+                                <option value="چورس">چورس</option>
+                                <option value="نوک">نوک</option>
+                                <option value="گول">گول</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">چک پٹی کاج</label>
+                            <select id="input-chak_patti_kaj" class="form-input urdu-text rtl-text" title="چک پٹی کاج">
+                                <option value="">منتخب کریں</option>
+                                <option value="سنگل">سنگل</option>
+                                <option value="ڈبل">ڈبل</option>
+                                <option value="NO">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="measurement-row">
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">دامن</label>
+                            <select id="input-daman" class="form-input urdu-text rtl-text" title="دامن">
+                                <option value="">منتخب کریں</option>
+                                <option value="گول">گول</option>
+                                <option value="چورس">چورس</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">اینکشرا دیماند</label>
+                            <input type="text" id="input-extra_demand" class="form-input" title="اینکشرا دیماند">
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">شولڈر</label>
+                            <select id="input-shoulder_style" class="form-input urdu-text rtl-text" title="شولڈر">
+                                <option value="">منتخب کریں</option>
+                                <option value="نارمل">نارمل</option>
+                                <option value="سیدها">سیدها</option>
+                                <option value="ڈاؤن">ڈاؤن</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">آستین</label>
+                            <select id="input-sleeve_type" class="form-input urdu-text rtl-text" title="آستین">
+                                <option value="">منتخب کریں</option>
+                                <option value="فل">فل</option>
+                                <option value="فٹ">فٹ</option>
+                                <option value="بافی">بافی</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="measurement-row">
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">گول آستین</label>
+                            <input type="text" id="input-gol_asteen" class="form-input" title="گول آستین">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="signature-section">
+            <div class="info-row">
+                <div class="info-item">
+                    <p class="signature-line">Customer Signature: ___________________</p>
+                </div>
+                <div class="info-item">
+                    <p class="signature-line">Tailor Signature: ___________________</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include PDF generation libraries -->
+    <script>window.jspdf = window.jspdf || {};</script>
+    <script src="../node_modules/jspdf/dist/jspdf.umd.min.js"></script>
+    <script src="../node_modules/html2canvas/dist/html2canvas.min.js"></script>
+    <script src="../node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.min.js"></script>
+    <script src="js/customer-detail.js"></script>
+</body>
+
+</html>

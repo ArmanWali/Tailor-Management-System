@@ -1,0 +1,76 @@
+{
+    "name": "tailor-management-system",
+    "version": "1.0.0",
+    "description": "A desktop application for managing customer measurement data for tailors",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "electron-builder",
+        "build:win": "electron-builder --win",
+        "postinstall": "electron-builder install-app-deps",
+        "backup": "node -e \"require('./backup').createBackup()\"",
+        "restore": "node -e \"require('./restore').restoreLatestBackup()\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/username/Tailor-Management-System.git"
+    },
+    "keywords": [
+        "tailor",
+        "management",
+        "electron",
+        "urdu"
+    ],
+    "author": "Noor & Sons",
+    "license": "ISC",
+    "dependencies": {
+        "@seald-io/nedb": "^4.0.2",
+        "bootstrap": "^5.3.2",
+        "bootstrap-rtl": "^3.3.4",
+        "electron": "^28.0.0",
+        "html2canvas": "^1.4.1",
+        "jspdf": "^3.0.1",
+        "jspdf-autotable": "^5.0.2"
+    },
+    "devDependencies": {
+        "electron-builder": "^24.13.3",
+        "electron-reload": "^2.0.0-alpha.1"
+    },
+    "build": {
+        "appId": "com.noorandsons.tailor-management",
+        "productName": "Noor & Sons Tailor Management",
+        "directories": {
+            "output": "dist"
+        },
+        "files": [
+            "**/*",
+            "!**/.git/*",
+            "!**/.vscode/*",
+            "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+            "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+            "!**/node_modules/*.d.ts",
+            "!**/node_modules/.bin",
+            "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+            "!.editorconfig",
+            "!**/._*",
+            "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes}",
+            "!**/node_modules/**.{map,txt,md}"
+        ],
+        "win": {
+            "target": "nsis",
+            "icon": "logo-pic.jpg"
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true,
+            "createDesktopShortcut": true,
+            "createStartMenuShortcut": true,
+            "shortcutName": "Noor & Sons Tailor Management"
+        }
+    },
+    "bugs": {
+        "url": "https://github.com/username/Tailor-Management-System/issues"
+    },
+    "homepage": "https://github.com/username/Tailor-Management-System#readme"
+}

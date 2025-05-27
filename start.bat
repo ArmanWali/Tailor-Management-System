@@ -1,0 +1,3 @@
+@echo off
+echo Starting Tailor Management System...
+npm start

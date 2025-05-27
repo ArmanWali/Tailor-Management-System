@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Pol                    <div class=" row collar-ben-options">
+    <div class="col-md-4">
+        <div class="mb-3">
+            <label class="form-label" id="collar-ben-label">اسٹائل</label>
+            <select class="form-select" id="collar_style">
+                <option value="">منتخب کریں</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="mb-3">
+            <label class="form-label">چھاتی</label>
+            <input type="text" class="form-control" id="chati">
+        </div>
+    </div>
+    </div>ntent="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';
+    font-src 'self'; img-src 'self' data:; connect-src 'self';">
+    <title>Tailor Management System - Dashboard</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid"> <a class="navbar-brand" href="#">
+                <img src="assets/img/logo-pic.png" alt="Logo" width="30" height="30"
+                    class="d-inline-block align-text-top me-2">
+                Noor & Sons Tailors
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="dashboard-link" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="add-customer-link" href="#">Add New Customer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="manage-customers-link" href="#">Manage Customers</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" id="logout-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Dashboard View -->
+        <div id="dashboard-view">
+            <h1>Welcome to Tailor Management System</h1>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card dashboard-card" id="add-customer-card">
+                        <div class="card-body text-center">
+                            <h3>Add New Customer</h3>
+                            <i class="bi bi-person-plus-fill"></i>
+                            <p>Add new customer measurements</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card dashboard-card" id="manage-customers-card">
+                        <div class="card-body text-center">
+                            <h3>Manage Customers</h3>
+                            <i class="bi bi-people-fill"></i>
+                            <p>Search and edit customer data</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add New Customer Form View - Hidden by default -->
+        <div id="add-customer-view" style="display: none;">
+            <h2>Add New Customer</h2>
+            <form id="customer-form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="codeNumber" class="form-label">Code Number</label>
+                            <input type="text" class="form-control" id="codeNumber">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="orderDate" class="form-label">Order Date</label>
+                            <input type="date" class="form-control" id="orderDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="returnDate" class="form-label">Return Date</label>
+                            <input type="date" class="form-control" id="returnDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="cellNumber" class="form-label">Cell Number</label>
+                            <input type="text" class="form-control" id="cellNumber">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="cuttingNo" class="form-label">Cutting No</label>
+                            <input type="text" class="form-control" id="cuttingNo">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="age" class="form-label">Age</label>
+                            <input type="number" class="form-control" id="age">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="quantity">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="enteredBy" class="form-label">Entered By</label>
+                            <input type="text" class="form-control" id="enteredBy" value="Abubakkar" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="mt-4">Measurements</h3>
+
+                <!-- Shirt Measurements (Urdu) -->
+                <div class="measurements-section">
+                    <h4>شلوار قمیص</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">لمبائی</label>
+                                <input type="text" class="form-control" id="lambai">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">آستین</label>
+                                <input type="text" class="form-control" id="asteen">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">تیرا</label>
+                                <input type="text" class="form-control" id="tera">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">بین / کالر</label>
+                                <select class="form-select" id="collar_type">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="بین">بین</option>
+                                    <option value="کالر">کالر</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label" id="collar-ben-label">اسٹائل</label>
+                                <select class="form-select" id="collar_style">
+                                    <option value="">منتخب کریں</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">چھاتی</label>
+                                <input type="text" class="form-control" id="chati">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">کمر</label>
+                                <input type="text" class="form-control" id="kamar">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">گیرہ</label>
+                                <input type="text" class="form-control" id="gira">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">موزہ</label>
+                                <input type="text" class="form-control" id="moza">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">ڈبل سائیڈ پاکٹ</label>
+                                <select class="form-select" id="double_side_pocket">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">سنگل پاکٹ</label>
+                                <select class="form-select" id="single_pocket">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">فرنٹ پاکٹ</label>
+                                <select class="form-select" id="front_pocket">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="چورس">چورس</option>
+                                    <option value="گول">گول</option>
+                                    <option value="نوک والا">نوک والا</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">سلائی</label>
+                                <select class="form-select" id="silai">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="ساده">ساده</option>
+                                    <option value="چمک دار">چمک دار</option>
+                                    <option value="ڈبل چمک دار">ڈبل چمک دار</option>
+                                    <option value="کم">کم</option>
+                                    <option value="چین">چین</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">رنگ بٹن</label>
+                                <select class="form-select" id="button_color">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="کراچی">کراچی</option>
+                                    <option value="عام">عام</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">بٹن</label>
+                                <input type="text" class="form-control" id="button">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">بٹن سائز</label>
+                                <input type="text" class="form-control" id="button_size">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>شلوار</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">شلوار لمبائی</label>
+                                <input type="text" class="form-control" id="shalwar_lambai">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">عام / ٹروزر / سانجھا</label>
+                                <select class="form-select" id="shalwar_type">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="عام">عام</option>
+                                    <option value="ٹروزر">ٹروزر</option>
+                                    <option value="سانجھا">سانجھا</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">شلوار</label>
+                                <input type="text" class="form-control" id="shalwar">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">پاچہ</label>
+                                <input type="text" class="form-control" id="pacha">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">لب</label>
+                                <input type="text" class="form-control" id="lib">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">اندر</label>
+                                <input type="text" class="form-control" id="ander">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">شلوار پاکٹ</label>
+                                <select class="form-select" id="shalwar_pocket">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">پٹی</label>
+                                <select class="form-select" id="patti">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="پلیٹ والی">پلیٹ والی</option>
+                                    <option value="نوک والی">نوک والی</option>
+                                    <option value="عام">عام</option>
+                                    <option value="گول">گول</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>کف / پلیٹ</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">پلیٹ والا کف / پلیٹ کے بغیر</label>
+                                <select class="form-select" id="cuff_plate">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="پلیٹ والا کف">پلیٹ والا کف</option>
+                                    <option value="پلیٹ کے بغیر">پلیٹ کے بغیر</option>
+                                    <option value="NO">NO</option>
+                                    <option value="سنڈ">سنڈ</option>
+                                    <option value="کٹ">کٹ</option>
+                                    <option value="چورس">چورس</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">کف کاج</label>
+                                <select class="form-select" id="cuff_kaj">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="سنگل">سنگل</option>
+                                    <option value="ڈبل">ڈبل</option>
+                                    <option value="سیدہ">سیدہ</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">چک پٹی</label>
+                                <select class="form-select" id="chak_patti">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="چورس">چورس</option>
+                                    <option value="نوک">نوک</option>
+                                    <option value="گول">گول</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">چک پٹی کاج</label>
+                                <select class="form-select" id="chak_patti_kaj">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="سنگل">سنگل</option>
+                                    <option value="ڈبل">ڈبل</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">دامن</label>
+                                <select class="form-select" id="daman">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="گول">گول</option>
+                                    <option value="چورس">چورس</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">اینکشرا دیماند</label>
+                                <input type="text" class="form-control" id="extra_demand">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">شولڈر</label>
+                                <select class="form-select" id="shoulder_style">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="نارمل">نارمل</option>
+                                    <option value="سیدها">سیدها</option>
+                                    <option value="ڈاؤن">ڈاؤن</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">آستین</label>
+                                <select class="form-select" id="sleeve_type">
+                                    <option value="">منتخب کریں</option>
+                                    <option value="فل">فل</option>
+                                    <option value="فٹ">فٹ</option>
+                                    <option value="بافی">بافی</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">گول آستین</label>
+                                <input type="text" class="form-control" id="gol_asteen">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- More combinations as seen in the Figma design -->
+                </div>
+
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary">Save Customer</button>
+                    <button type="button" class="btn btn-secondary ms-2" id="cancel-add-customer">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Manage Customers View - Hidden by default -->
+        <div id="manage-customers-view" style="display: none;">
+            <h2>Manage Customers</h2>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="search-input"
+                            placeholder="Search by name, phone, or code">
+                        <button class="btn btn-primary" id="search-btn">Search</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Cell Number</th>
+                            <th>Order Date</th>
+                            <th>Return Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customers-table-body">
+                        <!-- Customer data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Customer Details View for Editing/Printing - Hidden by default -->
+        <div id="customer-details-view" style="display: none;">
+            <!-- This will be filled dynamically when a customer is selected -->
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
