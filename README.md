@@ -20,24 +20,24 @@ The application includes a comprehensive measurement system for traditional Paki
 1. **Qameez (قمیص)** section includes:
    - Basic measurements (لمبائی, آستین, تیرا)
    - Collar options (بین/کالر with specific styles)
-   - Body measurements (چھاتی, کمر, گیرہ, موزہ)
-   - Pocket options (ڈبل سائیڈ پاکٹ, سنگل پاکٹ, فرنٹ پاکٹ)
+   - Body measurements (چھاتی, کمر, گیرہ, موڑہ)
+   - Pocket options (ڈبل سائیڈ پاکٹ, سنگل پاکٹ, فرنٹ پاکٹ, فرنٹ پاکٹ سائز)
    - Stitching details (سلائی, بٹن)
-   - Cuff options (پلیٹ والا کف/پلیٹ کے بغیر, کف کاج)
+   - Cuff options (پلیٹ والا کف/پلیٹ کے بغیر, کف اسٹائل, کف کاج)
    - Side slit options (چک پٹی, چک پٹی کاج)
    - Bottom style and sleeve options (دامن, شولڈر, آستین)
    - Additional customizations (ایکسٹرا ڈیمانڈ)
 
 2. **Shalwar (شلوار)** section includes:
    - Length and type (شلوار لمبائی, عام/ٹروزر/سانجھا)
-   - Detailed measurements (پاچہ, لب, اندر)
+   - Detailed measurements (پانچہ, ہپ, اندر)
    - Pocket and border options (شلوار پاکٹ, پٹی)
 
 3. **Cuff/Plate (کف/پلیٹ)** section includes:
    - Cuff style and buttons (پلیٹ والا کف/پلیٹ کے بغیر, کف کاج)
    - Side slit options (چک پٹی, چک پٹی کاج)
    - Bottom style and sleeve options (دامن, شولڈر, آستین)
-   - Additional customizations (اینکشرا دیماند)
+   - Additional customizations (ایکسٹرا ڈیمانڈ)
 
 ## Tech Stack
 

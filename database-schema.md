@@ -31,7 +31,8 @@ The `measurements` object contains all measurements for the customer:
 - `chati`: String - Chest (چھاتی)
 - `kamar`: String - Waist (کمر)
 - `gira`: String - Neck (گیرہ)
-- `moza`: String - Cuff (موزہ)
+- `moza`: String - Cuff (موڑہ)
+- `front_pocket_size`: String - Front pocket size (فرنٹ پاکٹ سائز)
 - `double_side_pocket`: String - Double side pocket (ڈبل سائیڈ پاکٹ) - Yes/No
 - `single_pocket`: String - Single pocket (سنگل پاکٹ) - Yes/No
 - `front_pocket`: String - Front pocket style (فرنٹ پاکٹ) - Options: چورس, گول, نوک والا, NO
@@ -39,7 +40,8 @@ The `measurements` object contains all measurements for the customer:
 - `button_color`: String - Button color (رنگ بٹن) - Options: کراچی, عام
 - `button`: String - Button details (بٹن)
 - `button_size`: String - Button size (بٹن سائز)
-- `cuff_plate`: String - Cuff/plate style (پلیٹ والا کف / پلیٹ کے بغیر) - Options: پلیٹ والا کف, پلیٹ کے بغیر, NO, سنڈ, کٹ, چورس
+- `cuff_plate`: String - Cuff/plate type (پلیٹ والا کف / پلیٹ کے بغیر) - Options: پلیٹ والا کف, پلیٹ کے بغیر, NO
+- `cuff_style`: String - Cuff style (کف اسٹائل) - Options: چورس, گول, کٹ, سٹڈ, NO
 - `cuff_kaj`: String - Cuff button style (کف کاج) - Options: سنگل, ڈبل, سیدہ
 - `chak_patti`: String - Side slit style (چک پٹی) - Options: چورس, نوک, گول
 - `chak_patti_kaj`: String - Side slit button style (چک پٹی کاج) - Options: سنگل, ڈبل, NO

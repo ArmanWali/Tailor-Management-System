@@ -144,7 +144,8 @@
                         <div class="detail-item">
                             <label class="urdu-text rtl-text detail-label" id="collar-ben-label">اسٹائل</label>
                             <select id="input-collar_style" class="form-input urdu-text rtl-text"
-                                title="Collar / Ben Style">                                <option value="">منتخب کریں</option>
+                                title="Collar / Ben Style">
+                                <option value="">منتخب کریں</option>
                                 <!-- Options will be populated dynamically based on selection -->
                             </select>
                         </div>
@@ -181,8 +182,8 @@
                     </div>
                     <div class="measurement-item">
                         <div class="detail-item">
-                            <label class="urdu-text rtl-text detail-label">موزہ</label>
-                            <input type="text" id="input-moza" class="form-input" title="موزہ">
+                            <label class="urdu-text rtl-text detail-label">موڑہ</label>
+                            <input type="text" id="input-moza" class="form-input" title="موڑہ">
                         </div>
                     </div>
                 </div>
@@ -207,6 +208,12 @@
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">فرنٹ پاکٹ سائز</label>
+                            <input type="text" id="input-front_pocket_size" class="form-input" title="فرنٹ پاکٹ سائز">
                         </div>
                     </div>
                     <div class="measurement-item">
@@ -303,8 +310,8 @@
                 <div class="measurement-row">
                     <div class="measurement-item">
                         <div class="detail-item">
-                            <label class="urdu-text rtl-text detail-label">لب</label>
-                            <input type="text" id="input-lib" class="form-input" title="لب">
+                            <label class="urdu-text rtl-text detail-label">ہپ</label>
+                            <input type="text" id="input-lib" class="form-input" title="ہپ">
                         </div>
                     </div>
                     <div class="measurement-item">
@@ -337,8 +344,7 @@
                     </div>
                 </div>
 
-                <h4 class="urdu-text rtl-text">شلوار</h4>
-
+                <!-- This is part of the قمیص section (cuff details) -->
                 <div class="measurement-row">
                     <div class="measurement-item">
                         <div class="detail-item">
@@ -349,9 +355,19 @@
                                 <option value="پلیٹ والا کف">پلیٹ والا کف</option>
                                 <option value="پلیٹ کے بغیر">پلیٹ کے بغیر</option>
                                 <option value="NO">NO</option>
-                                <option value="سنڈ">سنڈ</option>
-                                <option value="کٹ">کٹ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">کف اسٹائل</label>
+                            <select id="input-cuff_style" class="form-input urdu-text rtl-text" title="کف اسٹائل">
+                                <option value="">منتخب کریں</option>
                                 <option value="چورس">چورس</option>
+                                <option value="گول">گول</option>
+                                <option value="کٹ">کٹ</option>
+                                <option value="سٹڈ">سٹڈ</option>
+                                <option value="NO">NO</option>
                             </select>
                         </div>
                     </div>
@@ -402,11 +418,6 @@
                         </div>
                     </div>
                     <div class="measurement-item">
-                        <div class="detail-item">                            <label class="urdu-text rtl-text detail-label">ایکسٹرا ڈیمانڈ</label>
-                            <input type="text" id="input-extra_demand" class="form-input" title="ایکسٹرا ڈیمانڈ">
-                        </div>
-                    </div>
-                    <div class="measurement-item">
                         <div class="detail-item">
                             <label class="urdu-text rtl-text detail-label">شولڈر</label>
                             <select id="input-shoulder_style" class="form-input urdu-text rtl-text" title="شولڈر">
@@ -433,8 +444,18 @@
                 <div class="measurement-row">
                     <div class="measurement-item">
                         <div class="detail-item">
-                            <label class="urdu-text rtl-text detail-label">گول آستین</label>
-                            <input type="text" id="input-gol_asteen" class="form-input" title="گول آستین">
+                            <label class="urdu-text rtl-text detail-label">گول آستین</label> <input type="text"
+                                id="input-gol_asteen" class="form-input" title="گول آستین">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Extra Demand Field -->
+                <div class="measurement-row">
+                    <div class="measurement-item">
+                        <div class="detail-item">
+                            <label class="urdu-text rtl-text detail-label">ایکسٹرا ڈیمانڈ</label>
+                            <input type="text" id="input-extra_demand" class="form-input" title="ایکسٹرا ڈیمانڈ">
                         </div>
                     </div>
                 </div>

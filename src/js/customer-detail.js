@@ -28,6 +28,7 @@ const elements = {
     kamar: document.getElementById('input-kamar'),
     gira: document.getElementById('input-gira'),
     moza: document.getElementById('input-moza'),
+    front_pocket_size: document.getElementById('input-front_pocket_size'),
     double_side_pocket: document.getElementById('input-double_side_pocket'),
     single_pocket: document.getElementById('input-single_pocket'),
     front_pocket: document.getElementById('input-front_pocket'),
@@ -44,10 +45,9 @@ const elements = {
     lib: document.getElementById('input-lib'),
     ander: document.getElementById('input-ander'),
     shalwar_pocket: document.getElementById('input-shalwar_pocket'),
-    patti: document.getElementById('input-patti'),
-
-    // Cuff/Plate options
+    patti: document.getElementById('input-patti'),    // Cuff/Plate options
     cuff_plate: document.getElementById('input-cuff_plate'),
+    cuff_style: document.getElementById('input-cuff_style'),
     cuff_kaj: document.getElementById('input-cuff_kaj'),
     chak_patti: document.getElementById('input-chak_patti'),
     chak_patti_kaj: document.getElementById('input-chak_patti_kaj'),
@@ -94,7 +94,6 @@ elements.collar_type.addEventListener('change', function () {
             optElement.textContent = option;
             collarStyleDropdown.appendChild(optElement);
         });
-
     } else if (selectedValue === 'کالر') {
         collarBenLabel.textContent = 'کالر اسٹائل';
         collarBenOptions.style.display = 'flex'; // Use flex to maintain layout
@@ -107,7 +106,6 @@ elements.collar_type.addEventListener('change', function () {
             optElement.textContent = option;
             collarStyleDropdown.appendChild(optElement);
         });
-        collarStyleDropdown.appendChild(option);
 
     } else {
         collarBenLabel.textContent = 'اسٹائل';
@@ -158,6 +156,9 @@ function displayCustomerData(customer) {
     // Set document title
     document.title = `Customer: ${customer.name} - Noor & Sons Tailors`;
 
+    // Set all input fields to read-only
+    setAllInputsReadOnly();
+
     // Display basic info
     elements.codeNumber.value = customer.codeNumber || '';
     elements.orderDate.value = customer.orderDate || '';
@@ -192,6 +193,7 @@ function displayCustomerData(customer) {
         elements.kamar.value = m.kamar || '';
         elements.gira.value = m.gira || '';
         elements.moza.value = m.moza || '';
+        elements.front_pocket_size.value = m.front_pocket_size || '';
         elements.double_side_pocket.value = m.double_side_pocket || '';
         elements.single_pocket.value = m.single_pocket || '';
         elements.front_pocket.value = m.front_pocket || '';
@@ -208,10 +210,9 @@ function displayCustomerData(customer) {
         elements.lib.value = m.lib || '';
         elements.ander.value = m.ander || '';
         elements.shalwar_pocket.value = m.shalwar_pocket || '';
-        elements.patti.value = m.patti || '';
-
-        // Cuff/Plate options
+        elements.patti.value = m.patti || '';        // Cuff/Plate options
         elements.cuff_plate.value = m.cuff_plate || '';
+        elements.cuff_style.value = m.cuff_style || '';
         elements.cuff_kaj.value = m.cuff_kaj || '';
         elements.chak_patti.value = m.chak_patti || '';
         elements.chak_patti_kaj.value = m.chak_patti_kaj || '';
@@ -221,6 +222,27 @@ function displayCustomerData(customer) {
         elements.sleeve_type.value = m.sleeve_type || '';
         elements.gol_asteen.value = m.gol_asteen || '';
     }
+}
+
+// Set all input fields to read-only
+function setAllInputsReadOnly() {
+    // Get all input and select elements in the document
+    const inputs = document.querySelectorAll('input, select');
+    
+    // Set each element to read-only
+    inputs.forEach(input => {
+        // For regular inputs, use the readonly attribute
+        if (input.tagName.toLowerCase() === 'input') {
+            input.setAttribute('readonly', true);
+        }
+        // For select elements, disable them to prevent changes
+        else if (input.tagName.toLowerCase() === 'select') {
+            input.setAttribute('disabled', true);
+        }
+        
+        // Add a CSS class for styling
+        input.classList.add('read-only-field');
+    });
 }
 
 // Helper function to format date
@@ -300,31 +322,29 @@ function generatePDF() {
         doc.setFontSize(14);
         doc.text('Measurements / ناپ', 15, 95);
 
-        // Add measurements table
-        // Create array for table with both Urdu and English labels
+        // Add measurements table        // Create array for table with both Urdu and English labels
         const measurementRows = [
             // Shalwar Qameez
             ['Length / لمبائی', elements.lambai.value, 'Shalwar Length / شلوار لمبائی', elements.shalwar_lambai.value],
-            ['Sleeve / آستین', elements.asteen.value, 'Shalwar / شلوار', elements.shalwar.value],
-            ['Tera / تیرا', elements.tera.value, 'Pacha / پاچہ', elements.pacha.value],
-            ['Ben-Collar / بین - کالر', elements.collar_type.value, 'Lib / لب', elements.lib.value],
+            ['Sleeve / آستین', elements.asteen.value, 'Shalwar / سانجھا', elements.shalwar.value],
+            ['Tera / تیرا', elements.tera.value, 'Pancha / پانچہ', elements.pacha.value],
+            ['Ben-Collar / بین - کالر', elements.collar_type.value, 'Hip / ہپ', elements.lib.value],
             ['Style / اسٹائل', elements.collar_style.value, 'Ander / اندر', elements.ander.value],
             ['Chest / چھاتی', elements.chati.value, 'Shalwar Pocket / شلوار پاکٹ', elements.shalwar_pocket.value],
             ['Waist / کمر', elements.kamar.value, 'Patti / پٹی', elements.patti.value],
             ['Gira / گیرہ', elements.gira.value, 'Daman / دامن', elements.daman.value],
-            ['Moza / موزہ', elements.moza.value, 'Shalwar Type / قسم', elements.shalwar_type.value],
-            ['Double Side Pocket / ڈبل سائیڈ پاکٹ', elements.double_side_pocket.value, 'Cuff Plate / کف پلیٹ', elements.cuff_plate.value],
+            ['Mora / موڑہ', elements.moza.value, 'Shalwar Type / قسم', elements.shalwar_type.value],
+            ['Front Pocket Size / فرنٹ پاکٹ سائز', elements.front_pocket_size.value, 'Cuff Plate / کف پلیٹ', elements.cuff_plate.value],
+            ['Double Side Pocket / ڈبل سائیڈ پاکٹ', elements.double_side_pocket.value, 'Cuff Style / کف اسٹائل', elements.cuff_style.value],
             ['Single Pocket / سنگل پاکٹ', elements.single_pocket.value, 'Cuff Kaj / کف کاج', elements.cuff_kaj.value],
             ['Front Pocket / فرنٹ پاکٹ', elements.front_pocket.value, 'Chak Patti / چک پٹی', elements.chak_patti.value],
             ['Silai / سلائی', elements.silai.value, 'Chak Patti Kaj / چک پٹی کاج', elements.chak_patti_kaj.value],
             ['Button Color / رنگ بٹن', elements.button_color.value, 'Shoulder / شولڈر', elements.shoulder_style.value],
             ['Button / بٹن', elements.button.value, 'Sleeve Type / آستین', elements.sleeve_type.value],
             ['Button Size / بٹن سائز', elements.button_size.value, 'Gol Asteen / گول آستین', elements.gol_asteen.value]
-        ];
-
-        // If there's any extra demand, add it as a separate row
+        ];        // If there's any extra demand, add it as a separate row
         if (elements.extra_demand.value) {
-            measurementRows.push(['Extra Demand / اینکشرا دیماند', elements.extra_demand.value, '', '']);
+            measurementRows.push(['Extra Demand / ایکسٹرا ڈیمانڈ', elements.extra_demand.value, '', '']);
         }
 
         doc.autoTable({

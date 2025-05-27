@@ -1,0 +1,772 @@
+// Check if user is logged in
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('Dashboard DOM loaded');
+    
+    try {
+        // For development, we'll skip the user check
+        console.log('Bypassing user check for development');
+        
+        // Check if all required elements exist
+        console.log('Checking if required elements exist:');
+        const elementIds = [
+            'dashboard-view', 'add-customer-view', 'manage-customers-view', 'customer-details-view',
+            'dashboard-link', 'add-customer-link', 'manage-customers-link', 'logout-link',
+            'add-customer-card', 'manage-customers-card', 'cancel-add-customer',
+            'customer-form', 'search-btn'
+        ];
+        
+        let missingElements = [];
+        elementIds.forEach(id => {
+            const element = document.getElementById(id);
+            if (!element) {
+                console.error(`Element not found: ${id}`);
+                missingElements.push(id);
+            } else {
+                console.log(`Element found: ${id}`);
+            }
+        });
+        
+        if (missingElements.length > 0) {
+            console.error('Some required elements are missing:', missingElements);
+            // Even with missing elements, we'll try to proceed
+            console.warn('Attempting to continue despite missing elements');
+        } else {
+            console.log('All required elements found');
+        }
+        
+        // Set up navigation event listeners
+        console.log('Setting up event listeners');
+        setupEventListeners();
+        
+        // Set up collar type dropdown
+        console.log('Setting up collar type dropdown');
+        setupCollarTypeDropdown();
+        
+        // Load dashboard by default
+        console.log('Showing dashboard view');
+        showDashboardView();
+        
+        // Load all customers
+        console.log('Loading customers');
+        loadCustomers();
+    } catch (error) {
+        console.error('Error initializing dashboard:', error);
+    }
+});
+
+// Set up all event listeners
+function setupEventListeners() {
+    console.log('Setting up event listeners');
+    
+    // Navigation menu links
+    if (document.getElementById('dashboard-link')) {
+        console.log('Found dashboard-link');
+        document.getElementById('dashboard-link').addEventListener('click', function(e) {
+            console.log('Dashboard link clicked');
+            e.preventDefault();
+            showDashboardView();
+        });
+    } else {
+        console.error('dashboard-link element not found');
+    }
+    
+    if (document.getElementById('add-customer-link')) {
+        console.log('Found add-customer-link');
+        document.getElementById('add-customer-link').addEventListener('click', function(e) {
+            console.log('Add customer link clicked');
+            e.preventDefault();
+            showAddCustomerView();
+        });
+    } else {
+        console.error('add-customer-link element not found');
+    }
+    
+    if (document.getElementById('manage-customers-link')) {
+        console.log('Found manage-customers-link');
+        document.getElementById('manage-customers-link').addEventListener('click', function(e) {
+            console.log('Manage customers link clicked');
+            e.preventDefault();
+            showManageCustomersView();
+        });
+    } else {
+        console.error('manage-customers-link element not found');
+    }
+    
+    if (document.getElementById('logout-link')) {
+        console.log('Found logout-link');
+        document.getElementById('logout-link').addEventListener('click', function(e) {
+            console.log('Logout link clicked');
+            e.preventDefault();
+            logout();
+        });
+    } else {
+        console.error('logout-link element not found');
+    }
+    
+    // Dashboard cards navigation
+    if (document.getElementById('add-customer-card')) {
+        console.log('Found add-customer-card');
+        document.getElementById('add-customer-card').addEventListener('click', function() {
+            console.log('Add customer card clicked');
+            showAddCustomerView();
+        });
+    } else {
+        console.error('add-customer-card element not found');
+    }
+    
+    if (document.getElementById('manage-customers-card')) {
+        console.log('Found manage-customers-card');
+        document.getElementById('manage-customers-card').addEventListener('click', function() {
+            console.log('Manage customers card clicked');
+            showManageCustomersView();
+        });
+    } else {
+        console.error('manage-customers-card element not found');
+    }
+    
+    // Cancel button in Add Customer form
+    if (document.getElementById('cancel-add-customer')) {
+        console.log('Found cancel-add-customer');
+        document.getElementById('cancel-add-customer').addEventListener('click', function() {
+            console.log('Cancel button clicked');
+            showDashboardView();
+        });
+    } else {
+        console.error('cancel-add-customer element not found');
+    }
+    
+    // Customer form submission
+    if (document.getElementById('customer-form')) {
+        console.log('Found customer-form');
+        document.getElementById('customer-form').addEventListener('submit', function(e) {
+            console.log('Customer form submitted');
+            e.preventDefault();
+            saveCustomer();
+        });
+    } else {
+        console.error('customer-form element not found');
+    }
+    
+    // Search button
+    if (document.getElementById('search-btn')) {
+        console.log('Found search-btn');
+        document.getElementById('search-btn').addEventListener('click', function() {
+            console.log('Search button clicked');
+            searchCustomers();
+        });
+    } else {
+        console.error('search-btn element not found');
+    }
+}
+
+function showDashboardView() {
+    console.log('Showing dashboard view');
+    
+    try {
+        const dashboardView = document.getElementById('dashboard-view');
+        const addCustomerView = document.getElementById('add-customer-view');
+        const manageCustomersView = document.getElementById('manage-customers-view');
+        const customerDetailsView = document.getElementById('customer-details-view');
+        
+        if (dashboardView) dashboardView.style.display = 'block';
+        if (addCustomerView) addCustomerView.style.display = 'none';
+        if (manageCustomersView) manageCustomersView.style.display = 'none';
+        if (customerDetailsView) customerDetailsView.style.display = 'none';
+        
+        // Update active nav link
+        setActiveNavLink('dashboard-link');
+    } catch (error) {
+        console.error('Error showing dashboard view:', error);
+    }
+}
+
+function showAddCustomerView() {
+    console.log('Showing add customer view');
+    
+    try {
+        const dashboardView = document.getElementById('dashboard-view');
+        const addCustomerView = document.getElementById('add-customer-view');
+        const manageCustomersView = document.getElementById('manage-customers-view');
+        const customerDetailsView = document.getElementById('customer-details-view');
+        
+        if (dashboardView) dashboardView.style.display = 'none';
+        if (addCustomerView) addCustomerView.style.display = 'block';
+        if (manageCustomersView) manageCustomersView.style.display = 'none';
+        if (customerDetailsView) customerDetailsView.style.display = 'none';
+        
+        // Auto-set current date
+        const orderDateInput = document.getElementById('orderDate');
+        if (orderDateInput) orderDateInput.valueAsDate = new Date();
+        
+        // Update active nav link
+        setActiveNavLink('add-customer-link');
+    } catch (error) {
+        console.error('Error showing add customer view:', error);
+    }
+}
+
+function showManageCustomersView() {
+    console.log('Showing manage customers view');
+    
+    try {
+        const dashboardView = document.getElementById('dashboard-view');
+        const addCustomerView = document.getElementById('add-customer-view');
+        const manageCustomersView = document.getElementById('manage-customers-view');
+        const customerDetailsView = document.getElementById('customer-details-view');
+        
+        if (dashboardView) dashboardView.style.display = 'none';
+        if (addCustomerView) addCustomerView.style.display = 'none';
+        if (manageCustomersView) manageCustomersView.style.display = 'block';
+        if (customerDetailsView) customerDetailsView.style.display = 'none';
+        
+        // Update active nav link
+        setActiveNavLink('manage-customers-link');
+        
+        // Load the latest customers
+        loadCustomers();
+    } catch (error) {
+        console.error('Error showing manage customers view:', error);
+    }
+}
+
+// Setup collar type dropdown
+function setupCollarTypeDropdown() {
+    console.log('Setting up collar type dropdown');
+    
+    try {
+        const collarTypeDropdown = document.getElementById('collar_type');
+        const collarStyleDropdown = document.getElementById('collar_style');
+        
+        if (!collarTypeDropdown) {
+            console.error('collar_type dropdown not found');
+            return;
+        }
+        
+        collarTypeDropdown.addEventListener('change', function() {
+            console.log('Collar type changed to:', this.value);
+            
+            // Update collar style options based on collar type
+            if (this.value === 'کالر') {
+                console.log('Showing collar style dropdown');
+                // Set up collar style options
+                if (collarStyleDropdown) {
+                    collarStyleDropdown.innerHTML = `
+                        <option value="">منتخب کریں</option>
+                        <option value="بینڈ">بینڈ</option>
+                        <option value="کٹ">کٹ</option>
+                        <option value="چورس">چورس</option>
+                    `;
+                    
+                    // Update label
+                    const label = document.getElementById('collar-ben-label');
+                    if (label) label.textContent = 'کالر اسٹائل';
+                }
+            } else if (this.value === 'بین') {
+                console.log('Showing ben style dropdown');
+                // Set up ben style options
+                if (collarStyleDropdown) {
+                    collarStyleDropdown.innerHTML = `
+                        <option value="">منتخب کریں</option>
+                        <option value="گول">گول</option>
+                        <option value="وی شیپ">وی شیپ</option>
+                    `;
+                    
+                    // Update label
+                    const label = document.getElementById('collar-ben-label');
+                    if (label) label.textContent = 'بین اسٹائل';
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Error setting up collar type dropdown:', error);
+    }
+}
+
+// Customer CRUD operations
+function saveCustomer() {
+    console.log('Saving customer');
+    
+    try {
+        // Get form values
+        const customerData = {
+            codeNumber: document.getElementById('codeNumber') ? document.getElementById('codeNumber').value : '',
+            orderDate: document.getElementById('orderDate') ? document.getElementById('orderDate').value : '',
+            name: document.getElementById('name') ? document.getElementById('name').value : '',
+            returnDate: document.getElementById('returnDate') ? document.getElementById('returnDate').value : '',
+            cellNumber: document.getElementById('cellNumber') ? document.getElementById('cellNumber').value : '',
+            address: document.getElementById('address') ? document.getElementById('address').value : '',
+            age: document.getElementById('age') ? document.getElementById('age').value : '',
+            cuttingNo: document.getElementById('cuttingNo') ? document.getElementById('cuttingNo').value : '',
+            quantity: document.getElementById('quantity') ? document.getElementById('quantity').value : '',
+            enteredBy: document.getElementById('enteredBy') ? document.getElementById('enteredBy').value : 'User',
+
+            // Measurements
+            measurements: {
+                lambai: document.getElementById('lambai') ? document.getElementById('lambai').value : '',
+                asteen: document.getElementById('asteen') ? document.getElementById('asteen').value : '',
+                tera: document.getElementById('tera') ? document.getElementById('tera').value : '',
+                collar_type: document.getElementById('collar_type') ? document.getElementById('collar_type').value : '',
+                collar_style: document.getElementById('collar_style') ? document.getElementById('collar_style').value : '',
+                chati: document.getElementById('chati') ? document.getElementById('chati').value : '',
+                kamar: document.getElementById('kamar') ? document.getElementById('kamar').value : '',
+                gira: document.getElementById('gira') ? document.getElementById('gira').value : '',
+                moza: document.getElementById('moza') ? document.getElementById('moza').value : '',
+                front_pocket_size: document.getElementById('front_pocket_size') ? document.getElementById('front_pocket_size').value : '',
+                double_side_pocket: document.getElementById('double_side_pocket') ? document.getElementById('double_side_pocket').value : '',
+                single_pocket: document.getElementById('single_pocket') ? document.getElementById('single_pocket').value : '',
+                silai: document.getElementById('silai') ? document.getElementById('silai').value : '',
+                front_pocket: document.getElementById('front_pocket') ? document.getElementById('front_pocket').value : '',
+                button_color: document.getElementById('button_color') ? document.getElementById('button_color').value : '',
+                button: document.getElementById('button') ? document.getElementById('button').value : '',
+                button_size: document.getElementById('button_size') ? document.getElementById('button_size').value : '',
+                cuff_plate: document.getElementById('cuff_plate') ? document.getElementById('cuff_plate').value : '',
+                cuff_style: document.getElementById('cuff_style') ? document.getElementById('cuff_style').value : '',
+                cuff_kaj: document.getElementById('cuff_kaj') ? document.getElementById('cuff_kaj').value : '',
+                chak_patti: document.getElementById('chak_patti') ? document.getElementById('chak_patti').value : '',
+                chak_patti_kaj: document.getElementById('chak_patti_kaj') ? document.getElementById('chak_patti_kaj').value : '',
+                daman: document.getElementById('daman') ? document.getElementById('daman').value : '',
+                shoulder_style: document.getElementById('shoulder_style') ? document.getElementById('shoulder_style').value : '',
+                sleeve_type: document.getElementById('sleeve_type') ? document.getElementById('sleeve_type').value : '',
+                gol_asteen: document.getElementById('gol_asteen') ? document.getElementById('gol_asteen').value : '',
+                extra_demand: document.getElementById('extra_demand') ? document.getElementById('extra_demand').value : '',
+                shalwar_lambai: document.getElementById('shalwar_lambai') ? document.getElementById('shalwar_lambai').value : '',
+                shalwar_type: document.getElementById('shalwar_type') ? document.getElementById('shalwar_type').value : '',
+                shalwar: document.getElementById('shalwar') ? document.getElementById('shalwar').value : '',
+                pacha: document.getElementById('pacha') ? document.getElementById('pacha').value : '',
+                lib: document.getElementById('lib') ? document.getElementById('lib').value : '',
+                ander: document.getElementById('ander') ? document.getElementById('ander').value : '',
+                shalwar_pocket: document.getElementById('shalwar_pocket') ? document.getElementById('shalwar_pocket').value : '',
+                patti: document.getElementById('patti') ? document.getElementById('patti').value : ''
+            }
+        };
+        
+        console.log('Customer data prepared:', customerData);
+        
+        // For demo/development purposes
+        // Simulate API call and success
+        setTimeout(() => {
+            console.log('Simulated successful save');
+            alert('Customer saved successfully!');
+            
+            // Reset form
+            const form = document.getElementById('customer-form');
+            if (form) form.reset();
+            
+            // Show dashboard view
+            showDashboardView();
+        }, 1000);
+        
+        // In real implementation:
+        // window.api.send('add-customer', customerData);
+    } catch (error) {
+        console.error('Error saving customer:', error);
+        alert('Error saving customer. Please try again.');
+    }
+}
+
+function loadCustomers() {
+    console.log('Loading customers');
+    
+    try {
+        // For demo/development purposes - create sample data
+        const sampleCustomers = [
+            {
+                _id: '1',
+                codeNumber: 'C001',
+                name: 'Ahmed Khan',
+                cellNumber: '0300-1234567',
+                orderDate: '2023-05-15',
+                returnDate: '2023-05-25'
+            },
+            {
+                _id: '2',
+                codeNumber: 'C002',
+                name: 'Bilal Ahmad',
+                cellNumber: '0312-9876543',
+                orderDate: '2023-05-18',
+                returnDate: '2023-05-28'
+            }
+        ];
+        
+        // Display the sample customers
+        displayCustomers(sampleCustomers);
+        
+        // In real implementation:
+        // window.api.send('get-customers');
+    } catch (error) {
+        console.error('Error loading customers:', error);
+    }
+}
+
+function searchCustomers() {
+    console.log('Searching customers');
+    
+    try {
+        const searchInput = document.getElementById('search-input');
+        
+        if (!searchInput) {
+            console.error('search-input element not found');
+            return;
+        }
+        
+        const query = searchInput.value.trim();
+        console.log('Search query:', query);
+        
+        if (query === '') {
+            loadCustomers();
+            return;
+        }
+        
+        // For demo/development purposes - filter sample data
+        const sampleCustomers = [
+            {
+                _id: '1',
+                codeNumber: 'C001',
+                name: 'Ahmed Khan',
+                cellNumber: '0300-1234567',
+                orderDate: '2023-05-15',
+                returnDate: '2023-05-25'
+            },
+            {
+                _id: '2',
+                codeNumber: 'C002',
+                name: 'Bilal Ahmad',
+                cellNumber: '0312-9876543',
+                orderDate: '2023-05-18',
+                returnDate: '2023-05-28'
+            }
+        ];
+        
+        // Simple filter based on name or code containing the query
+        const filteredCustomers = sampleCustomers.filter(customer => 
+            customer.name.toLowerCase().includes(query.toLowerCase()) || 
+            customer.codeNumber.toLowerCase().includes(query.toLowerCase()) ||
+            (customer.cellNumber && customer.cellNumber.includes(query))
+        );
+        
+        // Display the filtered customers
+        displayCustomers(filteredCustomers);
+        
+        // In real implementation:
+        // window.api.send('search-customers', { query });
+    } catch (error) {
+        console.error('Error searching customers:', error);
+    }
+}
+
+function displayCustomers(customers) {
+    console.log('Displaying customers:', customers);
+    
+    try {
+        const tableBody = document.getElementById('customers-table-body');
+        
+        if (!tableBody) {
+            console.error('customers-table-body element not found');
+            return;
+        }
+        
+        // Clear existing rows
+        tableBody.innerHTML = '';
+        
+        // Check if there are customers to display
+        if (!customers || customers.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = '<td colspan="6" class="text-center">No customers found</td>';
+            tableBody.appendChild(row);
+            return;
+        }
+        
+        // Add each customer as a row
+        customers.forEach(customer => {
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+                <td>${customer.codeNumber || '-'}</td>
+                <td>${customer.name || '-'}</td>
+                <td>${customer.cellNumber || '-'}</td>
+                <td>${formatDate(customer.orderDate) || '-'}</td>
+                <td>${formatDate(customer.returnDate) || '-'}</td>
+                <td>
+                    <button class="btn btn-sm btn-info view-btn" data-id="${customer._id}">View</button>
+                    <button class="btn btn-sm btn-primary edit-btn" data-id="${customer._id}">Edit</button>
+                    <button class="btn btn-sm btn-success print-btn" data-id="${customer._id}">Print</button>
+                </td>
+            `;
+            
+            tableBody.appendChild(row);
+        });
+        
+        // Add event listeners to buttons
+        document.querySelectorAll('.view-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const customerId = this.getAttribute('data-id');
+                console.log('View button clicked for customer:', customerId);
+                // Find the customer from the array
+                const customer = customers.find(c => c._id === customerId);
+                if (customer) {
+                    // Display customer details
+                    showCustomerDetailsView(customer);
+                }
+            });
+        });
+        
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const customerId = this.getAttribute('data-id');
+                console.log('Edit button clicked for customer:', customerId);
+                // Find the customer from the array
+                const customer = customers.find(c => c._id === customerId);
+                if (customer) {
+                    // Show edit form
+                    showEditCustomerView(customer);
+                }
+            });
+        });
+        
+        document.querySelectorAll('.print-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const customerId = this.getAttribute('data-id');
+                console.log('Print button clicked for customer:', customerId);
+                // Find the customer from the array
+                const customer = customers.find(c => c._id === customerId);
+                if (customer) {
+                    // Print customer details
+                    printCustomerDetails(customer);
+                }
+            });
+        });
+    } catch (error) {
+        console.error('Error displaying customers:', error);
+    }
+}
+
+function formatDate(dateString) {
+    if (!dateString) return '-';
+    
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString();
+    } catch (error) {
+        console.error('Error formatting date:', error);
+        return dateString;
+    }
+}
+
+function showCustomerDetailsView(customer) {
+    console.log('Showing customer details view for:', customer);
+    
+    try {
+        const dashboardView = document.getElementById('dashboard-view');
+        const addCustomerView = document.getElementById('add-customer-view');
+        const manageCustomersView = document.getElementById('manage-customers-view');
+        const customerDetailsView = document.getElementById('customer-details-view');
+        
+        if (dashboardView) dashboardView.style.display = 'none';
+        if (addCustomerView) addCustomerView.style.display = 'none';
+        if (manageCustomersView) manageCustomersView.style.display = 'none';
+        if (customerDetailsView) customerDetailsView.style.display = 'block';
+        
+        // Clear previous content
+        if (customerDetailsView) {
+            customerDetailsView.innerHTML = '';
+            
+            // Create customer details content
+            const detailsContent = document.createElement('div');
+            detailsContent.className = 'customer-details-content';
+            
+            detailsContent.innerHTML = `
+                <h2>Customer Details</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Basic Information</h4>
+                        <p><strong>Code Number:</strong> ${customer.codeNumber || '-'}</p>
+                        <p><strong>Name:</strong> ${customer.name || '-'}</p>
+                        <p><strong>Cell Number:</strong> ${customer.cellNumber || '-'}</p>
+                        <p><strong>Order Date:</strong> ${formatDate(customer.orderDate)}</p>
+                        <p><strong>Return Date:</strong> ${formatDate(customer.returnDate)}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Measurements</h4>
+                        <p>Measurements would be displayed here</p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <button id="back-to-manage" class="btn btn-secondary">Back to List</button>
+                        <button id="print-customer" class="btn btn-primary">Print</button>
+                    </div>
+                </div>
+            `;
+            
+            customerDetailsView.appendChild(detailsContent);
+            
+            // Add event listeners to the buttons
+            const backButton = document.getElementById('back-to-manage');
+            if (backButton) {
+                backButton.addEventListener('click', function() {
+                    showManageCustomersView();
+                });
+            }
+            
+            const printButton = document.getElementById('print-customer');
+            if (printButton) {
+                printButton.addEventListener('click', function() {
+                    printCustomerDetails(customer);
+                });
+            }
+        }
+    } catch (error) {
+        console.error('Error showing customer details view:', error);
+    }
+}
+
+function showEditCustomerView(customer) {
+    console.log('Show edit customer view - Not implemented yet');
+    alert('Edit functionality is not implemented yet.');
+}
+
+function printCustomerDetails(customer) {
+    console.log('Printing customer details:', customer);
+    
+    try {
+        // Create a new window for printing
+        const printWindow = window.open('', '_blank');
+        
+        if (!printWindow) {
+            console.error('Failed to open print window. Popup might be blocked.');
+            alert('Failed to open print window. Please allow popups for this site.');
+            return;
+        }
+        
+        // Create HTML content for printing
+        const content = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Customer Measurements - ${customer.name}</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 20px;
+                }
+                .header {
+                    text-align: center;
+                    margin-bottom: 20px;
+                }
+                .customer-info {
+                    margin-bottom: 20px;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                }
+                table, th, td {
+                    border: 1px solid #ddd;
+                }
+                th, td {
+                    padding: 8px;
+                    text-align: left;
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+                .footer {
+                    margin-top: 30px;
+                    text-align: center;
+                    font-size: 12px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>Noor & Sons Tailors</h1>
+                <p>Customer Measurement Card</p>
+            </div>
+            
+            <div class="customer-info">
+                <p><strong>Name:</strong> ${customer.name || '-'}</p>
+                <p><strong>Code Number:</strong> ${customer.codeNumber || '-'}</p>
+                <p><strong>Cell Number:</strong> ${customer.cellNumber || '-'}</p>
+                <p><strong>Order Date:</strong> ${formatDate(customer.orderDate)}</p>
+                <p><strong>Return Date:</strong> ${formatDate(customer.returnDate)}</p>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Measurement</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Basic measurements would be listed here</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="footer">
+                <p>Thank you for choosing Noor & Sons Tailors</p>
+            </div>
+        </body>
+        </html>
+        `;
+        
+        // Write content to the new window
+        printWindow.document.open();
+        printWindow.document.write(content);
+        printWindow.document.close();
+        
+        // Print after content is loaded
+        printWindow.onload = function() {
+            printWindow.print();
+        };
+    } catch (error) {
+        console.error('Error printing customer details:', error);
+        alert('Error printing customer details. Please try again.');
+    }
+}
+
+// Helper function to set active navigation link
+function setActiveNavLink(linkId) {
+    console.log('Setting active nav link:', linkId);
+    
+    try {
+        // Remove active class from all nav links
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        // Add active class to the selected link
+        const activeLink = document.getElementById(linkId);
+        if (activeLink) {
+            activeLink.classList.add('active');
+            console.log('Active class added to:', linkId);
+        } else {
+            console.error(`Nav link with id ${linkId} not found`);
+        }
+    } catch (error) {
+        console.error('Error setting active nav link:', error);
+    }
+}
+
+// Logout function
+function logout() {
+    console.log('Logging out');
+    
+    try {
+        // Clear any stored user data
+        sessionStorage.removeItem('user');
+        localStorage.removeItem('user');
+        
+        // Redirect to login page
+        window.location.href = 'index.html';
+    } catch (error) {
+        console.error('Error logging out:', error);
+        alert('Error logging out. Please try closing the application.');
+    }
+}
