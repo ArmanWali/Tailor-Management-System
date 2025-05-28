@@ -67,9 +67,9 @@ function setupCollarTypeDropdown() {
                 if (collarStyleDropdown) {
                     collarStyleDropdown.innerHTML = `
                         <option value="">منتخب کریں</option>
-                        <option value="بینڈ">بینڈ</option>
-                        <option value="کٹ">کٹ</option>
-                        <option value="چورس">چورس</option>
+                        <option value="انگلش">انگلش</option>
+                        <option value="فرنچ">فرنچ</option>
+                        <option value="نوک والا">نوک والا</option>
                     `;
                     
                     // Update label
@@ -83,7 +83,8 @@ function setupCollarTypeDropdown() {
                     collarStyleDropdown.innerHTML = `
                         <option value="">منتخب کریں</option>
                         <option value="گول">گول</option>
-                        <option value="وی شیپ">وی شیپ</option>
+                        <option value="کٹ">کٹ</option>
+                        <option value="چورس">چورس</option>
                     `;
                     
                     // Update label
