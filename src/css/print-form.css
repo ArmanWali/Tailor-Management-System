@@ -1,0 +1,247 @@
+/* Print Form Styles - Plain CSS */
+/* Extracted from styles.css for customer detail print functionality */
+
+/* Print-specific styles for customer detail forms */
+.details-container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.header-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    max-height: 100px;
+    margin-bottom: 15px;
+}
+
+.button-group {
+    text-align: end;
+    margin-bottom: 15px;
+}
+
+.print-button,
+.back-button {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.print-button {
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+    margin-right: 10px;
+}
+
+.print-button:hover {
+    color: #fff;
+    background-color: #157347;
+    border-color: #146c43;
+}
+
+.back-button {
+    color: #000;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.back-button:hover {
+    color: #000;
+    background-color: #5c636a;
+    border-color: #565e64;
+}
+
+.customer-info,
+.measurements-section,
+.signature-section {
+    margin-bottom: 20px;
+}
+
+.info-row,
+.measurement-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.info-item,
+.measurement-item {
+    flex: 0 0 auto;
+    width: 50%;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 15px;
+}
+
+.measurement-item {
+    width: 25%;
+}
+
+.detail-item {
+    margin-bottom: 10px;
+}
+
+.detail-label {
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.section-divider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.measurements-title {
+    margin-bottom: 15px;
+}
+
+.rtl-text {
+    direction: rtl;
+    text-align: right;
+}
+
+.signature-section {
+    margin-top: 30px;
+}
+
+.signature-line {
+    margin-bottom: 40px;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+
+    .info-item,
+    .measurement-item {
+        width: 100%;
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        background-color: white;
+        font-size: 12pt;
+        color: #000;
+        margin: 0;
+        padding: 0;
+    }
+
+    .details-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0.5cm;
+        box-shadow: none;
+        margin: 0;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .header-section {
+        text-align: center;
+        margin-bottom: 20px;
+        padding-top: 1cm;
+    }
+
+    .logo {
+        max-height: 80px;
+        max-width: 200px;
+    }
+
+    h2 {
+        font-size: 18pt;
+        margin: 10px 0;
+    }
+
+    p {
+        margin: 5px 0;
+    }
+
+    .info-row,
+    .measurement-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0;
+    }
+
+    .info-item,
+    .measurement-item {
+        flex: 0 0 auto;
+        width: 50%;
+        padding: 0 5px;
+        margin-bottom: 10px;
+    }
+
+    .measurement-item {
+        width: 25%;
+    }
+
+    .detail-item {
+        margin-bottom: 5px;
+    }
+
+    .detail-label {
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 2px;
+    }
+
+    .section-divider {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .measurements-section h4 {
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+
+    [lang="ur"],
+    .urdu-text {
+        font-family: 'Noto Nastaliq Urdu', serif;
+        direction: rtl;
+    }
+
+    .signature-section {
+        margin-top: 20px;
+    }
+
+    .signature-line {
+        margin-bottom: 30px;
+    }
+
+    .page-break-before {
+        page-break-before: always;
+    }
+
+    .page-break-after {
+        page-break-after: always;
+    }
+
+    .avoid-break {
+        page-break-inside: avoid;
+    }
+}

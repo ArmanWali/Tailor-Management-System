@@ -6,29 +6,17 @@ body {
     padding: 0;
 }
 
-.details-container {
-    width: 95%;
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+/* Utility classes for hiding/showing elements */
+.hidden {
+    display: none !important;
 }
 
-.header-section {
-    text-align: center;
-    margin-bottom: 20px;
+.grid-span-3 {
+    grid-column: span 3;
 }
 
-.logo {
-    max-height: 100px;
-    margin-bottom: 15px;
-}
-
-.button-group {
-    text-align: end;
-    margin-bottom: 15px;
+.logo-header {
+    height: 80px;
 }
 
 /* Collar Ben Options styling */
@@ -43,106 +31,6 @@ body {
     display: none;
 }
 
-.print-button,
-.back-button {
-    display: inline-block;
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.5;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.print-button {
-    color: #fff;
-    background-color: #198754;
-    border-color: #198754;
-    margin-right: 10px;
-}
-
-.print-button:hover {
-    color: #fff;
-    background-color: #157347;
-    border-color: #146c43;
-}
-
-.back-button {
-    color: #000;
-    background-color: #6c757d;
-    border-color: #6c757d;
-}
-
-.back-button:hover {
-    color: #000;
-    background-color: #5c636a;
-    border-color: #565e64;
-}
-
-.customer-info,
-.measurements-section,
-.signature-section {
-    margin-bottom: 20px;
-}
-
-.info-row,
-.measurement-row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -15px;
-    margin-right: -15px;
-}
-
-.info-item,
-.measurement-item {
-    flex: 0 0 auto;
-    width: 50%;
-    /* Default to 50% width like col-md-6 */
-    padding-left: 15px;
-    padding-right: 15px;
-    margin-bottom: 15px;
-}
-
-.measurement-item {
-    width: 25%;
-    /* 4 items per row */
-}
-
-@media (max-width: 768px) {
-
-    .info-item,
-    .measurement-item {
-        width: 100%;
-        /* Stack items on small screens */
-    }
-}
-
-.detail-item {
-    margin-bottom: 10px;
-}
-
-.detail-label {
-    font-weight: bold;
-    display: inline-block;
-    margin-bottom: 5px;
-}
-
-.section-divider {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.measurements-title {
-    margin-bottom: 15px;
-}
-
 /* Right-to-left support for Urdu text */
 .rtl-text {
     direction: rtl;
@@ -151,15 +39,6 @@ body {
 
 label {
     font-weight: 500;
-}
-
-.signature-section {
-    margin-top: 30px;
-}
-
-.signature-line {
-    margin-bottom: 40px;
-    /* Space for signature */
 }
 
 /* Dashboard card styling */
@@ -227,13 +106,15 @@ label {
     margin-bottom: 0.5rem;
 }
 
-.form-control, .form-select {
+.form-control,
+.form-select {
     border-radius: 0.375rem;
     border: 1px solid #ced4da;
     padding: 0.5rem 0.75rem;
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
     border-color: #86b7fe;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
@@ -283,115 +164,21 @@ label {
     margin-bottom: 1.5rem;
 }
 
-/* Print Styles */
-@media print {
-    body {
-        background-color: white;
-        font-size: 12pt;
-        color: #000;
-        margin: 0;
-        padding: 0;
-    }
+/* Read-only field styling for customer detail view */
+.read-only-field {
+    background-color: #f8f9fa !important;
+    border-color: #dee2e6 !important;
+    cursor: not-allowed;
+}
 
-    .details-container {
-        width: 100%;
-        max-width: 100%;
-        padding: 0.5cm;
-        box-shadow: none;
-        margin: 0;
-    }
+.read-only-field:focus {
+    box-shadow: none !important;
+    background-color: #f8f9fa !important;
+}
 
-    .no-print {
-        display: none !important;
-    }
-
-    .header-section {
-        text-align: center;
-        margin-bottom: 20px;
-        padding-top: 1cm;
-    }
-
-    .logo {
-        max-height: 80px;
-        max-width: 200px;
-    }
-
-    h2 {
-        font-size: 18pt;
-        margin: 10px 0;
-    }
-
-    p {
-        margin: 5px 0;
-    }
-
-    .info-row,
-    .measurement-row {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0;
-    }
-
-    .info-item,
-    .measurement-item {
-        flex: 0 0 auto;
-        width: 50%;
-        /* Default to 50% width like col-md-6 */
-        padding: 0 5px;
-        margin-bottom: 10px;
-    }
-
-    .measurement-item {
-        width: 25%;
-        /* 4 items per row */
-    }
-
-    .detail-item {
-        margin-bottom: 5px;
-    }
-
-    .detail-label {
-        font-weight: bold;
-        display: inline-block;
-        margin-bottom: 2px;
-    }
-
-    .section-divider {
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
-
-    .measurements-section h4 {
-        margin-top: 15px;
-        margin-bottom: 10px;
-    }
-
-    /* Better support for Urdu text */
-    [lang="ur"],
-    .urdu-text {
-        font-family: 'Noto Nastaliq Urdu', serif;
-        direction: rtl;
-    }
-
-    .signature-section {
-        margin-top: 20px;
-    }
-
-    .signature-line {
-        margin-bottom: 30px;
-        /* Space for signature */
-    }
-
-    /* Page break controls */
-    .page-break-before {
-        page-break-before: always;
-    }
-
-    .page-break-after {
-        page-break-after: always;
-    }
-
-    .avoid-break {
-        page-break-inside: avoid;
-    }
+/* Disabled select fields */
+select.read-only-field {
+    color: #6c757d;
+    background-color: #e9ecef;
+    border-color: #ced4da;
 }

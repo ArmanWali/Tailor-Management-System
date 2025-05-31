@@ -1,380 +1,599 @@
-// Get customer ID from URL params
+// Get customer ID and mode from URL params
 const urlParams = new URLSearchParams(window.location.search);
 const customerId = urlParams.get('id');
+const editMode = urlParams.get('edit') === 'true';
 const printMode = urlParams.get('print') === 'true';
 
+// Track current mode
+let currentMode = editMode ? 'edit' : 'view';
+let originalCustomerData = null;
+
 // DOM elements for displaying/inputting customer data
-const elements = {
-    codeNumber: document.getElementById('input-codeNumber'),
-    orderDate: document.getElementById('input-orderDate'),
-    name: document.getElementById('input-name'),
-    returnDate: document.getElementById('input-returnDate'),
-    cellNumber: document.getElementById('input-cellNumber'),
-    address: document.getElementById('input-address'),
-    cuttingNo: document.getElementById('input-cuttingNo'),
-    age: document.getElementById('input-age'),
-    quantity: document.getElementById('input-quantity'),
-    enteredBy: document.getElementById('input-enteredBy'),
+const elements = {};
 
-    // Measurements - Shalwar Qameez
-    lambai: document.getElementById('input-lambai'),
-    asteen: document.getElementById('input-asteen'),
-    tera: document.getElementById('input-tera'),
-    collar_type: document.getElementById('input-collar_type'),
-    collar_ben_options: document.getElementById('collar-ben-options'),
-    collar_ben_label: document.getElementById('collar-ben-label'),
-    collar_style: document.getElementById('input-collar_style'),
-    chati: document.getElementById('input-chati'),
-    kamar: document.getElementById('input-kamar'),
-    gira: document.getElementById('input-gira'),
-    moza: document.getElementById('input-moza'),
-    front_pocket_size: document.getElementById('input-front_pocket_size'),
-    double_side_pocket: document.getElementById('input-double_side_pocket'),
-    single_pocket: document.getElementById('input-single_pocket'),
-    front_pocket: document.getElementById('input-front_pocket'),
-    silai: document.getElementById('input-silai'),
-    button_color: document.getElementById('input-button_color'),
-    button: document.getElementById('input-button'),
-    button_size: document.getElementById('input-button_size'),
-
-    // Measurements - Shalwar
-    shalwar_lambai: document.getElementById('input-shalwar_lambai'),
-    shalwar_type: document.getElementById('input-shalwar_type'),
-    shalwar: document.getElementById('input-shalwar'),
-    pacha: document.getElementById('input-pacha'),
-    lib: document.getElementById('input-lib'),
-    ander: document.getElementById('input-ander'),
-    shalwar_pocket: document.getElementById('input-shalwar_pocket'),
-    patti: document.getElementById('input-patti'),    // Cuff/Plate options
-    cuff_plate: document.getElementById('input-cuff_plate'),
-    cuff_style: document.getElementById('input-cuff_style'),
-    cuff_kaj: document.getElementById('input-cuff_kaj'),
-    chak_patti: document.getElementById('input-chak_patti'),
-    chak_patti_kaj: document.getElementById('input-chak_patti_kaj'),
-    daman: document.getElementById('input-daman'),
-    extra_demand: document.getElementById('input-extra_demand'),
-    shoulder_style: document.getElementById('input-shoulder_style'),
-    sleeve_type: document.getElementById('input-sleeve_type'),
-    gol_asteen: document.getElementById('input-gol_asteen'),
-};
-
-// Button event listeners
-document.getElementById('back-btn').addEventListener('click', () => {
-    window.history.back();
-});
-
-document.getElementById('print-btn').addEventListener('click', () => {
-    try {
-        generatePDF();
-    } catch (error) {
-        console.error('PDF generation failed, falling back to browser print:', error);
-        window.print();
-    }
-});
-
-// Collar/Ben dropdown functionality
-elements.collar_type.addEventListener('change', function () {
-    const collarBenOptions = elements.collar_ben_options;
-    const collarBenLabel = elements.collar_ben_label;
-    const collarStyleDropdown = elements.collar_style;
-    const selectedValue = this.value;
-
-    // Clear previous options
-    collarStyleDropdown.innerHTML = '<option value="">منتخب کریں</option>';
-
-    if (selectedValue === 'بین') {
-        collarBenLabel.textContent = 'بین اسٹائل';
-        collarBenOptions.style.display = 'flex'; // Use flex to maintain layout
-
-        // Add options for ben
-        const benOptions = ["چورس", "کٹ", "گول"];
-        benOptions.forEach(option => {
-            const optElement = document.createElement('option');
-            optElement.value = option;
-            optElement.textContent = option;
-            collarStyleDropdown.appendChild(optElement);
-        });
-    } else if (selectedValue === 'کالر') {
-        collarBenLabel.textContent = 'کالر اسٹائل';
-        collarBenOptions.style.display = 'flex'; // Use flex to maintain layout
-
-        // Add options for collar
-        const collarOptions = ["انگلش", "فرنچ", "نوک والا"];
-        collarOptions.forEach(option => {
-            const optElement = document.createElement('option');
-            optElement.value = option;
-            optElement.textContent = option;
-            collarStyleDropdown.appendChild(optElement);
-        });
-
-    } else {
-        collarBenLabel.textContent = 'اسٹائل';
-        collarBenOptions.style.display = 'none';
-    }
-});
-
-// Load customer data when the page loads
+// Initialize elements after DOM loads
 document.addEventListener('DOMContentLoaded', () => {
+    initializeElements();
+    setupEventListeners();
+    setupCollarDropdown();
+
     if (!customerId) {
         alert('Customer ID not provided');
         window.history.back();
         return;
     }
 
-    // Request customer data from main process
-    window.api.send('get-customer', { id: customerId });
+    // Load customer data
+    loadCustomerData();
 });
 
-// Handle customer data response
-window.api.receive('get-customer-response', (response) => {
-    if (response.success) {
-        displayCustomerData(response.customer);
-        // Automatically print if in print mode
-        if (printMode) {
-            setTimeout(() => {
-                try {
-                    generatePDF();
-                } catch (error) {
-                    console.error('PDF generation failed, falling back to browser print:', error);
-                    window.print();
-                }
+// Initialize all DOM elements
+function initializeElements() {
+    const elementIds = [
+        'codeNumber', 'name', 'cellNumber', 'age', 'address', 'quantity',
+        'cuttingNo', 'enteredBy', 'orderDate', 'returnDate',
+        'lambai', 'asteen', 'tera', 'chati', 'kamar', 'gira', 'moza', 'gol_asteen',
+        'collar_type', 'collar_style', 'front_pocket_size', 'double_side_pocket',
+        'single_pocket', 'front_pocket', 'silai', 'button_color', 'button',
+        'button_size', 'cuff_plate', 'cuff_style', 'cuff_kaj', 'chak_patti',
+        'chak_patti_kaj', 'daman', 'shoulder_style', 'sleeve_type', 'extra_demand',
+        'shalwar_lambai', 'shalwar_type', 'shalwar', 'pacha', 'lib', 'ander',
+        'shalwar_pocket', 'patti'
+    ];
 
-                // Go back to previous page after print dialog is closed
-                setTimeout(() => {
-                    window.history.back();
-                }, 1000);
-            }, 1000);
-        }
-    } else {
-        alert('Failed to load customer data');
-        console.error('Error:', response.error);
+    elementIds.forEach(id => {
+        elements[id] = document.getElementById(id);
+    });
+}
+
+// Setup all event listeners
+function setupEventListeners() {
+    // Back button
+    const backBtn = document.getElementById('back-btn');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+            window.history.back();
+        });
     }
-});
 
-// Display customer data in the view (and set form values)
-function displayCustomerData(customer) {
-    // Set document title
-    document.title = `Customer: ${customer.name} - Noor & Sons Tailors`;
+    // Edit button
+    const editBtn = document.getElementById('edit-btn');
+    if (editBtn) {
+        editBtn.addEventListener('click', () => {
+            switchToEditMode();
+        });
+    }
 
-    // Set all input fields to read-only
-    setAllInputsReadOnly();
+    // Save button
+    const saveBtn = document.getElementById('save-btn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+            saveCustomerChanges();
+        });
+    }
 
-    // Display basic info
-    elements.codeNumber.value = customer.codeNumber || '';
-    elements.orderDate.value = customer.orderDate || '';
-    elements.name.value = customer.name || '';
-    elements.returnDate.value = customer.returnDate || '';
-    elements.cellNumber.value = customer.cellNumber || '';
-    elements.address.value = customer.address || '';
-    elements.cuttingNo.value = customer.cuttingNo || '';
-    elements.age.value = customer.age || '';
-    elements.quantity.value = customer.quantity || '';
-    elements.enteredBy.value = customer.enteredBy || '';
+    // Cancel button
+    const cancelBtn = document.getElementById('cancel-btn');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+            cancelEdit();
+        });
+    }
 
-    // Display measurements
-    if (customer.measurements) {
-        const m = customer.measurements;
-
-        // Shalwar Qameez
-        elements.lambai.value = m.lambai || '';
-        elements.asteen.value = m.asteen || '';
-        elements.tera.value = m.tera || '';
-
-        // Set collar type and trigger change to populate style dropdown
-        elements.collar_type.value = m.collar_type || '';
-        elements.collar_type.dispatchEvent(new Event('change'));
-
-        // Set collar/ben style after options are populated
-        setTimeout(() => {
-            elements.collar_style.value = m.collar_style || m.ben_style || '';
-        }, 0);
-
-        elements.chati.value = m.chati || '';
-        elements.kamar.value = m.kamar || '';
-        elements.gira.value = m.gira || '';
-        elements.moza.value = m.moza || '';
-        elements.front_pocket_size.value = m.front_pocket_size || '';
-        elements.double_side_pocket.value = m.double_side_pocket || '';
-        elements.single_pocket.value = m.single_pocket || '';
-        elements.front_pocket.value = m.front_pocket || '';
-        elements.silai.value = m.silai || '';
-        elements.button_color.value = m.button_color || '';
-        elements.button.value = m.button || '';
-        elements.button_size.value = m.button_size || '';
-
-        // Shalwar
-        elements.shalwar_lambai.value = m.shalwar_lambai || '';
-        elements.shalwar_type.value = m.shalwar_type || '';
-        elements.shalwar.value = m.shalwar || '';
-        elements.pacha.value = m.pacha || '';
-        elements.lib.value = m.lib || '';
-        elements.ander.value = m.ander || '';
-        elements.shalwar_pocket.value = m.shalwar_pocket || '';
-        elements.patti.value = m.patti || '';        // Cuff/Plate options
-        elements.cuff_plate.value = m.cuff_plate || '';
-        elements.cuff_style.value = m.cuff_style || '';
-        elements.cuff_kaj.value = m.cuff_kaj || '';
-        elements.chak_patti.value = m.chak_patti || '';
-        elements.chak_patti_kaj.value = m.chak_patti_kaj || '';
-        elements.daman.value = m.daman || '';
-        elements.extra_demand.value = m.extra_demand || '';
-        elements.shoulder_style.value = m.shoulder_style || '';
-        elements.sleeve_type.value = m.sleeve_type || '';
-        elements.gol_asteen.value = m.gol_asteen || '';
+    // Print button
+    const printBtn = document.getElementById('print-btn');
+    if (printBtn) {
+        printBtn.addEventListener('click', () => {
+            try {
+                generatePDF();
+            } catch (error) {
+                console.error('PDF generation failed, using browser print:', error);
+                window.print();
+            }
+        });
     }
 }
 
-// Set all input fields to read-only
-function setAllInputsReadOnly() {
-    // Get all input and select elements in the document
-    const inputs = document.querySelectorAll('input, select');
-    
-    // Set each element to read-only
-    inputs.forEach(input => {
-        // For regular inputs, use the readonly attribute
-        if (input.tagName.toLowerCase() === 'input') {
-            input.setAttribute('readonly', true);
+// Setup collar dropdown functionality
+function setupCollarDropdown() {
+    if (elements.collar_type) {
+        elements.collar_type.addEventListener('change', function () {
+            const collarBenOptions = document.getElementById('collar-ben-options');
+            const collarBenLabel = document.getElementById('collar-ben-label');
+            const collarStyleDropdown = elements.collar_style;
+            const selectedValue = this.value;
+
+            if (!collarStyleDropdown) return;
+
+            // Clear previous options
+            collarStyleDropdown.innerHTML = '<option value="">منتخب کریں</option>'; if (selectedValue === 'بین') {
+                if (collarBenLabel) collarBenLabel.textContent = 'بین اسٹائل';
+                if (collarBenOptions) collarBenOptions.classList.remove('hidden');
+
+                // Add options for ben
+                const benOptions = ["چورس", "کٹ", "گول"];
+                benOptions.forEach(option => {
+                    const optElement = document.createElement('option');
+                    optElement.value = option;
+                    optElement.textContent = option;
+                    collarStyleDropdown.appendChild(optElement);
+                });
+            } else if (selectedValue === 'کالر') {
+                if (collarBenLabel) collarBenLabel.textContent = 'کالر اسٹائل';
+                if (collarBenOptions) collarBenOptions.classList.remove('hidden');
+
+                // Add options for collar
+                const collarOptions = ["انگلش", "فرنچ", "نوک والا"];
+                collarOptions.forEach(option => {
+                    const optElement = document.createElement('option');
+                    optElement.value = option;
+                    optElement.textContent = option;
+                    collarStyleDropdown.appendChild(optElement);
+                });
+            } else {
+                if (collarBenLabel) collarBenLabel.textContent = 'اسٹائل';
+                if (collarBenOptions) collarBenOptions.classList.add('hidden');
+            }
+        });
+    }
+}
+
+// Load customer data from localStorage
+function loadCustomerData() {
+    try {
+        console.log('Loading customer data for ID:', customerId);
+
+        // Get customers from localStorage
+        const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+        console.log('All customers:', customers);
+
+        // Find the customer with matching ID
+        const customer = customers.find(c => (c.id || c._id) === customerId);
+
+        if (customer) {
+            console.log('Found customer:', customer);
+            originalCustomerData = JSON.parse(JSON.stringify(customer)); // Deep copy
+            displayCustomerData(customer);
+
+            // Set initial mode
+            if (editMode) {
+                switchToEditMode();
+            } else {
+                switchToViewMode();
+            }
+
+            // Automatically print if in print mode
+            if (printMode) {
+                setTimeout(() => {
+                    try {
+                        generatePDF();
+                    } catch (error) {
+                        console.error('PDF generation failed, using browser print:', error);
+                        window.print();
+                    }
+
+                    // Go back to previous page after print dialog is closed
+                    setTimeout(() => {
+                        window.history.back();
+                    }, 1000);
+                }, 1000);
+            }
+        } else {
+            console.error('Customer not found with ID:', customerId);
+            alert('Failed to load customer data - Customer not found');
+            window.history.back();
         }
-        // For select elements, disable them to prevent changes
-        else if (input.tagName.toLowerCase() === 'select') {
+    } catch (error) {
+        console.error('Error loading customer data:', error);
+        alert('Failed to load customer data');
+        window.history.back();
+    }
+}
+
+// Helper function to safely set element value
+function safeSetValue(element, value) {
+    if (element && element.value !== undefined) {
+        element.value = value || '';
+    }
+}
+
+// Display customer data in the view
+function displayCustomerData(customer) {
+    try {
+        // Set document title and page title
+        document.title = `Customer: ${customer.name} - Noor & Sons Tailors`;
+        const pageTitle = document.getElementById('page-title');
+        if (pageTitle) {
+            pageTitle.textContent = `Customer Details - ${customer.name}`;
+        }
+
+        // Display basic info
+        safeSetValue(elements.codeNumber, customer.codeNumber);
+        safeSetValue(elements.name, customer.name);
+        safeSetValue(elements.cellNumber, customer.cellNumber);
+        safeSetValue(elements.age, customer.age);
+        safeSetValue(elements.address, customer.address);
+        safeSetValue(elements.quantity, customer.quantity);
+        safeSetValue(elements.cuttingNo, customer.cuttingNo);
+        safeSetValue(elements.enteredBy, customer.enteredBy);
+        safeSetValue(elements.orderDate, customer.orderDate);
+        safeSetValue(elements.returnDate, customer.returnDate);
+
+        // Display measurements
+        if (customer.measurements) {
+            const m = customer.measurements;
+
+            // Shirt measurements
+            safeSetValue(elements.lambai, m.lambai);
+            safeSetValue(elements.asteen, m.asteen);
+            safeSetValue(elements.tera, m.tera);
+            safeSetValue(elements.chati, m.chati);
+            safeSetValue(elements.kamar, m.kamar);
+            safeSetValue(elements.gira, m.gira);
+            safeSetValue(elements.moza, m.moza);
+            safeSetValue(elements.gol_asteen, m.gol_asteen);
+
+            // Collar type and style
+            safeSetValue(elements.collar_type, m.collar_type);
+            if (elements.collar_type) {
+                elements.collar_type.dispatchEvent(new Event('change'));
+                setTimeout(() => {
+                    safeSetValue(elements.collar_style, m.collar_style || m.ben_style);
+                }, 100);
+            }
+
+            // Pocket details
+            safeSetValue(elements.front_pocket_size, m.front_pocket_size);
+            safeSetValue(elements.double_side_pocket, m.double_side_pocket);
+            safeSetValue(elements.single_pocket, m.single_pocket);
+            safeSetValue(elements.front_pocket, m.front_pocket);
+
+            // Sewing and buttons
+            safeSetValue(elements.silai, m.silai);
+            safeSetValue(elements.button_color, m.button_color);
+            safeSetValue(elements.button, m.button);
+            safeSetValue(elements.button_size, m.button_size);
+
+            // Cuff options
+            safeSetValue(elements.cuff_plate, m.cuff_plate);
+            safeSetValue(elements.cuff_style, m.cuff_style);
+            safeSetValue(elements.cuff_kaj, m.cuff_kaj);
+            safeSetValue(elements.chak_patti, m.chak_patti);
+            safeSetValue(elements.chak_patti_kaj, m.chak_patti_kaj);
+            safeSetValue(elements.daman, m.daman);
+            safeSetValue(elements.shoulder_style, m.shoulder_style);
+            safeSetValue(elements.sleeve_type, m.sleeve_type);
+            safeSetValue(elements.extra_demand, m.extra_demand);
+
+            // Trouser measurements
+            safeSetValue(elements.shalwar_lambai, m.shalwar_lambai);
+            safeSetValue(elements.shalwar_type, m.shalwar_type);
+            safeSetValue(elements.shalwar, m.shalwar);
+            safeSetValue(elements.pacha, m.pacha);
+            safeSetValue(elements.lib, m.lib);
+            safeSetValue(elements.ander, m.ander);
+            safeSetValue(elements.shalwar_pocket, m.shalwar_pocket);
+            safeSetValue(elements.patti, m.patti);
+        }
+
+        console.log('Customer data displayed successfully');
+    } catch (error) {
+        console.error('Error displaying customer data:', error);
+        alert('Error displaying customer data. Some fields may not be shown correctly.');
+    }
+}
+
+// Switch to edit mode
+function switchToEditMode() {
+    currentMode = 'edit';
+
+    // Update UI elements
+    const modeIndicator = document.getElementById('mode-indicator');
+    const editBtn = document.getElementById('edit-btn');
+    const saveBtn = document.getElementById('save-btn');
+    const cancelBtn = document.getElementById('cancel-btn'); if (modeIndicator) {
+        modeIndicator.textContent = 'Edit Mode';
+        modeIndicator.className = 'badge bg-warning me-2';
+    }
+
+    if (editBtn) editBtn.classList.add('hidden');
+    if (saveBtn) saveBtn.classList.remove('hidden');
+    if (cancelBtn) cancelBtn.classList.remove('hidden');
+
+    // Enable all form fields except enteredBy and codeNumber
+    enableFormFields();
+
+    console.log('Switched to edit mode');
+}
+
+// Switch to view mode
+function switchToViewMode() {
+    currentMode = 'view';
+
+    // Update UI elements
+    const modeIndicator = document.getElementById('mode-indicator');
+    const editBtn = document.getElementById('edit-btn');
+    const saveBtn = document.getElementById('save-btn');
+    const cancelBtn = document.getElementById('cancel-btn'); if (modeIndicator) {
+        modeIndicator.textContent = 'View Mode';
+        modeIndicator.className = 'badge bg-info me-2';
+    }
+
+    if (editBtn) editBtn.classList.remove('hidden');
+    if (saveBtn) saveBtn.classList.add('hidden');
+    if (cancelBtn) cancelBtn.classList.add('hidden');
+
+    // Disable all form fields
+    disableFormFields();
+
+    console.log('Switched to view mode');
+}
+
+// Enable form fields for editing
+function enableFormFields() {
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        // Don't enable codeNumber and enteredBy fields
+        if (input.id !== 'codeNumber' && input.id !== 'enteredBy') {
+            input.removeAttribute('readonly');
+            input.removeAttribute('disabled');
+            input.classList.remove('read-only-field');
+        }
+    });
+}
+
+// Disable form fields for view mode
+function disableFormFields() {
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        if (input.tagName.toLowerCase() === 'input' || input.tagName.toLowerCase() === 'textarea') {
+            input.setAttribute('readonly', true);
+        } else if (input.tagName.toLowerCase() === 'select') {
             input.setAttribute('disabled', true);
         }
-        
-        // Add a CSS class for styling
         input.classList.add('read-only-field');
     });
 }
 
-// Helper function to format date
-function formatDate(dateString) {
-    if (!dateString) return '';
-
-    const date = new Date(dateString);
-    // Format as YYYY-MM-DD for input type="date"
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-}
-
-// Function to generate PDF from customer details
-function generatePDF() {
+// Save customer changes
+function saveCustomerChanges() {
     try {
-        const { jsPDF } = window.jspdf;
-        if (!jsPDF) {
-            console.error('jsPDF is not available');
-            alert('PDF generation library not loaded. Please try again.');
+        console.log('Saving customer changes');
+
+        // Validate required fields
+        if (!elements.name.value || !elements.cellNumber.value || !elements.orderDate.value) {
+            alert('Please fill in all required fields (Name, Cell Number, Order Date)');
             return;
         }
 
-        const customer = {
+        // Get updated customer data
+        const updatedCustomer = {
+            ...originalCustomerData,
+            // Basic info
             name: elements.name.value,
-            codeNumber: elements.codeNumber.value,
+            cellNumber: elements.cellNumber.value,
+            age: elements.age.value,
+            address: elements.address.value,
+            quantity: elements.quantity.value,
+            cuttingNo: elements.cuttingNo.value,
             orderDate: elements.orderDate.value,
             returnDate: elements.returnDate.value,
-            cellNumber: elements.cellNumber.value,
-            address: elements.address.value
-        };
-        // Create a new PDF
-        const doc = new jsPDF('p', 'mm', 'a4');
+            lastModified: new Date().toISOString(),
 
-        // Try to add logo using data URL
-        try {
-            const logoImg = document.querySelector('.logo-img');
-            if (logoImg && logoImg.complete) {
-                // Create a canvas to get image data
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = logoImg.naturalWidth;
-                canvas.height = logoImg.naturalHeight;
-                ctx.drawImage(logoImg, 0, 0);
-
-                // Get base64 data URL and add to PDF
-                const imgData = canvas.toDataURL('image/png');
-                doc.addImage(imgData, 'PNG', 75, 10, 60, 20);
-            } else {
-                console.log('Logo image not available, using text header only');
+            // Measurements
+            measurements: {
+                lambai: elements.lambai.value,
+                asteen: elements.asteen.value,
+                tera: elements.tera.value,
+                chati: elements.chati.value,
+                kamar: elements.kamar.value,
+                gira: elements.gira.value,
+                moza: elements.moza.value,
+                gol_asteen: elements.gol_asteen.value,
+                collar_type: elements.collar_type.value,
+                collar_style: elements.collar_style.value,
+                front_pocket_size: elements.front_pocket_size.value,
+                double_side_pocket: elements.double_side_pocket.value,
+                single_pocket: elements.single_pocket.value,
+                front_pocket: elements.front_pocket.value,
+                silai: elements.silai.value,
+                button_color: elements.button_color.value,
+                button: elements.button.value,
+                button_size: elements.button_size.value,
+                cuff_plate: elements.cuff_plate.value,
+                cuff_style: elements.cuff_style.value,
+                cuff_kaj: elements.cuff_kaj.value,
+                chak_patti: elements.chak_patti.value,
+                chak_patti_kaj: elements.chak_patti_kaj.value,
+                daman: elements.daman.value,
+                shoulder_style: elements.shoulder_style.value,
+                sleeve_type: elements.sleeve_type.value,
+                extra_demand: elements.extra_demand.value,
+                shalwar_lambai: elements.shalwar_lambai.value,
+                shalwar_type: elements.shalwar_type.value,
+                shalwar: elements.shalwar.value,
+                pacha: elements.pacha.value,
+                lib: elements.lib.value,
+                ander: elements.ander.value,
+                shalwar_pocket: elements.shalwar_pocket.value,
+                patti: elements.patti.value
             }
-        } catch (imgError) {
-            console.log('Unable to add logo to PDF:', imgError);
+        };
+
+        // Update localStorage
+        const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+        const customerIndex = customers.findIndex(c => (c.id || c._id) === customerId);
+
+        if (customerIndex !== -1) {
+            customers[customerIndex] = updatedCustomer;
+            localStorage.setItem('customers', JSON.stringify(customers));
+
+            // Update original data
+            originalCustomerData = JSON.parse(JSON.stringify(updatedCustomer));
+
+            alert('Customer data updated successfully!');
+            switchToViewMode();
+
+            console.log('Customer data saved successfully');
+        } else {
+            throw new Error('Customer not found in storage');
         }
 
-        // Add header
-        doc.setFontSize(20);
-        doc.text('Noor & Sons Tailors And Fabrics', 105, 35, { align: 'center' });
-        doc.setFontSize(12);
-        doc.text('We offer you stitching of your choice', 105, 42, { align: 'center' });
+    } catch (error) {
+        console.error('Error saving customer data:', error);
+        alert('Error saving customer data. Please try again.');
+    }
+}
 
-        // Add customer information
-        doc.setFontSize(14);
-        doc.text('Customer Details', 15, 55);
+// Cancel edit mode
+function cancelEdit() {
+    if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
+        // Restore original data
+        displayCustomerData(originalCustomerData);
+        switchToViewMode();
+    }
+}
 
-        doc.setFontSize(11);
-        doc.text(`Name: ${customer.name}`, 15, 65);
-        doc.text(`Code Number: ${customer.codeNumber}`, 15, 72);
-        doc.text(`Cell Number: ${customer.cellNumber}`, 15, 79);
+// Function to generate print layout based on Figma design
+function generatePDF() {
+    try {
+        console.log('Preparing print layout');
 
-        doc.text(`Order Date: ${customer.orderDate}`, 120, 65);
-        doc.text(`Return Date: ${customer.returnDate}`, 120, 72);
-        doc.text(`Address: ${customer.address}`, 120, 79);
+        // Helper function to format date
+        const formatPrintDate = (dateStr) => {
+            if (!dateStr) return '';
+            try {
+                const date = new Date(dateStr);
+                return date.toLocaleDateString();
+            } catch (e) {
+                return dateStr;
+            }
+        };
 
-        // Add measurements heading
-        doc.setFontSize(14);
-        doc.text('Measurements / ناپ', 15, 95);
+        // Helper function to check if a field has a value
+        const hasValue = (value) => {
+            return value && value.toString().trim() !== '';
+        };
 
-        // Add measurements table        // Create array for table with both Urdu and English labels
-        const measurementRows = [
-            // Shalwar Qameez
-            ['Length / لمبائی', elements.lambai.value, 'Shalwar Length / شلوار لمبائی', elements.shalwar_lambai.value],
-            ['Sleeve / آستین', elements.asteen.value, 'Shalwar / سانجھا', elements.shalwar.value],
-            ['Tera / تیرا', elements.tera.value, 'Pancha / پانچہ', elements.pacha.value],
-            ['Ben-Collar / بین - کالر', elements.collar_type.value, 'Hip / ہپ', elements.lib.value],
-            ['Style / اسٹائل', elements.collar_style.value, 'Ander / اندر', elements.ander.value],
-            ['Chest / چھاتی', elements.chati.value, 'Shalwar Pocket / شلوار پاکٹ', elements.shalwar_pocket.value],
-            ['Waist / کمر', elements.kamar.value, 'Patti / پٹی', elements.patti.value],
-            ['Gira / گیرہ', elements.gira.value, 'Daman / دامن', elements.daman.value],
-            ['Mora / موڑہ', elements.moza.value, 'Shalwar Type / قسم', elements.shalwar_type.value],
-            ['Front Pocket Size / فرنٹ پاکٹ سائز', elements.front_pocket_size.value, 'Cuff Plate / کف پلیٹ', elements.cuff_plate.value],
-            ['Double Side Pocket / ڈبل سائیڈ پاکٹ', elements.double_side_pocket.value, 'Cuff Style / کف اسٹائل', elements.cuff_style.value],
-            ['Single Pocket / سنگل پاکٹ', elements.single_pocket.value, 'Cuff Kaj / کف کاج', elements.cuff_kaj.value],
-            ['Front Pocket / فرنٹ پاکٹ', elements.front_pocket.value, 'Chak Patti / چک پٹی', elements.chak_patti.value],
-            ['Silai / سلائی', elements.silai.value, 'Chak Patti Kaj / چک پٹی کاج', elements.chak_patti_kaj.value],
-            ['Button Color / رنگ بٹن', elements.button_color.value, 'Shoulder / شولڈر', elements.shoulder_style.value],
-            ['Button / بٹن', elements.button.value, 'Sleeve Type / آستین', elements.sleeve_type.value],
-            ['Button Size / بٹن سائز', elements.button_size.value, 'Gol Asteen / گول آستین', elements.gol_asteen.value]
-        ];        // If there's any extra demand, add it as a separate row
-        if (elements.extra_demand.value) {
-            measurementRows.push(['Extra Demand / ایکسٹرا ڈیمانڈ', elements.extra_demand.value, '', '']);
-        }
+        // Populate customer info
+        document.getElementById('print-code-number').textContent = elements.codeNumber.value || '';
+        document.getElementById('print-order-date').textContent = formatPrintDate(elements.orderDate.value);
+        document.getElementById('print-return-date').textContent = formatPrintDate(elements.returnDate.value);
+        document.getElementById('print-name').textContent = elements.name.value || '';
+        document.getElementById('print-age').textContent = elements.age.value || '';
+        document.getElementById('print-cell-number').textContent = elements.cellNumber.value || '';
+        document.getElementById('print-address').textContent = elements.address.value || '';
+        document.getElementById('print-cutting-no').textContent = elements.cuttingNo.value || '';
+        document.getElementById('print-quantity').textContent = elements.quantity.value || '';
+        document.getElementById('print-entered-by').textContent = elements.enteredBy.value || 'Abubakkar';
 
-        doc.autoTable({
-            startY: 100,
-            head: [['Measurement / ناپ', 'Value / قیمت', 'Measurement / ناپ', 'Value / قیمت']],
-            body: measurementRows,
-            theme: 'grid',
-            styles: { fontSize: 10, cellPadding: 3 },
-            headStyles: { fillColor: [41, 128, 185], textColor: 255 },
-            alternateRowStyles: { fillColor: [240, 240, 240] }
+        // Define Qameez (shirt) measurements with their Urdu labels
+        const qameezMeasurements = [
+            { field: 'lambai', label: 'لمبائی' },
+            { field: 'asteen', label: 'آستین' },
+            { field: 'tera', label: 'تیرا' },
+            { field: 'chati', label: 'چھاتی' },
+            { field: 'kamar', label: 'کمر' },
+            { field: 'gira', label: 'گیرہ' },
+            { field: 'moza', label: 'موڑہ' },
+            { field: 'gol_asteen', label: 'گول آستین' },
+            { field: 'collar_type', label: 'کالر ٹائپ' },
+            { field: 'collar_style', label: 'کالر اسٹائل' },
+            { field: 'front_pocket_size', label: 'فرنٹ پاکٹ سائز' },
+            { field: 'double_side_pocket', label: 'ڈبل سائیڈ پاکٹ' },
+            { field: 'single_pocket', label: 'سنگل پاکٹ' },
+            { field: 'front_pocket', label: 'فرنٹ پاکٹ' },
+            { field: 'silai', label: 'سلائی' },
+            { field: 'button_color', label: 'بٹن کا رنگ' },
+            { field: 'button', label: 'بٹن' },
+            { field: 'button_size', label: 'بٹن سائز' },
+            { field: 'cuff_plate', label: 'کف پلیٹ' },
+            { field: 'cuff_style', label: 'کف اسٹائل' },
+            { field: 'cuff_kaj', label: 'کف کاج' },
+            { field: 'chak_patti', label: 'چک پٹی' },
+            { field: 'chak_patti_kaj', label: 'چک پٹی کاج' },
+            { field: 'daman', label: 'دامن' },
+            { field: 'shoulder_style', label: 'شولڈر اسٹائل' },
+            { field: 'sleeve_type', label: 'آستین کی قسم' }
+        ];
+
+        // Define Shalwar (trouser) measurements with their Urdu labels
+        const shalwarMeasurements = [
+            { field: 'shalwar_lambai', label: 'شلوار لمبائی' },
+            { field: 'shalwar', label: 'شلوار' },
+            { field: 'pacha', label: 'پانچہ' },
+            { field: 'lib', label: 'لیب' },
+            { field: 'ander', label: 'اندر' },
+            { field: 'shalwar_pocket', label: 'شلوار پاکٹ' },
+            { field: 'shalwar_type', label: 'شلوار قسم' },
+            { field: 'patti', label: 'پٹی' }
+        ];
+
+        // Generate Qameez measurements HTML
+        const qameezContainer = document.getElementById('print-qameez-measurements');
+        qameezContainer.innerHTML = '';
+
+        qameezMeasurements.forEach(item => {
+            // Skip if the field doesn't have a value
+            if (!hasValue(elements[item.field]?.value)) return;
+
+            const measureItem = document.createElement('div');
+            measureItem.className = 'measure-item';
+            measureItem.innerHTML = `
+                <div class="measure-label">${item.label}</div>
+                <div class="measure-value">${elements[item.field].value}</div>
+            `;
+            qameezContainer.appendChild(measureItem);
         });
 
-        // Add signature lines
-        const finalY = doc.lastAutoTable.finalY + 20;
+        // Generate Shalwar measurements HTML
+        const shalwarContainer = document.getElementById('print-shalwar-measurements');
+        shalwarContainer.innerHTML = '';
 
-        doc.text('Customer Signature: ___________________', 15, finalY);
-        doc.text('Tailor Signature: ___________________', 120, finalY);
+        shalwarMeasurements.forEach(item => {
+            // Skip if the field doesn't have a value
+            if (!hasValue(elements[item.field]?.value)) return;
 
-        // Footer
-        doc.setFontSize(10);
-        doc.text('Thank you for choosing Noor & Sons Tailors And Fabrics.', 105, 280, { align: 'center' });
+            const measureItem = document.createElement('div');
+            measureItem.className = 'measure-item';
+            measureItem.innerHTML = `
+                <div class="measure-label">${item.label}</div>
+                <div class="measure-value">${elements[item.field].value}</div>
+            `;
+            shalwarContainer.appendChild(measureItem);
+        });        // Hide Qameez section if no measurements
+        const qameezSection = document.getElementById('print-qameez-section');
+        if (qameezContainer.children.length === 0) {
+            qameezSection.classList.add('hidden');
+        } else {
+            qameezSection.classList.remove('hidden');
+        }
 
-        // Save PDF with customer name
-        const fileName = `Customer_${customer.name.replace(/\s+/g, '_')}_${customer.codeNumber}.pdf`;
+        // Hide Shalwar section if no measurements
+        const shalwarSection = document.getElementById('print-shalwar-section');
+        if (shalwarContainer.children.length === 0) {
+            shalwarSection.classList.add('hidden');
+        } else {
+            shalwarSection.classList.remove('hidden');
+        }
 
-        // Open PDF in new window and print
-        doc.output('dataurlnewwindow', { filename: fileName });
+        // Handle extra demand
+        const extraDemandValue = elements.extra_demand?.value || '';
+        document.getElementById('print-extra-demand').textContent = extraDemandValue;
+        const extraDemandSection = document.getElementById('print-extra-demand-section');
+        if (extraDemandValue) {
+            extraDemandSection.classList.remove('hidden');
+        } else {
+            extraDemandSection.classList.add('hidden');
+        }
+
+        // Print the page
+        window.print();
+
     } catch (error) {
-        console.error('Error in PDF generation:', error);
-        alert('Unable to generate PDF. Falling back to browser print.');
+        console.error('Error preparing print layout:', error);
+        alert('Unable to prepare print layout. Please try again.');
+        // Fallback to basic browser print
         window.print();
     }
 }

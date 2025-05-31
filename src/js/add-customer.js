@@ -1,21 +1,24 @@
 // Check if user is logged in
 document.addEventListener('DOMContentLoaded', function () {
     console.log('Add Customer page loaded');
-    
+
     try {
         // For development, we'll skip the user check
         console.log('Bypassing user check for development');
-        
+
         // Auto-set current date for order date field
         const orderDateInput = document.getElementById('orderDate');
         if (orderDateInput) {
             orderDateInput.valueAsDate = new Date();
             console.log('Set order date to today');
         }
-        
+
+        // Auto-generate code number
+        generateCodeNumber();
+
         // Set up event listeners
         setupEventListeners();
-        
+
         // Set up collar type dropdown
         setupCollarTypeDropdown();
     } catch (error) {
@@ -26,18 +29,26 @@ document.addEventListener('DOMContentLoaded', function () {
 // Set up all event listeners
 function setupEventListeners() {
     console.log('Setting up event listeners');
-    
+
+    // Back to dashboard button
+    if (document.getElementById('back-to-dashboard')) {
+        document.getElementById('back-to-dashboard').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.location.href = 'dashboard.html';
+        });
+    }
+
     // Logout link
     if (document.getElementById('logout-link')) {
-        document.getElementById('logout-link').addEventListener('click', function(e) {
+        document.getElementById('logout-link').addEventListener('click', function (e) {
             e.preventDefault();
             logout();
         });
     }
-    
+
     // Customer form submission
     if (document.getElementById('customer-form')) {
-        document.getElementById('customer-form').addEventListener('submit', function(e) {
+        document.getElementById('customer-form').addEventListener('submit', function (e) {
             e.preventDefault();
             saveCustomer();
         });
@@ -47,19 +58,19 @@ function setupEventListeners() {
 // Setup collar type dropdown
 function setupCollarTypeDropdown() {
     console.log('Setting up collar type dropdown');
-    
+
     try {
         const collarTypeDropdown = document.getElementById('collar_type');
         const collarStyleDropdown = document.getElementById('collar_style');
-        
+
         if (!collarTypeDropdown) {
             console.error('collar_type dropdown not found');
             return;
         }
-        
-        collarTypeDropdown.addEventListener('change', function() {
+
+        collarTypeDropdown.addEventListener('change', function () {
             console.log('Collar type changed to:', this.value);
-            
+
             // Update collar style options based on collar type
             if (this.value === 'کالر') {
                 console.log('Showing collar style dropdown');
@@ -71,7 +82,7 @@ function setupCollarTypeDropdown() {
                         <option value="فرنچ">فرنچ</option>
                         <option value="نوک والا">نوک والا</option>
                     `;
-                    
+
                     // Update label
                     const label = document.getElementById('collar-ben-label');
                     if (label) label.textContent = 'کالر اسٹائل';
@@ -86,7 +97,7 @@ function setupCollarTypeDropdown() {
                         <option value="کٹ">کٹ</option>
                         <option value="چورس">چورس</option>
                     `;
-                    
+
                     // Update label
                     const label = document.getElementById('collar-ben-label');
                     if (label) label.textContent = 'بین اسٹائل';
@@ -101,7 +112,7 @@ function setupCollarTypeDropdown() {
 // Customer save operation
 function saveCustomer() {
     console.log('Saving customer');
-    
+
     try {
         // Get form values
         const customerData = {
@@ -155,25 +166,43 @@ function saveCustomer() {
                 patti: document.getElementById('patti') ? document.getElementById('patti').value : ''
             }
         };
-        
         console.log('Customer data prepared:', customerData);
-        
-        // For demo/development purposes
-        // Simulate API call and success
-        setTimeout(() => {
-            console.log('Simulated successful save');
+
+        // Validate required fields
+        if (!customerData.name || !customerData.cellNumber || !customerData.orderDate) {
+            alert('Please fill in all required fields (Name, Cell Number, Order Date)');
+            return;
+        }
+
+        // Generate unique ID
+        customerData.id = 'C_' + Date.now();
+        customerData.createdAt = new Date().toISOString();
+
+        // Save to localStorage
+        try {
+            let customers = JSON.parse(localStorage.getItem('customers') || '[]');
+            customers.push(customerData);
+            localStorage.setItem('customers', JSON.stringify(customers));
+
+            console.log('Customer saved successfully to localStorage');
             alert('Customer saved successfully!');
-            
+
             // Reset form
             const form = document.getElementById('customer-form');
             if (form) form.reset();
-            
-            // Redirect to dashboard
-            window.location.href = 'dashboard.html';
-        }, 1000);
-        
-        // In real implementation:
-        // window.api.send('add-customer', customerData);
+
+            // Set order date back to today
+            const orderDateInput = document.getElementById('orderDate');
+            if (orderDateInput) {
+                orderDateInput.valueAsDate = new Date();
+            }
+
+            // Redirect to manage customers page to see the saved data
+            window.location.href = 'manage-customers.html';
+        } catch (storageError) {
+            console.error('Error saving to localStorage:', storageError);
+            alert('Error saving customer data. Please try again.');
+        }
     } catch (error) {
         console.error('Error saving customer:', error);
         alert('Error saving customer. Please try again.');
@@ -183,16 +212,31 @@ function saveCustomer() {
 // Logout function
 function logout() {
     console.log('Logging out');
-    
+
     try {
         // Clear any stored user data
         sessionStorage.removeItem('user');
-        localStorage.removeItem('user');
-        
-        // Redirect to login page
-        window.location.href = 'index.html';
+        localStorage.removeItem('user');        // Redirect to login page
+        window.location.href = '../index.html';
     } catch (error) {
         console.error('Error logging out:', error);
         alert('Error logging out. Please try closing the application.');
+    }
+}
+
+// Generate unique code number
+function generateCodeNumber() {
+    try {
+        const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+        const nextNumber = customers.length + 1;
+        const codeNumber = 'C' + nextNumber.toString().padStart(3, '0');
+
+        const codeNumberInput = document.getElementById('codeNumber');
+        if (codeNumberInput) {
+            codeNumberInput.value = codeNumber;
+            console.log('Generated code number:', codeNumber);
+        }
+    } catch (error) {
+        console.error('Error generating code number:', error);
     }
 }

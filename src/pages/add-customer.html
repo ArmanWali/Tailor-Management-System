@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self';">
+    <title>Tailor Management System - Add New Customer</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/bootstrap-icons.css">
+    <style>
+        .section-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .subsection-title {
+            color: #495057;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #e9ecef;
+            font-weight: 600;
+        }
+
+        .measurement-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+
+        .form-control-sm,
+        .form-select-sm {
+            font-size: 0.85rem;
+        }
+
+        .hidden-submit {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="../assets/img/logo-pic.png" alt="Logo" width="30" height="30"
+                    class="d-inline-block align-text-top me-2">
+                Noor & Sons Tailors
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" id="dashboard-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="add-customer-link" href="add-customer.html">Add New Customer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="manage-customers-link" href="manage-customers.html">Manage Customers</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" id="logout-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Back Button -->
+        <div class="mb-3">
+            <button id="back-to-dashboard" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Dashboard
+            </button>
+        </div>
+
+        <!-- Add New Customer Form View -->
+        <div id="add-customer-view">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="mb-0"><i class="bi bi-person-plus"></i> Add New Customer</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="customer-form">
+                                <!-- Customer Information Section -->
+                                <div class="info-section mb-4">
+                                    <h5 class="section-title"><i class="bi bi-person-circle"></i> Customer Information
+                                    </h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-3">
+                                            <label for="codeNumber" class="form-label small fw-semibold">Code
+                                                Number</label>
+                                            <input type="text" class="form-control form-control-sm" id="codeNumber">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="name" class="form-label small fw-semibold">Name <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control form-control-sm" id="name">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="cellNumber" class="form-label small fw-semibold">Cell Number
+                                                <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control form-control-sm" id="cellNumber">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="age" class="form-label small fw-semibold">Age</label>
+                                            <input type="number" class="form-control form-control-sm" id="age">
+                                        </div>
+                                    </div>
+                                    <div class="row g-3 mt-1">
+                                        <div class="col-md-4">
+                                            <label for="address" class="form-label small fw-semibold">Address</label>
+                                            <input type="text" class="form-control form-control-sm" id="address">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="quantity" class="form-label small fw-semibold">Quantity</label>
+                                            <input type="number" class="form-control form-control-sm" id="quantity">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="cuttingNo" class="form-label small fw-semibold">Cutting
+                                                No</label>
+                                            <input type="text" class="form-control form-control-sm" id="cuttingNo">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="enteredBy" class="form-label small fw-semibold">Entered
+                                                By</label>
+                                            <input type="text" class="form-control form-control-sm" id="enteredBy"
+                                                value="Abubakkar" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row g-3 mt-1">
+                                        <div class="col-md-4">
+                                            <label for="orderDate" class="form-label small fw-semibold">Order Date <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="date" class="form-control form-control-sm" id="orderDate">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="returnDate" class="form-label small fw-semibold">Return
+                                                Date</label>
+                                            <input type="date" class="form-control form-control-sm" id="returnDate">
+                                        </div>
+                                    </div>
+                                </div> <!-- Hidden submit button for programmatic submission -->
+                                <button type="submit" id="hidden-submit-button" class="hidden-submit">Submit</button>
+
+                                <!-- Measurements Section -->
+                                <div class="measurements-container">
+                                    <h5 class="section-title mb-3"><i class="bi bi-rulers"></i> Measurements</h5>
+
+                                    <!-- Shirt Measurements (قمیص) -->
+                                    <div class="measurement-section qamees-section">
+                                        <div class="section-header">
+                                            <h6 class="fw-bold mb-0"><i class="bi bi-file-person"></i> قمیص (Shirt)</h6>
+                                        </div>
+                                        <div class="measurement-content">
+                                            <!-- Basic Measurements Row 1 -->
+                                            <div class="row g-2 mb-2">
+                                                <div class="col-md-3">
+                                                    <label for="lambai"
+                                                        class="form-label small fw-semibold">لمبائی</label>
+                                                    <input type="text" class="form-control form-control-sm" id="lambai">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="asteen"
+                                                        class="form-label small fw-semibold">آستین</label>
+                                                    <input type="text" class="form-control form-control-sm" id="asteen">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="tera" class="form-label small fw-semibold">تیرا</label>
+                                                    <input type="text" class="form-control form-control-sm" id="tera">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="chati"
+                                                        class="form-label small fw-semibold">چھاتی</label>
+                                                    <input type="text" class="form-control form-control-sm" id="chati">
+                                                </div>
+                                            </div>
+                                            <!-- Basic Measurements Row 2 -->
+                                            <div class="row g-2 mb-3">
+                                                <div class="col-md-3">
+                                                    <label for="kamar" class="form-label small fw-semibold">کمر</label>
+                                                    <input type="text" class="form-control form-control-sm" id="kamar">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="gira" class="form-label small fw-semibold">گیرہ</label>
+                                                    <input type="text" class="form-control form-control-sm" id="gira">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="moza" class="form-label small fw-semibold">موڑہ</label>
+                                                    <input type="text" class="form-control form-control-sm" id="moza">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="gol_asteen" class="form-label small fw-semibold">گول
+                                                        آستین</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="gol_asteen">
+                                                </div>
+                                            </div>
+
+                                            <!-- Collar & Style Section -->
+                                            <div class="subsection mb-3">
+                                                <h6 class="subsection-title">کالر اور اسٹائل</h6>
+                                                <div class="row g-2 mb-2">
+                                                    <div class="col-md-4">
+                                                        <label for="collar_type"
+                                                            class="form-label small fw-semibold">بین / کالر</label>
+                                                        <select class="form-select form-select-sm" id="collar_type">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="بین">بین</option>
+                                                            <option value="کالر">کالر</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="collar_style" class="form-label small fw-semibold"
+                                                            id="collar-ben-label">اسٹائل</label>
+                                                        <select class="form-select form-select-sm" id="collar_style">
+                                                            <option value="">منتخب کریں</option>
+                                                            <!-- Options will be populated dynamically -->
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="sleeve_type"
+                                                            class="form-label small fw-semibold">آستین</label>
+                                                        <select class="form-select form-select-sm" id="sleeve_type">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="فل">فل</option>
+                                                            <option value="فٹ">فٹ</option>
+                                                            <option value="ہاف">ہاف</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Pocket Section -->
+                                            <div class="subsection mb-3">
+                                                <h6 class="subsection-title">پاکٹ</h6>
+                                                <div class="row g-2 mb-2">
+                                                    <div class="col-md-4">
+                                                        <label for="front_pocket"
+                                                            class="form-label small fw-semibold">فرنٹ پاکٹ</label>
+                                                        <select class="form-select form-select-sm" id="front_pocket">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="چورس">چورس</option>
+                                                            <option value="گول">گول</option>
+                                                            <option value="نوک والا">نوک والا</option>
+                                                            <option value="NO">NO</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="front_pocket_size"
+                                                            class="form-label small fw-semibold">فرنٹ پاکٹ سائز</label>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="front_pocket_size">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="double_side_pocket"
+                                                            class="form-label small fw-semibold">سائیڈ پاکٹ</label>
+                                                        <select class="form-select form-select-sm"
+                                                            id="double_side_pocket">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="سنگل سائیڈ">سنگل سائیڈ</option>
+                                                            <option value="ڈبل سائیڈ">ڈبل سائیڈ</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Sewing & Buttons Section -->
+                                            <div class="subsection mb-3">
+                                                <h6 class="subsection-title">سلائی اور بٹن</h6>
+                                                <div class="row g-2 mb-2">
+                                                    <div class="col-md-3">
+                                                        <label for="silai"
+                                                            class="form-label small fw-semibold">سلائی</label>
+                                                        <select class="form-select form-select-sm" id="silai">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="ساده">ساده</option>
+                                                            <option value="چمک دار">چمک دار</option>
+                                                            <option value="ڈبل چمک دار">ڈبل چمک دار</option>
+                                                            <option value="کم">کم</option>
+                                                            <option value="چین">چین</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="button_color"
+                                                            class="form-label small fw-semibold">رنگ بٹن</label>
+                                                        <select class="form-select form-select-sm" id="button_color">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="کراچی">کراچی</option>
+                                                            <option value="عام">عام</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="button"
+                                                            class="form-label small fw-semibold">بٹن</label>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="button">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="button_size"
+                                                            class="form-label small fw-semibold">بٹن سائز</label>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="button_size">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Cuff Section -->
+                                            <div class="subsection mb-3">
+                                                <h6 class="subsection-title">کف</h6>
+                                                <div class="row g-2 mb-2">
+                                                    <div class="col-md-4">
+                                                        <label for="cuff_plate"
+                                                            class="form-label small fw-semibold">پلیٹ والا کف / پلیٹ کے
+                                                            بغیر</label>
+                                                        <select class="form-select form-select-sm" id="cuff_plate">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="پلیٹ والا کف">پلیٹ والا کف</option>
+                                                            <option value="پلیٹ کے بغیر">پلیٹ کے بغیر</option>
+                                                            <option value="NO">NO</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="cuff_style" class="form-label small fw-semibold">کف
+                                                            اسٹائل</label>
+                                                        <select class="form-select form-select-sm" id="cuff_style">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="چورس">چورس</option>
+                                                            <option value="گول">گول</option>
+                                                            <option value="کٹ">کٹ</option>
+                                                            <option value="سٹڈ">سٹڈ</option>
+                                                            <option value="NO">NO</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="cuff_kaj" class="form-label small fw-semibold">کف
+                                                            کاج</label>
+                                                        <select class="form-select form-select-sm" id="cuff_kaj">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="سنگل">سنگل</option>
+                                                            <option value="ڈبل">ڈبل</option>
+                                                            <option value="سیدہا">سیدہا</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Additional Details Section -->
+                                            <div class="subsection mb-3">
+                                                <h6 class="subsection-title">اضافی تفصیلات</h6>
+                                                <div class="row g-2 mb-2">
+                                                    <div class="col-md-3">
+                                                        <label for="chak_patti" class="form-label small fw-semibold">چک
+                                                            پٹی</label>
+                                                        <select class="form-select form-select-sm" id="chak_patti">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="چورس">چورس</option>
+                                                            <option value="نوک">نوک</option>
+                                                            <option value="گول">گول</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="chak_patti_kaj"
+                                                            class="form-label small fw-semibold">چک پٹی کاج</label>
+                                                        <select class="form-select form-select-sm" id="chak_patti_kaj">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="سنگل">سنگل</option>
+                                                            <option value="ڈبل">ڈبل</option>
+                                                            <option value="NO">NO</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="daman"
+                                                            class="form-label small fw-semibold">دامن</label>
+                                                        <select class="form-select form-select-sm" id="daman">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="گول">گول</option>
+                                                            <option value="چورس">چورس</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="shoulder_style"
+                                                            class="form-label small fw-semibold">شولڈر</label>
+                                                        <select class="form-select form-select-sm" id="shoulder_style">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="نارمل">نارمل</option>
+                                                            <option value="سیدہا">سیدہا</option>
+                                                            <option value="ڈاؤن">ڈاؤن</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-2 mb-2">
+                                                    <div class="col-md-6">
+                                                        <label for="extra_demand"
+                                                            class="form-label small fw-semibold">ایکسٹرا ڈیمانڈ</label>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="extra_demand">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Trouser Measurements (شلوار) -->
+                                    <div class="measurement-section shalwar-section">
+                                        <div class="section-header">
+                                            <h6 class="fw-bold mb-0"><i class="bi bi-person-standing"></i> شلوار
+                                                (Trouser)</h6>
+                                        </div>
+                                        <div class="measurement-content">
+                                            <!-- Basic Trouser Measurements -->
+                                            <div class="row g-2 mb-3">
+                                                <div class="col-md-3">
+                                                    <label for="shalwar_lambai"
+                                                        class="form-label small fw-semibold">شلوار لمبائی</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="shalwar_lambai">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="pacha"
+                                                        class="form-label small fw-semibold">پانچہ</label>
+                                                    <input type="text" class="form-control form-control-sm" id="pacha">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="lib" class="form-label small fw-semibold">ہپ</label>
+                                                    <input type="text" class="form-control form-control-sm" id="lib">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="ander" class="form-label small fw-semibold">اندر</label>
+                                                    <input type="text" class="form-control form-control-sm" id="ander">
+                                                </div>
+                                            </div>
+
+                                            <!-- Trouser Style & Details -->
+                                            <div class="subsection mb-3">
+                                                <h6 class="subsection-title">شلوار کی تفصیلات</h6>
+                                                <div class="row g-2 mb-2">
+                                                    <div class="col-md-4">
+                                                        <label for="shalwar_type"
+                                                            class="form-label small fw-semibold">عام / ٹروزر /
+                                                            سانجھا</label>
+                                                        <select class="form-select form-select-sm" id="shalwar_type">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="عام">عام</option>
+                                                            <option value="ٹروزر">ٹروزر</option>
+                                                            <option value="سانجھا">سانجھا</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="shalwar_pocket"
+                                                            class="form-label small fw-semibold">شلوار پاکٹ</label>
+                                                        <select class="form-select form-select-sm" id="shalwar_pocket">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="Yes">Yes</option>
+                                                            <option value="No">No</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="patti"
+                                                            class="form-label small fw-semibold">پٹی</label>
+                                                        <select class="form-select form-select-sm" id="patti">
+                                                            <option value="">منتخب کریں</option>
+                                                            <option value="پلیٹ والی">پلیٹ والی</option>
+                                                            <option value="نوک والی">نوک والی</option>
+                                                            <option value="عام">عام</option>
+                                                            <option value="گول">گول</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-5 mb-5 text-center">
+                                    <button type="submit" class="btn btn-primary px-4 py-2">Save Customer</button>
+                                    <a href="dashboard.html" class="btn btn-secondary ms-3 px-4 py-2">Cancel</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/add-customer.js"></script>
+</body>
+
+</html>

@@ -146,3 +146,6 @@ MIT
 ## Contact
 
 For any questions or support, please contact [your contact information].
+
+## Figma image
+![alt text](Header.jpg)
