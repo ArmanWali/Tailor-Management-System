@@ -3,9 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self';">
     <title>Customer Details</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/styles.css">
@@ -293,9 +292,7 @@
                 </ul>
             </div>
         </div>
-    </nav>
-
-    <div class="container mt-4">
+    </nav>    <div class="container mt-4 no-print">
         <!-- Action Buttons -->
         <div class="action-buttons no-print">
             <div class="row">
@@ -322,19 +319,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Print Header -->
-        <div class="print-header text-center d-none d-print-block"> <img src="assets/img/logo-pic.png"
-                alt="Noor & Sons Tailors And Fabrics" class="logo-img logo-header">
-            <h2>Noor & Sons Tailors And Fabrics</h2>
-            <p>We offer you stitching of your choice</p>
-            <hr>
-        </div>
+            </div>        </div>
 
         <!-- Customer Details Form -->
-        <div class="row">
+        <div class="row no-print">
             <div class="col-12">
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white">
@@ -694,11 +682,10 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
-                </div>
+                    </div>                </div>
             </div>
         </div>
-    </div> <!-- Include PDF generation libraries from CDN -->
+    </div> <!-- End main container -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
