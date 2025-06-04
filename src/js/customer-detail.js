@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Initialize all DOM elements
-function initializeElements() {    const elementIds = [
+function initializeElements() {
+    const elementIds = [
         'codeNumber', 'name', 'cellNumber', 'age', 'address', 'quantity',
         'cuttingNo', 'enteredBy', 'orderDate', 'returnDate',
         'lambai', 'asteen', 'tera', 'chati', 'kamar', 'gira', 'moza', 'gol_asteen',
@@ -388,7 +389,7 @@ function saveCustomerChanges() {
                 chati: elements.chati.value,
                 kamar: elements.kamar.value,
                 gira: elements.gira.value,
-                moza: elements.moza.value,                gol_asteen: elements.gol_asteen.value,
+                moza: elements.moza.value, gol_asteen: elements.gol_asteen.value,
                 collar_type: elements.collar_type.value,
                 collar_measurement: elements.collar_measurement.value,
                 collar_style: elements.collar_style.value,

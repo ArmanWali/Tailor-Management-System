@@ -286,7 +286,7 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .print-btn {
@@ -309,6 +309,7 @@
                 margin: 0;
                 padding: 0;
             }
+
             .print-controls {
                 display: none !important;
             }
@@ -439,7 +440,7 @@
                         <span class="qameez-value" id="qameez-shoulder"></span>
                     </div>
                 </div>
-                
+
                 <!-- Column 2 -->
                 <div class="qameez-column-2">
                     <div class="qameez-measure-item">
@@ -625,7 +626,7 @@
                 safeSetTextContent('qameez-gira', measurements.gira);
                 safeSetTextContent('qameez-moza', measurements.moza);
                 safeSetTextContent('qameez-shoulder', measurements.shoulder);
-                
+
                 // Populate style fields with error handling
                 safeSetTextContent('qameez-daman-style', measurements.daman);
                 safeSetTextContent('qameez-sleeve-style', measurements.sleeve_type);
@@ -646,7 +647,7 @@
                 const qameezContainer = document.getElementById('print-qameez-measurements');
                 if (qameezContainer) {
                     qameezContainer.innerHTML = '';
-                    
+
                     qameezMeasurements.forEach(item => {
                         if (hasValue(measurements[item.field])) {
                             const measureItem = document.createElement('div');

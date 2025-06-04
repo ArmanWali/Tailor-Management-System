@@ -36,16 +36,16 @@
         /* Header styles */
         .print-header {
             display: flex !important;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             width: 100%;
             padding-bottom: 5px;
             border-bottom: 1px solid #000;
             margin-bottom: 15px;
+            gap: 20px;
         }
 
-        .logo-left,
-        .logo-right {
+        .logo-left {
             height: 60px;
             width: auto;
         }
@@ -58,7 +58,7 @@
         }
 
         .logo-right {
-            height: 150px;
+            height: 60px;
             width: auto;
         }
 
@@ -117,8 +117,9 @@
             border-bottom: 1px solid #999;
             min-height: 18px;
             padding: 2px 0;
-            min-width: 100px;
-            flex: 1;
+            min-width: 80px;
+            width: fit-content;
+            max-width: 120px;
         }
 
         /* Cutting section */
@@ -146,7 +147,9 @@
 
         .cutting-value {
             border-bottom: 1px solid #999;
-            min-width: 80px;
+            min-width: 60px;
+            width: fit-content;
+            max-width: 100px;
             min-height: 18px;
             padding: 2px 5px;
         }
@@ -202,9 +205,10 @@
 
         .qameez-value {
             border-bottom: 1px solid #999;
-            min-width: 80px;
+            min-width: 60px;
+            width: fit-content;
+            max-width: 100px;
             min-height: 16px;
-            flex: 1;
             padding: 1px 2px;
         }
 
@@ -235,7 +239,9 @@
 
         .measure-value {
             border-bottom: 1px solid #999;
-            min-width: 80px;
+            min-width: 60px;
+            width: fit-content;
+            max-width: 100px;
             text-align: center;
         }
 
@@ -260,6 +266,9 @@
             border-bottom: 1px solid #999;
             padding: 5px 0;
             min-height: 20px;
+            width: fit-content;
+            max-width: 300px;
+            min-width: 100px;
         }
 
         /* Hide empty fields in print */
@@ -286,7 +295,7 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .print-btn {
@@ -309,6 +318,7 @@
                 margin: 0;
                 padding: 0;
             }
+
             .print-controls {
                 display: none !important;
             }
@@ -320,7 +330,7 @@
     <!-- Print Controls -->
     <div class="print-controls no-print">
         <button class="print-btn" onclick="window.print()">🖨️ Print</button>
-    </div>    <!-- Print Form Layout -->
+    </div> <!-- Print Form Layout -->
     <div class="print-form">
         <!-- Print Header with Logos -->
         <div class="print-header">
@@ -373,7 +383,7 @@
                     <div class="info-value" id="print-address"></div>
                 </div>
             </div>
-        </div>        <!-- Cutting Section -->
+        </div> <!-- Cutting Section -->
         <div class="cutting-section">
             <div class="cutting-item">
                 <label>Cutting No:</label>
@@ -387,7 +397,7 @@
                 <label>Enter by <span id="print-entered-by">Abubakkar</span></label>
             </div>
             <div class="garment-type">شلوار قمیص</div>
-        </div>        <!-- Qameez Section -->
+        </div> <!-- Qameez Section -->
         <div class="measurement-section" id="print-qameez-section">
             <div class="section-title">قمیص</div>
             <div class="qameez-two-column-grid">
@@ -433,7 +443,7 @@
                         <span class="qameez-value" id="qameez-shoulder"></span>
                     </div>
                 </div>
-                
+
                 <!-- Column 2 -->
                 <div class="qameez-column-2">
                     <div class="qameez-measure-item">
@@ -483,7 +493,7 @@
             <div class="measurements-grid" id="print-shalwar-measurements">
                 <!-- Will be populated by JavaScript -->
             </div>
-        </div>        <!-- Extra Demand Section -->
+        </div> <!-- Extra Demand Section -->
         <div class="extra-demand" id="print-extra-demand-section">
             <div class="extra-demand-label">ایکسٹرا ڈیمانڈ</div>
             <div class="extra-demand-value" id="print-extra-demand"></div>
@@ -494,7 +504,8 @@
     <div class="print-controls" id="print-controls">
         <button onclick="manualPrint()" class="btn-print">🖨️ Print Again</button>
         <button onclick="window.close()" class="btn-close">✖ Close</button>
-    </div><script>
+    </div>
+    <script>
         // Print form functionality with comprehensive error handling
         function loadCustomerDataFromURL() {
             try {
@@ -621,7 +632,7 @@
                 safeSetTextContent('qameez-gira', measurements.gira);
                 safeSetTextContent('qameez-moza', measurements.moza);
                 safeSetTextContent('qameez-shoulder', measurements.shoulder);
-                
+
                 // Populate style fields with error handling
                 safeSetTextContent('qameez-daman-style', measurements.daman);
                 safeSetTextContent('qameez-sleeve-style', measurements.sleeve_type);
@@ -642,7 +653,7 @@
                 const qameezContainer = document.getElementById('print-qameez-measurements');
                 if (qameezContainer) {
                     qameezContainer.innerHTML = '';
-                    
+
                     qameezMeasurements.forEach(item => {
                         if (hasValue(measurements[item.field])) {
                             const measureItem = document.createElement('div');

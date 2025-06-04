@@ -579,7 +579,9 @@
 
     .page-break-after {
         page-break-after: always;
-    }    .avoid-break {
+    }
+
+    .avoid-break {
         page-break-inside: avoid;
     }
 
@@ -662,7 +664,9 @@
         color: #000 !important;
         flex: 1 !important;
         padding: 2px 4px !important;
-    }    .hidden {
+    }
+
+    .hidden {
         display: none !important;
     }
 
@@ -699,7 +703,9 @@
         font-size: 10pt !important;
         color: #000 !important;
         padding: 1px 4px !important;
-    }    .garment-type {
+    }
+
+    .garment-type {
         font-weight: bold !important;
         font-size: 12pt !important;
         color: #000 !important;
