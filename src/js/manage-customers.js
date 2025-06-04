@@ -251,8 +251,8 @@ function printCustomerDetails(customer) {
     console.log('Printing customer details:', customer);
 
     try {
-        // Navigate to customer-detail.html in print mode
-        const printUrl = `customer-detail.html?id=${customer.id}&print=true`;
+        // Navigate to print-form.html for direct printing
+        const printUrl = `print-form.html?id=${customer.id}`;
         window.open(printUrl, '_blank');
     } catch (error) {
         console.error('Error opening print page:', error);

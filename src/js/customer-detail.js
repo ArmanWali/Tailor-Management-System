@@ -28,12 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Initialize all DOM elements
-function initializeElements() {
-    const elementIds = [
+function initializeElements() {    const elementIds = [
         'codeNumber', 'name', 'cellNumber', 'age', 'address', 'quantity',
         'cuttingNo', 'enteredBy', 'orderDate', 'returnDate',
         'lambai', 'asteen', 'tera', 'chati', 'kamar', 'gira', 'moza', 'gol_asteen',
-        'collar_type', 'collar_style', 'front_pocket_size', 'double_side_pocket',
+        'collar_type', 'collar_measurement', 'collar_style', 'front_pocket_size', 'double_side_pocket',
         'single_pocket', 'front_pocket', 'silai', 'button_color', 'button',
         'button_size', 'cuff_plate', 'cuff_style', 'cuff_kaj', 'chak_patti',
         'chak_patti_kaj', 'daman', 'shoulder_style', 'sleeve_type', 'extra_demand',
@@ -78,17 +77,19 @@ function setupEventListeners() {
         cancelBtn.addEventListener('click', () => {
             cancelEdit();
         });
-    }
-
-    // Print button
+    }    // Print button
     const printBtn = document.getElementById('print-btn');
     if (printBtn) {
         printBtn.addEventListener('click', () => {
-            try {
-                generatePDF();
-            } catch (error) {
-                console.error('PDF generation failed, using browser print:', error);
-                window.print();
+            const urlParams = new URLSearchParams(window.location.search);
+            const customerId = urlParams.get('id');
+
+            if (customerId) {
+                // Open the separate print form page
+                const printUrl = `print-form.html?id=${customerId}`;
+                window.open(printUrl, '_blank');
+            } else {
+                alert('No customer ID found. Cannot generate print form.');
             }
         });
     }
@@ -231,10 +232,9 @@ function displayCustomerData(customer) {
             safeSetValue(elements.kamar, m.kamar);
             safeSetValue(elements.gira, m.gira);
             safeSetValue(elements.moza, m.moza);
-            safeSetValue(elements.gol_asteen, m.gol_asteen);
-
-            // Collar type and style
+            safeSetValue(elements.gol_asteen, m.gol_asteen);            // Collar type and style
             safeSetValue(elements.collar_type, m.collar_type);
+            safeSetValue(elements.collar_measurement, m.collar_measurement);
             if (elements.collar_type) {
                 elements.collar_type.dispatchEvent(new Event('change'));
                 setTimeout(() => {
@@ -388,9 +388,9 @@ function saveCustomerChanges() {
                 chati: elements.chati.value,
                 kamar: elements.kamar.value,
                 gira: elements.gira.value,
-                moza: elements.moza.value,
-                gol_asteen: elements.gol_asteen.value,
+                moza: elements.moza.value,                gol_asteen: elements.gol_asteen.value,
                 collar_type: elements.collar_type.value,
+                collar_measurement: elements.collar_measurement.value,
                 collar_style: elements.collar_style.value,
                 front_pocket_size: elements.front_pocket_size.value,
                 double_side_pocket: elements.double_side_pocket.value,
@@ -454,146 +454,4 @@ function cancelEdit() {
     }
 }
 
-// Function to generate print layout based on Figma design
-function generatePDF() {
-    try {
-        console.log('Preparing print layout');
 
-        // Helper function to format date
-        const formatPrintDate = (dateStr) => {
-            if (!dateStr) return '';
-            try {
-                const date = new Date(dateStr);
-                return date.toLocaleDateString();
-            } catch (e) {
-                return dateStr;
-            }
-        };
-
-        // Helper function to check if a field has a value
-        const hasValue = (value) => {
-            return value && value.toString().trim() !== '';
-        };
-
-        // Populate customer info
-        document.getElementById('print-code-number').textContent = elements.codeNumber.value || '';
-        document.getElementById('print-order-date').textContent = formatPrintDate(elements.orderDate.value);
-        document.getElementById('print-return-date').textContent = formatPrintDate(elements.returnDate.value);
-        document.getElementById('print-name').textContent = elements.name.value || '';
-        document.getElementById('print-age').textContent = elements.age.value || '';
-        document.getElementById('print-cell-number').textContent = elements.cellNumber.value || '';
-        document.getElementById('print-address').textContent = elements.address.value || '';
-        document.getElementById('print-cutting-no').textContent = elements.cuttingNo.value || '';
-        document.getElementById('print-quantity').textContent = elements.quantity.value || '';
-        document.getElementById('print-entered-by').textContent = elements.enteredBy.value || 'Abubakkar';
-
-        // Define Qameez (shirt) measurements with their Urdu labels
-        const qameezMeasurements = [
-            { field: 'lambai', label: 'لمبائی' },
-            { field: 'asteen', label: 'آستین' },
-            { field: 'tera', label: 'تیرا' },
-            { field: 'chati', label: 'چھاتی' },
-            { field: 'kamar', label: 'کمر' },
-            { field: 'gira', label: 'گیرہ' },
-            { field: 'moza', label: 'موڑہ' },
-            { field: 'gol_asteen', label: 'گول آستین' },
-            { field: 'collar_type', label: 'کالر ٹائپ' },
-            { field: 'collar_style', label: 'کالر اسٹائل' },
-            { field: 'front_pocket_size', label: 'فرنٹ پاکٹ سائز' },
-            { field: 'double_side_pocket', label: 'ڈبل سائیڈ پاکٹ' },
-            { field: 'single_pocket', label: 'سنگل پاکٹ' },
-            { field: 'front_pocket', label: 'فرنٹ پاکٹ' },
-            { field: 'silai', label: 'سلائی' },
-            { field: 'button_color', label: 'بٹن کا رنگ' },
-            { field: 'button', label: 'بٹن' },
-            { field: 'button_size', label: 'بٹن سائز' },
-            { field: 'cuff_plate', label: 'کف پلیٹ' },
-            { field: 'cuff_style', label: 'کف اسٹائل' },
-            { field: 'cuff_kaj', label: 'کف کاج' },
-            { field: 'chak_patti', label: 'چک پٹی' },
-            { field: 'chak_patti_kaj', label: 'چک پٹی کاج' },
-            { field: 'daman', label: 'دامن' },
-            { field: 'shoulder_style', label: 'شولڈر اسٹائل' },
-            { field: 'sleeve_type', label: 'آستین کی قسم' }
-        ];
-
-        // Define Shalwar (trouser) measurements with their Urdu labels
-        const shalwarMeasurements = [
-            { field: 'shalwar_lambai', label: 'شلوار لمبائی' },
-            { field: 'shalwar', label: 'شلوار' },
-            { field: 'pacha', label: 'پانچہ' },
-            { field: 'lib', label: 'لیب' },
-            { field: 'ander', label: 'اندر' },
-            { field: 'shalwar_pocket', label: 'شلوار پاکٹ' },
-            { field: 'shalwar_type', label: 'شلوار قسم' },
-            { field: 'patti', label: 'پٹی' }
-        ];
-
-        // Generate Qameez measurements HTML
-        const qameezContainer = document.getElementById('print-qameez-measurements');
-        qameezContainer.innerHTML = '';
-
-        qameezMeasurements.forEach(item => {
-            // Skip if the field doesn't have a value
-            if (!hasValue(elements[item.field]?.value)) return;
-
-            const measureItem = document.createElement('div');
-            measureItem.className = 'measure-item';
-            measureItem.innerHTML = `
-                <div class="measure-label">${item.label}</div>
-                <div class="measure-value">${elements[item.field].value}</div>
-            `;
-            qameezContainer.appendChild(measureItem);
-        });
-
-        // Generate Shalwar measurements HTML
-        const shalwarContainer = document.getElementById('print-shalwar-measurements');
-        shalwarContainer.innerHTML = '';
-
-        shalwarMeasurements.forEach(item => {
-            // Skip if the field doesn't have a value
-            if (!hasValue(elements[item.field]?.value)) return;
-
-            const measureItem = document.createElement('div');
-            measureItem.className = 'measure-item';
-            measureItem.innerHTML = `
-                <div class="measure-label">${item.label}</div>
-                <div class="measure-value">${elements[item.field].value}</div>
-            `;
-            shalwarContainer.appendChild(measureItem);
-        });        // Hide Qameez section if no measurements
-        const qameezSection = document.getElementById('print-qameez-section');
-        if (qameezContainer.children.length === 0) {
-            qameezSection.classList.add('hidden');
-        } else {
-            qameezSection.classList.remove('hidden');
-        }
-
-        // Hide Shalwar section if no measurements
-        const shalwarSection = document.getElementById('print-shalwar-section');
-        if (shalwarContainer.children.length === 0) {
-            shalwarSection.classList.add('hidden');
-        } else {
-            shalwarSection.classList.remove('hidden');
-        }
-
-        // Handle extra demand
-        const extraDemandValue = elements.extra_demand?.value || '';
-        document.getElementById('print-extra-demand').textContent = extraDemandValue;
-        const extraDemandSection = document.getElementById('print-extra-demand-section');
-        if (extraDemandValue) {
-            extraDemandSection.classList.remove('hidden');
-        } else {
-            extraDemandSection.classList.add('hidden');
-        }
-
-        // Print the page
-        window.print();
-
-    } catch (error) {
-        console.error('Error preparing print layout:', error);
-        alert('Unable to prepare print layout. Please try again.');
-        // Fallback to basic browser print
-        window.print();
-    }
-}

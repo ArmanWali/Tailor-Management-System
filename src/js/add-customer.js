@@ -131,8 +131,8 @@ function saveCustomer() {
             measurements: {
                 lambai: document.getElementById('lambai') ? document.getElementById('lambai').value : '',
                 asteen: document.getElementById('asteen') ? document.getElementById('asteen').value : '',
-                tera: document.getElementById('tera') ? document.getElementById('tera').value : '',
-                collar_type: document.getElementById('collar_type') ? document.getElementById('collar_type').value : '',
+                tera: document.getElementById('tera') ? document.getElementById('tera').value : '',                collar_type: document.getElementById('collar_type') ? document.getElementById('collar_type').value : '',
+                collar_measurement: document.getElementById('collar_measurement') ? document.getElementById('collar_measurement').value : '',
                 collar_style: document.getElementById('collar_style') ? document.getElementById('collar_style').value : '',
                 chati: document.getElementById('chati') ? document.getElementById('chati').value : '',
                 kamar: document.getElementById('kamar') ? document.getElementById('kamar').value : '',

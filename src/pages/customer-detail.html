@@ -439,9 +439,7 @@
                                                     آستین</label>
                                                 <input type="text" class="form-control form-control-sm" id="gol_asteen">
                                             </div>
-                                        </div>
-
-                                        <!-- Collar & Style Section -->
+                                        </div>                                        <!-- Collar & Style Section -->
                                         <div class="subsection mb-3">
                                             <h6 class="subsection-title">کالر اور اسٹائل</h6>
                                             <div class="row g-2 mb-2">
@@ -453,6 +451,10 @@
                                                         <option value="بین">بین</option>
                                                         <option value="کالر">کالر</option>
                                                     </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="collar_measurement" class="form-label small fw-semibold">بین / کالر ماپ</label>
+                                                    <input type="text" class="form-control form-control-sm" id="collar_measurement">
                                                 </div>
                                                 <div class="col-md-4 collar-ben-options hidden" id="collar-ben-options">
                                                     <label for="collar_style" class="form-label small fw-semibold"
@@ -694,101 +696,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/customer-detail.js"></script>
-
-    <!-- Print Form Layout - Only visible when printing -->
-    <div class="print-form d-none d-print-block">
-        <!-- Print Header with Dual Logos -->
-        <div class="print-header">
-            <img src="../assets/img/logo-pic.png" alt="Noor & Sons Logo" class="logo-left">
-            <div class="shop-info">
-                <h2>Noor & Sons Tailors And Fabrics</h2>
-                <p>We offer you stitching of your choice</p>
-            </div>
-            <img src="../assets/img/coat_logo-pic.png" alt="Coat Logo" class="logo-right">
-        </div>
-
-        <!-- Customer Info Section -->
-        <div class="customer-info">
-            <div class="info-row">
-                <div class="info-item">
-                    <label class="info-label">Code Number</label>
-                    <div class="info-value" id="print-code-number"></div>
-                </div>
-                <div class="info-item">
-                    <label class="info-label">Order Date</label>
-                    <div class="info-value" id="print-order-date"></div>
-                </div>
-                <div class="info-item">
-                    <label class="info-label">Return Date</label>
-                    <div class="info-value" id="print-return-date"></div>
-                </div>
-            </div>
-
-            <div class="info-row">
-                <div class="info-item">
-                    <label class="info-label">Name</label>
-                    <div class="info-value" id="print-name"></div>
-                </div>
-                <div class="info-item">
-                    <label class="info-label">Age</label>
-                    <div class="info-value" id="print-age"></div>
-                </div>
-                <div class="info-item">
-                    <label class="info-label">Cell Number</label>
-                    <div class="info-value" id="print-cell-number"></div>
-                </div>
-            </div>
-
-            <div class="info-row">
-                <div class="info-item grid-span-3">
-                    <label class="info-label">Address</label>
-                    <div class="info-value" id="print-address"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Cutting Section -->
-        <div class="cutting-section">
-            <div class="cutting-item">
-                <label>Cutting No:</label>
-                <div class="cutting-value" id="print-cutting-no"></div>
-            </div>
-            <div class="cutting-item">
-                <label>Quantity:</label>
-                <div class="cutting-value" id="print-quantity"></div>
-            </div>
-            <div class="cutting-item">
-                <label>Enter by <span id="print-entered-by">Abubakkar</span></label>
-            </div>
-            <div class="spacer"></div>
-            <div class="garment-type">شلوار قمیص</div>
-        </div>
-
-        <!-- Qameez Section -->
-        <div class="measurement-section" id="print-qameez-section">
-            <div class="section-title">قمیص</div>
-            <div class="measurements-grid" id="print-qameez-measurements">
-                <!-- Will be populated by JavaScript -->
-            </div>
-        </div>
-
-        <!-- Separator Line -->
-        <div class="separator"></div>
-
-        <!-- Shalwar Section -->
-        <div class="measurement-section" id="print-shalwar-section">
-            <div class="section-title">شلوار</div>
-            <div class="measurements-grid" id="print-shalwar-measurements">
-                <!-- Will be populated by JavaScript -->
-            </div>
-        </div>
-
-        <!-- Extra Demand Section -->
-        <div class="extra-demand" id="print-extra-demand-section">
-            <div class="extra-demand-label">ایکسٹرا ڈیمانڈ</div>
-            <div class="extra-demand-value" id="print-extra-demand"></div>
-        </div>
-    </div>
 </body>
 
 </html>

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self';">
+    <title>Print Form - Noor & Sons Tailors</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/print-form.css">
+    <style>
+        /* Print-specific styles for the standalone print form */
+        body {
+            margin: 0;
+            padding: 5mm;
+            font-size: 12px;
+            line-height: 1.3;
+            width: 210mm;
+            background: white;
+            color: #000;
+        }
+
+        .container {
+            max-width: none;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Custom print layout for Noor & Sons tailor form */
+        .print-form {
+            display: block !important;
+        }
+
+        /* Header styles */
+        .print-header {
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #000;
+            margin-bottom: 15px;
+        }
+
+        .logo-left,
+        .logo-right {
+            height: 60px;
+            width: auto;
+        }
+
+        .logo-right-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .logo-right {
+            height: 150px;
+            width: auto;
+        }
+
+        .logo-right-bottom {
+            height: 50px;
+            width: auto;
+        }
+
+        .shop-info {
+            text-align: center;
+            flex: 1;
+        }
+
+        .shop-info h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .shop-info p {
+            margin: 5px 0 0;
+            font-size: 12px;
+        }
+
+        /* Customer info section */
+        .customer-info {
+            margin-top: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+            align-items: flex-end;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: baseline;
+            margin-right: 30px;
+        }
+
+        .info-item.grid-span-3 {
+            flex: 1;
+            margin-right: 0;
+        }
+
+        .info-label {
+            font-size: 11px;
+            font-weight: normal;
+            margin: 0;
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+
+        .info-value {
+            border-bottom: 1px solid #999;
+            min-height: 18px;
+            padding: 2px 0;
+            min-width: 100px;
+            flex: 1;
+        }
+
+        /* Cutting section */
+        .cutting-section {
+            margin-top: 10px;
+            display: flex;
+            background-color: #f0f0f0;
+            padding: 5px 15px;
+            align-items: center;
+            width: 100%;
+            justify-content: space-evenly;
+        }
+
+        .cutting-item {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .cutting-item label {
+            margin-right: 8px;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .cutting-value {
+            border-bottom: 1px solid #999;
+            min-width: 80px;
+            min-height: 18px;
+            padding: 2px 5px;
+        }
+
+        .garment-type {
+            font-size: 14px;
+            font-weight: bold;
+            white-space: nowrap;
+            flex: 1;
+            text-align: right;
+        }
+
+        /* Measurement sections */
+        .measurement-section {
+            margin-top: 15px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* Qameez two-column layout */
+        .qameez-two-column-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-column-gap: 40px;
+            grid-row-gap: 8px;
+        }
+
+        .qameez-column-1,
+        .qameez-column-2 {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .qameez-measure-item {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .qameez-label {
+            font-weight: normal;
+            white-space: nowrap;
+            min-width: 60px;
+        }
+
+        .qameez-value {
+            border-bottom: 1px solid #999;
+            min-width: 80px;
+            min-height: 16px;
+            flex: 1;
+            padding: 1px 2px;
+        }
+
+        .qameez-style {
+            font-size: 10px;
+            color: #666;
+            white-space: nowrap;
+            margin-left: 4px;
+        }
+
+        /* Regular measurements grid for Shalwar */
+        .measurements-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-column-gap: 30px;
+            grid-row-gap: 10px;
+        }
+
+        .measure-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .measure-label {
+            margin-right: 10px;
+        }
+
+        .measure-value {
+            border-bottom: 1px solid #999;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        /* Separator line */
+        .separator {
+            height: 1px;
+            background-color: #000;
+            margin: 15px 0;
+        }
+
+        /* Extra demand section */
+        .extra-demand {
+            margin-top: 15px;
+        }
+
+        .extra-demand-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .extra-demand-value {
+            border-bottom: 1px solid #999;
+            padding: 5px 0;
+            min-height: 20px;
+        }
+
+        /* Hide empty fields in print */
+        .print-field.empty {
+            display: none !important;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* No print styles for standalone print form */
+        .no-print {
+            display: none !important;
+        }
+
+        /* Print button styling */
+        .print-controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .print-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .print-btn:hover {
+            background: #0056b3;
+        }
+
+        /* Auto print when page loads */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .print-controls {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Print Controls -->
+    <div class="print-controls no-print">
+        <button class="print-btn" onclick="window.print()">🖨️ Print</button>
+    </div>    <!-- Print Form Layout -->
+    <div class="print-form">
+        <!-- Print Header with Logos -->
+        <div class="print-header">
+            <img src="../assets/img/logo-pic.png" alt="Noor & Sons Logo" class="logo-left">
+            <div class="shop-info">
+                <h2>Noor & Sons Tailors And Fabrics</h2>
+                <p>We offer you stitching of your choice</p>
+            </div>
+            <div class="logo-right-container">
+                <img src="../assets/img/coat_logo-pic.png" alt="Coat Logo" class="logo-right">
+                <img src="../assets/img/Needle-logo.jpg" alt="Needle Logo" class="logo-right-bottom">
+            </div>
+        </div>
+
+        <!-- Customer Info Section -->
+        <div class="customer-info">
+            <div class="info-row">
+                <div class="info-item">
+                    <label class="info-label">Code Number</label>
+                    <div class="info-value" id="print-code-number"></div>
+                </div>
+                <div class="info-item">
+                    <label class="info-label">Order Date</label>
+                    <div class="info-value" id="print-order-date"></div>
+                </div>
+                <div class="info-item">
+                    <label class="info-label">Return Date</label>
+                    <div class="info-value" id="print-return-date"></div>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-item">
+                    <label class="info-label">Name</label>
+                    <div class="info-value" id="print-name"></div>
+                </div>
+                <div class="info-item">
+                    <label class="info-label">Age</label>
+                    <div class="info-value" id="print-age"></div>
+                </div>
+                <div class="info-item">
+                    <label class="info-label">Cell Number</label>
+                    <div class="info-value" id="print-cell-number"></div>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-item grid-span-3">
+                    <label class="info-label">Address</label>
+                    <div class="info-value" id="print-address"></div>
+                </div>
+            </div>
+        </div>        <!-- Cutting Section -->
+        <div class="cutting-section">
+            <div class="cutting-item">
+                <label>Cutting No:</label>
+                <div class="cutting-value" id="print-cutting-no"></div>
+            </div>
+            <div class="cutting-item">
+                <label>Quantity:</label>
+                <div class="cutting-value" id="print-quantity"></div>
+            </div>
+            <div class="cutting-item">
+                <label>Enter by <span id="print-entered-by">Abubakkar</span></label>
+            </div>
+            <div class="garment-type">شلوار قمیص</div>
+        </div>        <!-- Qameez Section -->
+        <div class="measurement-section" id="print-qameez-section">
+            <div class="section-title">قمیص</div>
+            <div class="qameez-two-column-grid">
+                <!-- Column 1 -->
+                <div class="qameez-column-1">
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">لمبائی</span>
+                        <span class="qameez-value" id="qameez-lambai"></span>
+                        <span class="qameez-style" id="qameez-daman-style"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">آستین</span>
+                        <span class="qameez-value" id="qameez-asteen"></span>
+                        <span class="qameez-style" id="qameez-sleeve-style"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">تیرا</span>
+                        <span class="qameez-value" id="qameez-tera"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label" id="qameez-collar-type-label">بین / کالر</span>
+                        <span class="qameez-value" id="qameez-collar-measurement"></span>
+                        <span class="qameez-style" id="qameez-collar-style"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">چھاتی</span>
+                        <span class="qameez-value" id="qameez-chati"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">کمر</span>
+                        <span class="qameez-value" id="qameez-kamar"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">گیرہ</span>
+                        <span class="qameez-value" id="qameez-gira"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">موڑہ</span>
+                        <span class="qameez-value" id="qameez-moza"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">شولڈر</span>
+                        <span class="qameez-value" id="qameez-shoulder"></span>
+                    </div>
+                </div>
+                
+                <!-- Column 2 -->
+                <div class="qameez-column-2">
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">پاکٹ</span>
+                        <span class="qameez-value" id="qameez-pocket-type"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">فرنٹ پاکٹ</span>
+                        <span class="qameez-style" id="qameez-front-pocket-style"></span>
+                        <span class="qameez-value" id="qameez-front-pocket-size"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">سلائی</span>
+                        <span class="qameez-value" id="qameez-silai"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">رنگ بٹن</span>
+                        <span class="qameez-style" id="qameez-button-color"></span>
+                        <span class="qameez-value" id="qameez-button-size"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label" id="qameez-cuff-plate-label">پلیٹ والا کف</span>
+                        <span class="qameez-style" id="qameez-cuff-style"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">کف کاج</span>
+                        <span class="qameez-value" id="qameez-cuff-kaj"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">چک پٹی</span>
+                        <span class="qameez-value" id="qameez-chak-patti"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">چک پٹی کاج</span>
+                        <span class="qameez-value" id="qameez-chak-patti-kaj"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Separator Line -->
+        <div class="separator"></div>
+
+        <!-- Shalwar Section -->
+        <div class="measurement-section" id="print-shalwar-section">
+            <div class="section-title">شلوار</div>
+            <div class="measurements-grid" id="print-shalwar-measurements">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>        <!-- Extra Demand Section -->
+        <div class="extra-demand" id="print-extra-demand-section">
+            <div class="extra-demand-label">ایکسٹرا ڈیمانڈ</div>
+            <div class="extra-demand-value" id="print-extra-demand"></div>
+        </div>
+    </div>
+
+    <!-- Print Controls (hidden during printing) -->
+    <div class="print-controls" id="print-controls">
+        <button onclick="manualPrint()" class="btn-print">🖨️ Print Again</button>
+        <button onclick="window.close()" class="btn-close">✖ Close</button>
+    </div><script>
+        // Print form functionality with comprehensive error handling
+        function loadCustomerDataFromURL() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const customerId = urlParams.get('id');
+
+                if (customerId) {
+                    const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+                    const customer = customers.find(c => (c.id || c._id) === customerId);
+
+                    if (customer) {
+                        populatePrintForm(customer);
+                        // Auto print after a delay to ensure everything loads
+                        setTimeout(() => {
+                            window.print();
+                        }, 1000);
+                    } else {
+                        console.error('Customer not found with ID:', customerId);
+                        alert('Customer data not found. Please check the customer ID.');
+                    }
+                } else {
+                    console.error('No customer ID provided in URL');
+                    alert('No customer ID provided in URL.');
+                }
+            } catch (error) {
+                console.error('Error loading customer data:', error);
+                alert('Error loading customer data: ' + error.message);
+            }
+        }
+
+        function populatePrintForm(customer) {
+            try {
+                // Helper function to format date
+                const formatPrintDate = (dateStr) => {
+                    if (!dateStr) return '';
+                    try {
+                        const date = new Date(dateStr);
+                        return date.toLocaleDateString();
+                    } catch (e) {
+                        return dateStr;
+                    }
+                };
+
+                // Helper function to check if a field has a value
+                const hasValue = (value) => {
+                    return value && value.toString().trim() !== '';
+                };
+
+                // Helper function to safely set text content
+                const safeSetTextContent = (id, value) => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.textContent = value || '';
+                    } else {
+                        console.warn(`Element with ID '${id}' not found in print form`);
+                    }
+                };
+
+                // Populate customer info with error handling
+                safeSetTextContent('print-code-number', customer.codeNumber);
+                safeSetTextContent('print-order-date', formatPrintDate(customer.orderDate));
+                safeSetTextContent('print-return-date', formatPrintDate(customer.returnDate));
+                safeSetTextContent('print-name', customer.name);
+                safeSetTextContent('print-age', customer.age);
+                safeSetTextContent('print-cell-number', customer.cellNumber);
+                safeSetTextContent('print-address', customer.address);
+                safeSetTextContent('print-cutting-no', customer.cuttingNo);
+                safeSetTextContent('print-quantity', customer.quantity);
+                safeSetTextContent('print-entered-by', customer.enteredBy || 'Abubakkar');
+
+                // Define measurements including collar_measurement
+                const qameezMeasurements = [
+                    { field: 'lambai', label: 'لمبائی' },
+                    { field: 'asteen', label: 'آستین' },
+                    { field: 'tera', label: 'تیرا' },
+                    { field: 'collar_measurement', label: 'بین / کالر ماپ' },
+                    { field: 'chati', label: 'چھاتی' },
+                    { field: 'kamar', label: 'کمر' },
+                    { field: 'gira', label: 'گیرہ' },
+                    { field: 'moza', label: 'موڑہ' },
+                    { field: 'gol_asteen', label: 'گول آستین' },
+                    { field: 'collar_type', label: 'کالر ٹائپ' },
+                    { field: 'collar_style', label: 'کالر اسٹائل' },
+                    { field: 'front_pocket_size', label: 'فرنٹ پاکٹ سائز' },
+                    { field: 'double_side_pocket', label: 'ڈبل سائیڈ پاکٹ' },
+                    { field: 'single_pocket', label: 'سنگل پاکٹ' },
+                    { field: 'front_pocket', label: 'فرنٹ پاکٹ' },
+                    { field: 'silai', label: 'سلائی' },
+                    { field: 'button_color', label: 'بٹن کا رنگ' },
+                    { field: 'button', label: 'بٹن' },
+                    { field: 'button_size', label: 'بٹن سائز' },
+                    { field: 'cuff_plate', label: 'کف پلیٹ' },
+                    { field: 'cuff_style', label: 'کف اسٹائل' },
+                    { field: 'cuff_kaj', label: 'کف کاج' },
+                    { field: 'chak_patti', label: 'چک پٹی' },
+                    { field: 'chak_patti_kaj', label: 'چک پٹی کاج' },
+                    { field: 'daman', label: 'دامن' },
+                    { field: 'shoulder', label: 'شولڈر' },
+                    { field: 'shoulder_style', label: 'شولڈر اسٹائل' },
+                    { field: 'sleeve_type', label: 'آستین کی قسم' }
+                ];
+
+                const shalwarMeasurements = [
+                    { field: 'shalwar_lambai', label: 'شلوار لمبائی' },
+                    { field: 'shalwar', label: 'سانجھا' },
+                    { field: 'pacha', label: 'پانچہ' },
+                    { field: 'lib', label: 'ہپ' },
+                    { field: 'ander', label: 'اندر' },
+                    { field: 'shalwar_pocket', label: 'شلوار پاکٹ' },
+                    { field: 'shalwar_type', label: 'شلوار قسم' },
+                    { field: 'patti', label: 'پٹی' }
+                ];
+
+                // Populate measurements
+                const measurements = customer.measurements || {};
+
+                // Populate individual qameez fields in the two-column layout with error handling
+                safeSetTextContent('qameez-lambai', measurements.lambai);
+                safeSetTextContent('qameez-asteen', measurements.asteen);
+                safeSetTextContent('qameez-tera', measurements.tera);
+                safeSetTextContent('qameez-collar-measurement', measurements.collar_measurement);
+                safeSetTextContent('qameez-chati', measurements.chati);
+                safeSetTextContent('qameez-kamar', measurements.kamar);
+                safeSetTextContent('qameez-gira', measurements.gira);
+                safeSetTextContent('qameez-moza', measurements.moza);
+                safeSetTextContent('qameez-shoulder', measurements.shoulder);
+                
+                // Populate style fields with error handling
+                safeSetTextContent('qameez-daman-style', measurements.daman);
+                safeSetTextContent('qameez-sleeve-style', measurements.sleeve_type);
+                safeSetTextContent('qameez-collar-style', measurements.collar_style);
+                safeSetTextContent('qameez-pocket-type', measurements.single_pocket || measurements.double_side_pocket);
+                safeSetTextContent('qameez-front-pocket-style', measurements.front_pocket);
+                safeSetTextContent('qameez-front-pocket-size', measurements.front_pocket_size);
+                safeSetTextContent('qameez-silai', measurements.silai);
+                safeSetTextContent('qameez-button-color', measurements.button_color);
+                safeSetTextContent('qameez-button-size', measurements.button_size);
+                safeSetTextContent('qameez-cuff-style', measurements.cuff_style);
+                safeSetTextContent('qameez-cuff-kaj', measurements.cuff_kaj);
+                safeSetTextContent('qameez-chak-patti', measurements.chak_patti);
+                safeSetTextContent('qameez-chak-patti-kaj', measurements.chak_patti_kaj);
+
+                // Generate Qameez measurements HTML (for dynamic container if needed)
+                // Note: We're now using static two-column layout, so this container might not exist
+                const qameezContainer = document.getElementById('print-qameez-measurements');
+                if (qameezContainer) {
+                    qameezContainer.innerHTML = '';
+                    
+                    qameezMeasurements.forEach(item => {
+                        if (hasValue(measurements[item.field])) {
+                            const measureItem = document.createElement('div');
+                            measureItem.className = 'measure-item';
+                            measureItem.innerHTML = `
+                                <div class="measure-label">${item.label}</div>
+                                <div class="measure-value">${measurements[item.field]}</div>
+                            `;
+                            qameezContainer.appendChild(measureItem);
+                        }
+                    });
+                }
+
+                // Generate Shalwar measurements HTML with error handling
+                const shalwarContainer = document.getElementById('print-shalwar-measurements');
+                if (shalwarContainer) {
+                    shalwarContainer.innerHTML = '';
+
+                    shalwarMeasurements.forEach(item => {
+                        if (hasValue(measurements[item.field])) {
+                            const measureItem = document.createElement('div');
+                            measureItem.className = 'measure-item';
+                            measureItem.innerHTML = `
+                                <div class="measure-label">${item.label}</div>
+                                <div class="measure-value">${measurements[item.field]}</div>
+                            `;
+                            shalwarContainer.appendChild(measureItem);
+                        }
+                    });
+                }
+
+                // Hide sections if no measurements (with error handling)
+                const qameezSection = document.getElementById('print-qameez-section');
+                // Check if qameez has any data by looking at the main fields
+                const hasQameezData = measurements.lambai || measurements.asteen || measurements.chati || measurements.collar_measurement;
+                if (qameezSection) {
+                    if (!hasQameezData && (!qameezContainer || qameezContainer.children.length === 0)) {
+                        qameezSection.classList.add('hidden');
+                    } else {
+                        qameezSection.classList.remove('hidden');
+                    }
+                }
+
+                const shalwarSection = document.getElementById('print-shalwar-section');
+                if (shalwarSection && shalwarContainer) {
+                    if (shalwarContainer.children.length === 0) {
+                        shalwarSection.classList.add('hidden');
+                    } else {
+                        shalwarSection.classList.remove('hidden');
+                    }
+                }
+
+                // Handle extra demand with error handling
+                const extraDemandValue = measurements.extra_demand || '';
+                safeSetTextContent('print-extra-demand', extraDemandValue);
+                const extraDemandSection = document.getElementById('print-extra-demand-section');
+                if (extraDemandSection) {
+                    if (extraDemandValue) {
+                        extraDemandSection.classList.remove('hidden');
+                    } else {
+                        extraDemandSection.classList.add('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error('Error populating print form:', error);
+                alert('Error loading print data: ' + error.message);
+            }
+        }
+
+        // Manual print function for backup
+        function manualPrint() {
+            try {
+                window.print();
+            } catch (error) {
+                console.error('Print error:', error);
+                alert('Print failed: ' + error.message);
+            }
+        }
+
+        // Load customer data when page loads
+        window.addEventListener('load', loadCustomerDataFromURL);
+    </script>
+</body>
+
+</html>
