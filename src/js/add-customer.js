@@ -69,18 +69,16 @@ function setupCollarTypeDropdown() {
         }
 
         collarTypeDropdown.addEventListener('change', function () {
-            console.log('Collar type changed to:', this.value);
-
-            // Update collar style options based on collar type
+            console.log('Collar type changed to:', this.value);            // Update collar style options based on collar type
             if (this.value === 'کالر') {
                 console.log('Showing collar style dropdown');
                 // Set up collar style options
                 if (collarStyleDropdown) {
                     collarStyleDropdown.innerHTML = `
                         <option value="">منتخب کریں</option>
-                        <option value="انگلش">انگلش</option>
-                        <option value="فرنچ">فرنچ</option>
-                        <option value="نوک والا">نوک والا</option>
+                        <option value="کالر انگلش">کالر انگلش</option>
+                        <option value="کالر فرنچ">کالر فرنچ</option>
+                        <option value="کالر نوک والا">کالر نوک والا</option>
                     `;
 
                     // Update label
@@ -93,14 +91,31 @@ function setupCollarTypeDropdown() {
                 if (collarStyleDropdown) {
                     collarStyleDropdown.innerHTML = `
                         <option value="">منتخب کریں</option>
-                        <option value="گول">گول</option>
-                        <option value="کٹ">کٹ</option>
-                        <option value="چورس">چورس</option>
+                        <option value="بین گول تیار">بین گول تیار</option>
+                        <option value="بین کٹ تیار">بین کٹ تیار</option>
+                        <option value="بین چورس تیار">بین چورس تیار</option>
                     `;
 
                     // Update label
                     const label = document.getElementById('collar-ben-label');
                     if (label) label.textContent = 'بین اسٹائل';
+                }
+
+                // Show ben half/full dropdown
+                const benHalfFullOptions = document.getElementById('ben-half-full-options');
+                if (benHalfFullOptions) {
+                    benHalfFullOptions.classList.remove('hidden');
+                }
+            } else {
+                // Hide ben half/full dropdown for other selections
+                const benHalfFullOptions = document.getElementById('ben-half-full-options');
+                if (benHalfFullOptions) {
+                    benHalfFullOptions.classList.add('hidden');
+                    // Reset the dropdown value
+                    const benHalfFullDropdown = document.getElementById('ben_half_full');
+                    if (benHalfFullDropdown) {
+                        benHalfFullDropdown.value = '';
+                    }
                 }
             }
         });
@@ -131,9 +146,10 @@ function saveCustomer() {
             measurements: {
                 lambai: document.getElementById('lambai') ? document.getElementById('lambai').value : '',
                 asteen: document.getElementById('asteen') ? document.getElementById('asteen').value : '',
-                tera: document.getElementById('tera') ? document.getElementById('tera').value : '', collar_type: document.getElementById('collar_type') ? document.getElementById('collar_type').value : '',
-                collar_measurement: document.getElementById('collar_measurement') ? document.getElementById('collar_measurement').value : '',
+                tera: document.getElementById('tera') ? document.getElementById('tera').value : '', collar_type: document.getElementById('collar_type') ? document.getElementById('collar_type').value : '', collar_measurement: document.getElementById('collar_measurement') ? document.getElementById('collar_measurement').value : '',
+                collar_ben_width_churai: document.getElementById('collar_ben_width_churai') ? document.getElementById('collar_ben_width_churai').value : '',
                 collar_style: document.getElementById('collar_style') ? document.getElementById('collar_style').value : '',
+                ben_half_full: document.getElementById('ben_half_full') ? document.getElementById('ben_half_full').value : '',
                 chati: document.getElementById('chati') ? document.getElementById('chati').value : '',
                 kamar: document.getElementById('kamar') ? document.getElementById('kamar').value : '',
                 gira: document.getElementById('gira') ? document.getElementById('gira').value : '',
@@ -162,8 +178,8 @@ function saveCustomer() {
                 pacha: document.getElementById('pacha') ? document.getElementById('pacha').value : '',
                 lib: document.getElementById('lib') ? document.getElementById('lib').value : '',
                 ander: document.getElementById('ander') ? document.getElementById('ander').value : '',
-                shalwar_pocket: document.getElementById('shalwar_pocket') ? document.getElementById('shalwar_pocket').value : '',
-                patti: document.getElementById('patti') ? document.getElementById('patti').value : ''
+                shalwar_pocket: document.getElementById('shalwar_pocket') ? document.getElementById('shalwar_pocket').value : '', patti: document.getElementById('patti') ? document.getElementById('patti').value : '',
+                patti_churai: document.getElementById('patti_churai') ? document.getElementById('patti_churai').value : ''
             }
         };
         console.log('Customer data prepared:', customerData);

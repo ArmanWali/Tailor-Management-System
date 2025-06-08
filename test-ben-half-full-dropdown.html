@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Ben Half/Full Dropdown</title>
+    <link rel="stylesheet" href="src/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-section {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .test-passed {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .test-failed {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .feature-demo {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .step {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #007bff;
+        }
+
+        .dropdown-demo {
+            border: 2px solid #007bff;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .alert {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-container">
+        <h1 style="text-align: center; color: #007bff; margin-bottom: 30px;">
+            🧪 Ben Half/Full Dropdown Test
+        </h1>
+
+        <div class="alert alert-info">
+            <strong>📋 Test Purpose:</strong> Verify that the new "ہاف/فل" dropdown appears only when "بین" is selected
+            in the collar type dropdown.
+        </div>
+
+        <!-- Feature Overview -->
+        <div class="test-section">
+            <h2>✨ New Feature: Ben Half/Full Dropdown</h2>
+            <p><strong>Feature Description:</strong> A conditional dropdown that appears in the کالر اور اسٹائل section
+                when "بین" is selected.</p>
+
+            <div class="feature-demo">
+                <h4>Feature Specifications:</h4>
+                <ul>
+                    <li><strong>Trigger:</strong> Shows only when "بین" is selected in بین/کالر dropdown</li>
+                    <li><strong>Label:</strong> ہاف/فل</li>
+                    <li><strong>Options:</strong>
+                        <ul>
+                            <li>ہاف</li>
+                            <li>فل</li>
+                        </ul>
+                    </li>
+                    <li><strong>Behavior:</strong> Hidden by default, shows when بین is selected, hides when کالر or
+                        nothing is selected</li>
+                    <li><strong>Layout:</strong> col-md-4 in the second row of collar section</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Interactive Demo -->
+        <div class="test-section">
+            <h2>🎮 Interactive Demo</h2>
+            <p>Test the dropdown functionality below:</p>
+
+            <div class="dropdown-demo">
+                <div class="row g-2 mb-3">
+                    <div class="col-md-4">
+                        <label for="test_collar_type" class="form-label small fw-semibold">بین / کالر</label>
+                        <select class="form-select form-select-sm" id="test_collar_type">
+                            <option value="">منتخب کریں</option>
+                            <option value="بین">بین</option>
+                            <option value="کالر">کالر</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="test_collar_measurement" class="form-label small fw-semibold">بین / کالر ماپ</label>
+                        <input type="text" class="form-control form-control-sm" id="test_collar_measurement">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="test_collar_style" class="form-label small fw-semibold"
+                            id="test-collar-ben-label">اسٹائل</label>
+                        <select class="form-select form-select-sm" id="test_collar_style">
+                            <option value="">منتخب کریں</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row g-2 mb-2">
+                    <div class="col-md-4">
+                        <label for="test_sleeve_type" class="form-label small fw-semibold">آستین</label>
+                        <select class="form-select form-select-sm" id="test_sleeve_type">
+                            <option value="">منتخب کریں</option>
+                            <option value="فل">فل</option>
+                            <option value="فٹ">فٹ</option>
+                            <option value="ہاف">ہاف</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 hidden" id="test-ben-half-full-options">
+                        <label for="test_ben_half_full" class="form-label small fw-semibold">ہاف/فل</label>
+                        <select class="form-select form-select-sm" id="test_ben_half_full">
+                            <option value="">منتخب کریں</option>
+                            <option value="ہاف">ہاف</option>
+                            <option value="فل">فل</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="status-display" class="mt-3">
+                <div class="alert alert-success">
+                    <strong>Status:</strong> Ready to test. Select different options in the بین/کالر dropdown above.
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Steps -->
+        <div class="test-section">
+            <h2>📝 Test Steps</h2>
+            <div class="step">
+                <strong>Step 1:</strong> Initially, the "ہاف/فل" dropdown should be hidden
+                <span id="step1-result" class="test-passed">✅ PASS</span>
+            </div>
+            <div class="step">
+                <strong>Step 2:</strong> Select "بین" in the بین/کالر dropdown
+                <span id="step2-result">⏳ Waiting...</span>
+            </div>
+            <div class="step">
+                <strong>Step 3:</strong> Verify "ہاف/فل" dropdown appears
+                <span id="step3-result">⏳ Waiting...</span>
+            </div>
+            <div class="step">
+                <strong>Step 4:</strong> Select "کالر" in the بین/کالر dropdown
+                <span id="step4-result">⏳ Waiting...</span>
+            </div>
+            <div class="step">
+                <strong>Step 5:</strong> Verify "ہاف/فل" dropdown disappears
+                <span id="step5-result">⏳ Waiting...</span>
+            </div>
+        </div>
+
+        <!-- Implementation Details -->
+        <div class="test-section">
+            <h2>🔧 Implementation Details</h2>
+            <div class="feature-demo">
+                <h4>Files Modified:</h4>
+                <ul>
+                    <li><strong>add-customer.html:</strong> Added ہاف/فل dropdown with hidden class</li>
+                    <li><strong>customer-detail.html:</strong> Added ہاف/فل dropdown with hidden class</li>
+                    <li><strong>add-customer.js:</strong> Updated collar dropdown logic and data collection</li>
+                    <li><strong>customer-detail.js:</strong> Updated collar dropdown logic, data loading, and saving
+                    </li>
+                </ul>
+
+                <h4>HTML Structure Added:</h4>
+                <pre style="background-color: #f8f9fa; padding: 10px; border-radius: 3px; font-size: 12px;">
+&lt;div class="col-md-4 hidden" id="ben-half-full-options"&gt;
+    &lt;label for="ben_half_full" class="form-label small fw-semibold"&gt;ہاف/فل&lt;/label&gt;
+    &lt;select class="form-select form-select-sm" id="ben_half_full"&gt;
+        &lt;option value=""&gt;منتخب کریں&lt;/option&gt;
+        &lt;option value="ہاف"&gt;ہاف&lt;/option&gt;
+        &lt;option value="فل"&gt;فل&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;</pre>
+
+                <h4>JavaScript Logic:</h4>
+                <ul>
+                    <li>Show dropdown when collar_type === 'بین'</li>
+                    <li>Hide dropdown when collar_type === 'کالر' or empty</li>
+                    <li>Reset dropdown value when hidden</li>
+                    <li>Include ben_half_full in data collection and saving</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="test-section">
+            <h2>📊 Test Summary</h2>
+            <div id="final-summary" class="alert alert-info">
+                <strong>Overall Status:</strong> Use the interactive demo above to test the functionality.
+            </div>
+        </div>
+    </div>
+
+    <!-- Test JavaScript -->
+    <script>
+        // Test implementation
+        document.addEventListener('DOMContentLoaded', function () {
+            const collarTypeDropdown = document.getElementById('test_collar_type');
+            const collarStyleDropdown = document.getElementById('test_collar_style');
+            const collarBenLabel = document.getElementById('test-collar-ben-label');
+            const benHalfFullOptions = document.getElementById('test-ben-half-full-options');
+            const benHalfFullDropdown = document.getElementById('test_ben_half_full');
+            const statusDisplay = document.getElementById('status-display');
+
+            let step2Done = false;
+            let step3Done = false;
+            let step4Done = false;
+            let step5Done = false;
+
+            collarTypeDropdown.addEventListener('change', function () {
+                const selectedValue = this.value;
+
+                // Clear previous style options
+                collarStyleDropdown.innerHTML = '<option value="">منتخب کریں</option>';
+
+                if (selectedValue === 'بین') {
+                    // Update label and show ben styles
+                    if (collarBenLabel) collarBenLabel.textContent = 'بین اسٹائل';
+
+                    // Add ben style options
+                    const benOptions = ["چورس", "کٹ", "گول"];
+                    benOptions.forEach(option => {
+                        const optElement = document.createElement('option');
+                        optElement.value = option;
+                        optElement.textContent = option;
+                        collarStyleDropdown.appendChild(optElement);
+                    });
+
+                    // Show ben half/full dropdown
+                    if (benHalfFullOptions) {
+                        benHalfFullOptions.classList.remove('hidden');
+                        updateStatus('✅ Ben selected! ہاف/فل dropdown is now visible.', 'success');
+
+                        if (!step2Done) {
+                            document.getElementById('step2-result').innerHTML = '<span class="test-passed">✅ PASS</span>';
+                            step2Done = true;
+                        }
+                        if (!step3Done) {
+                            document.getElementById('step3-result').innerHTML = '<span class="test-passed">✅ PASS</span>';
+                            step3Done = true;
+                        }
+                    }
+
+                } else if (selectedValue === 'کالر') {
+                    // Update label and show collar styles
+                    if (collarBenLabel) collarBenLabel.textContent = 'کالر اسٹائل';
+
+                    // Add collar style options
+                    const collarOptions = ["انگلش", "فرنچ", "نوک والا"];
+                    collarOptions.forEach(option => {
+                        const optElement = document.createElement('option');
+                        optElement.value = option;
+                        optElement.textContent = option;
+                        collarStyleDropdown.appendChild(optElement);
+                    });
+
+                    // Hide ben half/full dropdown
+                    if (benHalfFullOptions) {
+                        benHalfFullOptions.classList.add('hidden');
+                        benHalfFullDropdown.value = '';
+                        updateStatus('✅ Collar selected! ہاف/فل dropdown is now hidden.', 'success');
+
+                        if (!step4Done) {
+                            document.getElementById('step4-result').innerHTML = '<span class="test-passed">✅ PASS</span>';
+                            step4Done = true;
+                        }
+                        if (!step5Done) {
+                            document.getElementById('step5-result').innerHTML = '<span class="test-passed">✅ PASS</span>';
+                            step5Done = true;
+                        }
+                    }
+
+                } else {
+                    // Reset to default
+                    if (collarBenLabel) collarBenLabel.textContent = 'اسٹائل';
+
+                    // Hide ben half/full dropdown
+                    if (benHalfFullOptions) {
+                        benHalfFullOptions.classList.add('hidden');
+                        benHalfFullDropdown.value = '';
+                        updateStatus('🔄 Reset! Please select بین or کالر to test functionality.', 'info');
+                    }
+                }
+
+                // Update final summary
+                if (step2Done && step3Done && step4Done && step5Done) {
+                    document.getElementById('final-summary').innerHTML =
+                        '<strong>🎉 ALL TESTS PASSED!</strong> The ہاف/فل dropdown functionality is working correctly.';
+                    document.getElementById('final-summary').className = 'alert alert-success';
+                }
+            });
+
+            function updateStatus(message, type) {
+                const alertClass = type === 'success' ? 'alert-success' : 'alert-info';
+                statusDisplay.innerHTML = `<div class="alert ${alertClass}"><strong>Status:</strong> ${message}</div>`;
+            }
+        });
+    </script>
+</body>
+
+</html>

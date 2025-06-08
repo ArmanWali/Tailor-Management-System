@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shalwar Two-Column Layout Test</title>
+    <link rel="stylesheet" href="../css/print-form.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .test-title {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-container">
+        <h2 class="test-title">Shalwar Two-Column Layout Test</h2>
+
+        <!-- Shalwar Section with Two-Column Layout -->
+        <div class="measurement-section" id="test-shalwar-section">
+            <div class="shalwar-two-column-grid">
+                <!-- Column 1 -->
+                <div class="shalwar-column-1">
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">شلوار لمبائی</span>
+                        <span class="shalwar-value">42</span>
+                    </div>
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">پانچہ</span>
+                        <span class="shalwar-value">24</span>
+                    </div>
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">ہپ</span>
+                        <span class="shalwar-value">46</span>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="shalwar-column-2">
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">انسایڈ</span>
+                        <span class="shalwar-value">10</span>
+                    </div>
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">شلوار پاکٹ</span>
+                        <span class="shalwar-value">ہاں</span>
+                    </div>
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">شلوار قسم</span>
+                        <span class="shalwar-value">ٹائی ٹنگ</span>
+                    </div>
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">پٹی</span>
+                        <span class="shalwar-value">ہاں</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h3>Print Preview Test</h3>
+        <p>Use Ctrl+P to test the print layout with the new shalwar two-column design.</p>
+        <button onclick="window.print()"
+            style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">🖨️
+            Print Test</button>
+    </div>
+
+    <script>
+        console.log('Shalwar two-column layout test loaded successfully');
+
+        // Test the CSS classes are applied correctly
+        document.addEventListener('DOMContentLoaded', function () {
+            const grid = document.querySelector('.shalwar-two-column-grid');
+            const columns = document.querySelectorAll('.shalwar-column-1, .shalwar-column-2');
+            const items = document.querySelectorAll('.shalwar-measure-item');
+
+            console.log('Grid element found:', !!grid);
+            console.log('Number of columns:', columns.length);
+            console.log('Number of measurement items:', items.length);
+
+            if (grid && columns.length === 2 && items.length === 8) {
+                console.log('✅ Shalwar two-column layout structure is correct');
+            } else {
+                console.log('❌ Layout structure issues detected');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -33,12 +33,11 @@ function initializeElements() {
         'codeNumber', 'name', 'cellNumber', 'age', 'address', 'quantity',
         'cuttingNo', 'enteredBy', 'orderDate', 'returnDate',
         'lambai', 'asteen', 'tera', 'chati', 'kamar', 'gira', 'moza', 'gol_asteen',
-        'collar_type', 'collar_measurement', 'collar_style', 'front_pocket_size', 'double_side_pocket',
+        'collar_type', 'collar_measurement', 'collar_ben_width_churai', 'collar_style', 'ben_half_full', 'front_pocket_size', 'double_side_pocket',
         'single_pocket', 'front_pocket', 'silai', 'button_color', 'button',
-        'button_size', 'cuff_plate', 'cuff_style', 'cuff_kaj', 'chak_patti',
-        'chak_patti_kaj', 'daman', 'shoulder_style', 'sleeve_type', 'extra_demand',
+        'button_size', 'cuff_plate', 'cuff_style', 'cuff_kaj', 'chak_patti', 'chak_patti_kaj', 'daman', 'shoulder_style', 'sleeve_type', 'extra_demand',
         'shalwar_lambai', 'shalwar_type', 'shalwar', 'pacha', 'lib', 'ander',
-        'shalwar_pocket', 'patti'
+        'shalwar_pocket', 'patti', 'patti_churai'
     ];
 
     elementIds.forEach(id => {
@@ -113,28 +112,54 @@ function setupCollarDropdown() {
                 if (collarBenOptions) collarBenOptions.classList.remove('hidden');
 
                 // Add options for ben
-                const benOptions = ["چورس", "کٹ", "گول"];
+                const benOptions = ["بین چورس تیار", "بین کٹ تیار", "بین گول تیار"];
                 benOptions.forEach(option => {
                     const optElement = document.createElement('option');
                     optElement.value = option;
                     optElement.textContent = option;
                     collarStyleDropdown.appendChild(optElement);
                 });
+
+                // Show ben half/full dropdown
+                const benHalfFullOptions = document.getElementById('ben-half-full-options');
+                if (benHalfFullOptions) {
+                    benHalfFullOptions.classList.remove('hidden');
+                }
             } else if (selectedValue === 'کالر') {
                 if (collarBenLabel) collarBenLabel.textContent = 'کالر اسٹائل';
                 if (collarBenOptions) collarBenOptions.classList.remove('hidden');
 
                 // Add options for collar
-                const collarOptions = ["انگلش", "فرنچ", "نوک والا"];
+                const collarOptions = ["کالر انگلش", "کالر فرنچ", "کالر نوک والا"];
                 collarOptions.forEach(option => {
                     const optElement = document.createElement('option');
                     optElement.value = option;
                     optElement.textContent = option;
                     collarStyleDropdown.appendChild(optElement);
                 });
+
+                // Hide ben half/full dropdown for collar
+                const benHalfFullOptions = document.getElementById('ben-half-full-options');
+                if (benHalfFullOptions) {
+                    benHalfFullOptions.classList.add('hidden');
+                    // Reset the dropdown value
+                    if (elements.ben_half_full) {
+                        elements.ben_half_full.value = '';
+                    }
+                }
             } else {
                 if (collarBenLabel) collarBenLabel.textContent = 'اسٹائل';
                 if (collarBenOptions) collarBenOptions.classList.add('hidden');
+
+                // Hide ben half/full dropdown for other selections
+                const benHalfFullOptions = document.getElementById('ben-half-full-options');
+                if (benHalfFullOptions) {
+                    benHalfFullOptions.classList.add('hidden');
+                    // Reset the dropdown value
+                    if (elements.ben_half_full) {
+                        elements.ben_half_full.value = '';
+                    }
+                }
             }
         });
     }
@@ -236,10 +261,12 @@ function displayCustomerData(customer) {
             safeSetValue(elements.gol_asteen, m.gol_asteen);            // Collar type and style
             safeSetValue(elements.collar_type, m.collar_type);
             safeSetValue(elements.collar_measurement, m.collar_measurement);
+            safeSetValue(elements.collar_ben_width_churai, m.collar_ben_width_churai);
             if (elements.collar_type) {
                 elements.collar_type.dispatchEvent(new Event('change'));
                 setTimeout(() => {
                     safeSetValue(elements.collar_style, m.collar_style || m.ben_style);
+                    safeSetValue(elements.ben_half_full, m.ben_half_full);
                 }, 100);
             }
 
@@ -271,10 +298,10 @@ function displayCustomerData(customer) {
             safeSetValue(elements.shalwar_type, m.shalwar_type);
             safeSetValue(elements.shalwar, m.shalwar);
             safeSetValue(elements.pacha, m.pacha);
-            safeSetValue(elements.lib, m.lib);
-            safeSetValue(elements.ander, m.ander);
+            safeSetValue(elements.lib, m.lib); safeSetValue(elements.ander, m.ander);
             safeSetValue(elements.shalwar_pocket, m.shalwar_pocket);
             safeSetValue(elements.patti, m.patti);
+            safeSetValue(elements.patti_churai, m.patti_churai);
         }
 
         console.log('Customer data displayed successfully');
@@ -388,11 +415,13 @@ function saveCustomerChanges() {
                 tera: elements.tera.value,
                 chati: elements.chati.value,
                 kamar: elements.kamar.value,
-                gira: elements.gira.value,
-                moza: elements.moza.value, gol_asteen: elements.gol_asteen.value,
+                gira: elements.gira.value, moza: elements.moza.value,
+                gol_asteen: elements.gol_asteen.value,
                 collar_type: elements.collar_type.value,
                 collar_measurement: elements.collar_measurement.value,
+                collar_ben_width_churai: elements.collar_ben_width_churai.value,
                 collar_style: elements.collar_style.value,
+                ben_half_full: elements.ben_half_full.value,
                 front_pocket_size: elements.front_pocket_size.value,
                 double_side_pocket: elements.double_side_pocket.value,
                 single_pocket: elements.single_pocket.value,
@@ -414,10 +443,10 @@ function saveCustomerChanges() {
                 shalwar_type: elements.shalwar_type.value,
                 shalwar: elements.shalwar.value,
                 pacha: elements.pacha.value,
-                lib: elements.lib.value,
-                ander: elements.ander.value,
+                lib: elements.lib.value, ander: elements.ander.value,
                 shalwar_pocket: elements.shalwar_pocket.value,
-                patti: elements.patti.value
+                patti: elements.patti.value,
+                patti_churai: elements.patti_churai.value
             }
         };
 

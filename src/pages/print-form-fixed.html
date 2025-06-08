@@ -477,6 +477,14 @@
                         <span class="qameez-label">چک پٹی کاج</span>
                         <span class="qameez-value" id="qameez-chak-patti-kaj"></span>
                     </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">پٹی</span>
+                        <span class="qameez-value" id="qameez-patti"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">پٹی چوڑائی</span>
+                        <span class="qameez-value" id="qameez-patti-churai"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -593,24 +601,22 @@
                     { field: 'button_size', label: 'بٹن سائز' },
                     { field: 'cuff_plate', label: 'کف پلیٹ' },
                     { field: 'cuff_style', label: 'کف اسٹائل' },
-                    { field: 'cuff_kaj', label: 'کف کاج' },
-                    { field: 'chak_patti', label: 'چک پٹی' },
+                    { field: 'cuff_kaj', label: 'کف کاج' }, { field: 'chak_patti', label: 'چک پٹی' },
                     { field: 'chak_patti_kaj', label: 'چک پٹی کاج' },
                     { field: 'daman', label: 'دامن' },
                     { field: 'shoulder', label: 'شولڈر' },
                     { field: 'shoulder_style', label: 'شولڈر اسٹائل' },
-                    { field: 'sleeve_type', label: 'آستین کی قسم' }
+                    { field: 'sleeve_type', label: 'آستین کی قسم' },
+                    { field: 'patti', label: 'پٹی' },
+                    { field: 'patti_churai', label: 'پٹی چوڑائی' }
                 ];
 
-                const shalwarMeasurements = [
-                    { field: 'shalwar_lambai', label: 'شلوار لمبائی' },
-                    { field: 'shalwar', label: 'سانجھا' },
-                    { field: 'pacha', label: 'پانچہ' },
-                    { field: 'lib', label: 'ہپ' },
-                    { field: 'ander', label: 'اندر' },
-                    { field: 'shalwar_pocket', label: 'شلوار پاکٹ' },
-                    { field: 'shalwar_type', label: 'شلوار قسم' },
-                    { field: 'patti', label: 'پٹی' }
+                const shalwarMeasurements = [{ field: 'shalwar_lambai', label: 'شلوار لمبائی' },
+                { field: 'pacha', label: 'پانچہ' },
+                { field: 'lib', label: 'ہپ' },
+                { field: 'ander', label: 'انسایڈ' },
+                { field: 'shalwar_pocket', label: 'شلوار پاکٹ' },
+                { field: 'shalwar_type', label: 'شلوار قسم' }
                 ];
 
                 // Populate measurements
@@ -637,10 +643,10 @@
                 safeSetTextContent('qameez-silai', measurements.silai);
                 safeSetTextContent('qameez-button-color', measurements.button_color);
                 safeSetTextContent('qameez-button-size', measurements.button_size);
-                safeSetTextContent('qameez-cuff-style', measurements.cuff_style);
-                safeSetTextContent('qameez-cuff-kaj', measurements.cuff_kaj);
-                safeSetTextContent('qameez-chak-patti', measurements.chak_patti);
+                safeSetTextContent('qameez-cuff-style', measurements.cuff_style); safeSetTextContent('qameez-cuff-kaj', measurements.cuff_kaj); safeSetTextContent('qameez-chak-patti', measurements.chak_patti);
                 safeSetTextContent('qameez-chak-patti-kaj', measurements.chak_patti_kaj);
+                safeSetTextContent('qameez-patti', measurements.patti);
+                safeSetTextContent('qameez-patti-churai', measurements.patti_churai);
 
                 // Generate Qameez measurements HTML (for dynamic container if needed)
                 // Note: We're now using static two-column layout, so this container might not exist

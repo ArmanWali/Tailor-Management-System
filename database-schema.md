@@ -49,17 +49,18 @@ The `measurements` object contains all measurements for the customer:
 - `shoulder_style`: String - Shoulder style (شولڈر) - Options: نارمل, سیدها, ڈاؤن
 - `sleeve_type`: String - Sleeve type (آستین) - Options: فل, فٹ, بافی
 - `gol_asteen`: String - Round sleeve (گول آستین)
+- `patti`: String - Border style (پٹی) - Options: پلیٹ والی, نوک والی, عام, گول
+- `patti_churai`: String - Border width (پٹی چوڑائی)
 - `extra_demand`: String - Additional requirements (ایکسٹرا ڈیمانڈ)
 
 #### Shalwar (شلوار)
 - `shalwar_lambai`: String - Shalwar length (شلوار لمبائی)
-- `shalwar_type`: String - Shalwar type (عام / ٹروزر / سانجھا) - Options: عام, ٹروزر, سانجھا
+- `shalwar_type`: String - Shalwar type (عام / ٹروزر) - Options: عام, ٹروزر
 - `shalwar`: String - Shalwar measurements (شلوار)
 - `pacha`: String - Bottom width (پاچہ)
 - `lib`: String - Waist measurements (لب)
-- `ander`: String - Inner measurements (اندر)
+- `ander`: String - Inner measurements (انسایڈ)
 - `shalwar_pocket`: String - Shalwar pocket (شلوار پاکٹ) - Yes/No
-- `patti`: String - Border style (پٹی) - Options: پلیٹ والی, نوک والی, عام, گول
 
 ## User Collection
 

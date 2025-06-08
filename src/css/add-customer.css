@@ -1,0 +1,202 @@
+/* Add Customer Page Styles */
+
+/* Container and form styling */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Section headers */
+.section-header {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #ffc107;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-header h4 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Subsection titles */
+.subsection-title {
+    color: #495057;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e9ecef;
+    font-weight: 600;
+    background: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+/* Measurement sections */
+.measurement-section {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Form controls */
+.form-control-sm,
+.form-select-sm {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    transition: all 0.2s ease;
+}
+
+.form-control-sm:focus,
+.form-select-sm:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    outline: 0;
+}
+
+/* Form labels */
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-label.small {
+    font-size: 0.85rem;
+}
+
+.fw-semibold {
+    font-weight: 600;
+}
+
+/* Row and column spacing */
+.row {
+    margin-bottom: 1rem;
+}
+
+.col-md-3,
+.col-md-4,
+.col-md-6,
+.col-12 {
+    padding-bottom: 1rem;
+}
+
+/* Button styling */
+.btn {
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0056b3, #004085);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+
+/* Card styling for form sections */
+.card {
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* Navbar active state */
+.navbar-nav .nav-link.active {
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .measurement-section {
+        padding: 20px 15px;
+    }
+
+    .section-header {
+        padding: 10px 15px;
+    }
+
+    .form-control-sm,
+    .form-select-sm {
+        font-size: 0.85rem;
+    }
+}
+
+/* Hidden elements */
+.hidden-submit {
+    display: none !important;
+}
+
+/* Collar ben options specific styling */
+.collar-ben-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.collar-ben-options .col-md-4 {
+    flex: 0 0 auto;
+    padding-right: 15px;
+}
+
+/* RTL text support for Urdu */
+.rtl-text {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Special styling for measurement inputs */
+.measurement-section .form-control-sm {
+    background-color: #fdfdfd;
+}
+
+.measurement-section .form-control-sm:focus {
+    background-color: #ffffff;
+}
+
+/* Section dividers */
+.section-divider {
+    border: 0;
+    height: 2px;
+    background: linear-gradient(to right, #007bff, transparent);
+    margin: 2rem 0;
+}

@@ -29,8 +29,8 @@ The application includes a comprehensive measurement system for traditional Paki
    - Additional customizations (ایکسٹرا ڈیمانڈ)
 
 2. **Shalwar (شلوار)** section includes:
-   - Length and type (شلوار لمبائی, عام/ٹروزر/سانجھا)
-   - Detailed measurements (پانچہ, ہپ, اندر)
+   - Length and type (شلوار لمبائی, عام/ٹروزر)
+   - Detailed measurements (پانچہ, ہپ, انسایڈ)
    - Pocket and border options (شلوار پاکٹ, پٹی)
 
 3. **Cuff/Plate (کف/پلیٹ)** section includes:

@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/print-form.css">
-    <link rel="stylesheet" href="../css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/bootstrap-i                                            <div class=" col-md-6">
+    <label for="ander" class="form-label small fw-semibold">انسایڈ</label>
+    <input type="text" class="form-control form-control-sm" id="ander" s.css">
     <style>
         .section-header {
             background: linear-gradient(135deg, #007bff, #0056b3);
@@ -437,9 +439,26 @@
                                             <div class="col-md-3">
                                                 <label for="gol_asteen" class="form-label small fw-semibold">گول
                                                     آستین</label>
-                                                <input type="text" class="form-control form-control-sm" id="gol_asteen">
+                                                <select class="form-select form-select-sm" id="gol_asteen">
+                                                    <option value="">منتخب کریں</option>
+                                                    <option value="فل">فل</option>
+                                                    <option value="فٹ">فٹ</option>
+                                                    <option value="ہاف">ہاف</option>
+                                                </select>
                                             </div>
-                                        </div> <!-- Collar & Style Section -->
+                                        </div> <!-- Row 3 with sleeve type -->
+                                        <div class="row g-2 mb-3">
+                                            <div class="col-md-3">
+                                                <label for="sleeve_type"
+                                                    class="form-label small fw-semibold">آستین</label>
+                                                <select class="form-select form-select-sm" id="sleeve_type">
+                                                    <option value="">منتخب کریں</option>
+                                                    <option value="فل">فل</option>
+                                                    <option value="فٹ">فٹ</option>
+                                                    <option value="ہاف">ہاف</option>
+                                                </select>
+                                            </div>
+                                        </div><!-- Collar & Style Section -->
                                         <div class="subsection mb-3">
                                             <h6 class="subsection-title">کالر اور اسٹائل</h6>
                                             <div class="row g-2 mb-2">
@@ -458,57 +477,65 @@
                                                     <input type="text" class="form-control form-control-sm"
                                                         id="collar_measurement">
                                                 </div>
-                                                <div class="col-md-4 collar-ben-options hidden" id="collar-ben-options">
+                                                <div class="col-md-4">
+                                                    <label for="collar_ben_width_churai"
+                                                        class="form-label small fw-semibold">کالر/بین چوڑائی
+                                                        (چورائی)</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="collar_ben_width_churai">
+                                                </div>
+                                            </div>
+                                            <div class="row g-2 mb-2">
+                                                <div class="col-md-4">
                                                     <label for="collar_style" class="form-label small fw-semibold"
                                                         id="collar-ben-label">اسٹائل</label>
                                                     <select class="form-select form-select-sm" id="collar_style">
                                                         <option value="">منتخب کریں</option>
+                                                        <!-- Options will be populated dynamically -->
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 hidden" id="ben-half-full-options">
+                                                    <label for="ben_half_full"
+                                                        class="form-label small fw-semibold">ہاف/فل</label>
+                                                    <select class="form-select form-select-sm" id="ben_half_full">
+                                                        <option value="">منتخب کریں</option>
+                                                        <option value="ہاف">ہاف</option>
+                                                        <option value="فل">فل</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <!-- Pocket Section -->
+                                        </div><!-- Pocket Section -->
                                         <div class="subsection mb-3">
                                             <h6 class="subsection-title">پاکٹ</h6>
                                             <div class="row g-2 mb-2">
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
+                                                    <label for="front_pocket" class="form-label small fw-semibold">فرنٹ
+                                                        پاکٹ</label>
+                                                    <select class="form-select form-select-sm" id="front_pocket">
+                                                        <option value="">منتخب کریں</option>
+                                                        <option value="چورس">چورس</option>
+                                                        <option value="گول">گول</option>
+                                                        <option value="نوک والا">نوک والا</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
                                                     <label for="front_pocket_size"
                                                         class="form-label small fw-semibold">فرنٹ پاکٹ سائز</label>
                                                     <input type="text" class="form-control form-control-sm"
                                                         id="front_pocket_size">
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label for="double_side_pocket"
-                                                        class="form-label small fw-semibold">ڈبل سائیڈ پاکٹ</label>
+                                                        class="form-label small fw-semibold">سائیڈ پاکٹ</label>
                                                     <select class="form-select form-select-sm" id="double_side_pocket">
                                                         <option value="">منتخب کریں</option>
-                                                        <option value="ہاں">ہاں</option>
-                                                        <option value="نہیں">نہیں</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label for="single_pocket" class="form-label small fw-semibold">سنگل
-                                                        پاکٹ</label>
-                                                    <select class="form-select form-select-sm" id="single_pocket">
-                                                        <option value="">منتخب کریں</option>
-                                                        <option value="ہاں">ہاں</option>
-                                                        <option value="نہیں">نہیں</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label for="front_pocket" class="form-label small fw-semibold">فرنٹ
-                                                        پاکٹ</label>
-                                                    <select class="form-select form-select-sm" id="front_pocket">
-                                                        <option value="">منتخب کریں</option>
-                                                        <option value="ہاں">ہاں</option>
-                                                        <option value="نہیں">نہیں</option>
+                                                        <option value="سنگل سائیڈ">سنگل سائیڈ</option>
+                                                        <option value="ڈبل سائیڈ">ڈبل سائیڈ</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <!-- Sewing & Buttons Section -->
+                                        </div> <!-- Sewing & Buttons Section -->
                                         <div class="subsection mb-3">
                                             <h6 class="subsection-title">سلائی اور بٹن</h6>
                                             <div class="row g-2 mb-2">
@@ -517,15 +544,21 @@
                                                         class="form-label small fw-semibold">سلائی</label>
                                                     <select class="form-select form-select-sm" id="silai">
                                                         <option value="">منتخب کریں</option>
-                                                        <option value="مشین">مشین</option>
-                                                        <option value="ہاتھ">ہاتھ</option>
+                                                        <option value="ساده">ساده</option>
+                                                        <option value="چمک دار">چمک دار</option>
+                                                        <option value="ڈبل چمک دار">ڈبل چمک دار</option>
+                                                        <option value="کم">کم</option>
+                                                        <option value="چین">چین</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="button_color" class="form-label small fw-semibold">بٹن
-                                                        کا رنگ</label>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        id="button_color">
+                                                    <label for="button_color" class="form-label small fw-semibold">رنگ
+                                                        بٹن</label>
+                                                    <select class="form-select form-select-sm" id="button_color">
+                                                        <option value="">منتخب کریں</option>
+                                                        <option value="کراچی">کراچی</option>
+                                                        <option value="عام">عام</option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="button" class="form-label small fw-semibold">بٹن</label>
@@ -538,105 +571,122 @@
                                                         id="button_size">
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <!-- Cuff Section -->
+                                        </div> <!-- Cuff Section -->
                                         <div class="subsection mb-3">
                                             <h6 class="subsection-title">کف</h6>
                                             <div class="row g-2 mb-2">
-                                                <div class="col-md-3">
-                                                    <label for="cuff_plate" class="form-label small fw-semibold">کف
-                                                        پلیٹ</label>
+                                                <div class="col-md-4">
+                                                    <label for="cuff_plate" class="form-label small fw-semibold">پلیٹ
+                                                        والا کف / پلیٹ کے
+                                                        بغیر</label>
                                                     <select class="form-select form-select-sm" id="cuff_plate">
                                                         <option value="">منتخب کریں</option>
-                                                        <option value="گول">گول</option>
-                                                        <option value="چورس">چورس</option>
-                                                        <option value="نوک والا">نوک والا</option>
+                                                        <option value="پلیٹ والا کف">پلیٹ والا کف</option>
+                                                        <option value="پلیٹ کے بغیر">پلیٹ کے بغیر</option>
+                                                        <option value="NO">NO</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label for="cuff_style" class="form-label small fw-semibold">کف
                                                         اسٹائل</label>
                                                     <select class="form-select form-select-sm" id="cuff_style">
                                                         <option value="">منتخب کریں</option>
-                                                        <option value="بٹن">بٹن</option>
-                                                        <option value="کاج">کاج</option>
+                                                        <option value="چورس">چورس</option>
+                                                        <option value="گول">گول</option>
+                                                        <option value="کٹ">کٹ</option>
+                                                        <option value="سٹڈ">سٹڈ</option>
+                                                        <option value="NO">NO</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label for="cuff_kaj" class="form-label small fw-semibold">کف
                                                         کاج</label>
                                                     <select class="form-select form-select-sm" id="cuff_kaj">
                                                         <option value="">منتخب کریں</option>
                                                         <option value="سنگل">سنگل</option>
                                                         <option value="ڈبل">ڈبل</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label for="chak_patti" class="form-label small fw-semibold">چاک
-                                                        پٹی</label>
-                                                    <select class="form-select form-select-sm" id="chak_patti">
-                                                        <option value="">منتخب کریں</option>
-                                                        <option value="ہاں">ہاں</option>
-                                                        <option value="نہیں">نہیں</option>
+                                                        <option value="سیدہا">سیدہا</option>
                                                     </select>
                                                 </div>
                                             </div>
+                                        </div> <!-- Additional Details Section -->
+                                        <div class="subsection mb-3">
+                                            <h6 class="subsection-title">اضافی تفصیلات</h6>
                                             <div class="row g-2 mb-2">
                                                 <div class="col-md-3">
-                                                    <label for="chak_patti_kaj" class="form-label small fw-semibold">چاک
+                                                    <label for="chak_patti" class="form-label small fw-semibold">چک
+                                                        پٹی</label>
+                                                    <select class="form-select form-select-sm" id="chak_patti">
+                                                        <option value="">منتخب کریں</option>
+                                                        <option value="چورس">چورس</option>
+                                                        <option value="نوک">نوک</option>
+                                                        <option value="گول">گول</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="chak_patti_kaj" class="form-label small fw-semibold">چک
                                                         پٹی کاج</label>
                                                     <select class="form-select form-select-sm" id="chak_patti_kaj">
                                                         <option value="">منتخب کریں</option>
                                                         <option value="سنگل">سنگل</option>
                                                         <option value="ڈبل">ڈبل</option>
+                                                        <option value="NO">NO</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="daman" class="form-label small fw-semibold">دامن</label>
                                                     <select class="form-select form-select-sm" id="daman">
                                                         <option value="">منتخب کریں</option>
-                                                        <option value="سیدھا">سیدھا</option>
                                                         <option value="گول">گول</option>
+                                                        <option value="چورس">چورس</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="shoulder_style"
-                                                        class="form-label small fw-semibold">شولڈر اسٹائل</label>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        id="shoulder_style">
+                                                        class="form-label small fw-semibold">شولڈر</label>
+                                                    <select class="form-select form-select-sm" id="shoulder_style">
+                                                        <option value="">منتخب کریں</option>
+                                                        <option value="نارمل">نارمل</option>
+                                                        <option value="سیدہا">سیدہا</option>
+                                                        <option value="ڈاؤن">ڈاؤن</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row g-2 mb-2">
+                                                <div class="col-md-3">
+                                                    <label for="patti" class="form-label small fw-semibold">پٹی</label>
+                                                    <select class="form-select form-select-sm" id="patti">
+                                                        <option value="">منتخب کریں</option>
+                                                        <option value="پلیٹ والی">پلیٹ والی</option>
+                                                        <option value="نوک والی">نوک والی</option>
+                                                        <option value="عام">عام</option>
+                                                        <option value="گول">گول</option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="sleeve_type" class="form-label small fw-semibold">آستین
-                                                        ٹائپ</label>
+                                                    <label for="patti_churai" class="form-label small fw-semibold">پٹی
+                                                        چوڑائی</label>
                                                     <input type="text" class="form-control form-control-sm"
-                                                        id="sleeve_type">
+                                                        id="patti_churai">
                                                 </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Additional Details -->
-                                        <div class="subsection mb-3">
-                                            <h6 class="subsection-title">اضافی تفصیلات</h6>
-                                            <div class="row g-2">
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                                     <label for="extra_demand"
                                                         class="form-label small fw-semibold">ایکسٹرا ڈیمانڈ</label>
-                                                    <textarea class="form-control form-control-sm" id="extra_demand"
-                                                        rows="2"></textarea>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="extra_demand">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <!-- Trouser Measurements (شلوار) -->
+                                </div> <!-- Trouser Measurements (شلوار) -->
                                 <div class="measurement-section shalwar-section">
                                     <div class="section-header">
-                                        <h6 class="fw-bold mb-0"><i class="bi bi-file-person"></i> شلوار (Trouser)</h6>
+                                        <h6 class="fw-bold mb-0"><i class="bi bi-person-standing"></i> شلوار
+                                            (Trouser)</h6>
                                     </div>
                                     <div class="measurement-content">
-                                        <div class="row g-2 mb-2">
+                                        <!-- Basic Trouser Measurements -->
+                                        <div class="row g-2 mb-3">
                                             <div class="col-md-3">
                                                 <label for="shalwar_lambai" class="form-label small fw-semibold">شلوار
                                                     لمبائی</label>
@@ -644,45 +694,42 @@
                                                     id="shalwar_lambai">
                                             </div>
                                             <div class="col-md-3">
-                                                <label for="shalwar_type" class="form-label small fw-semibold">شلوار
-                                                    ٹائپ</label>
-                                                <select class="form-select form-select-sm" id="shalwar_type">
-                                                    <option value="">منتخب کریں</option>
-                                                    <option value="سیدھا">سیدھا</option>
-                                                    <option value="چورا">چورا</option>
-                                                    <option value="پتلا">پتلا</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label for="shalwar" class="form-label small fw-semibold">سانجھا</label>
-                                                <input type="text" class="form-control form-control-sm" id="shalwar">
-                                            </div>
-                                            <div class="col-md-3">
                                                 <label for="pacha" class="form-label small fw-semibold">پانچہ</label>
                                                 <input type="text" class="form-control form-control-sm" id="pacha">
                                             </div>
-                                        </div>
-                                        <div class="row g-2 mb-2">
                                             <div class="col-md-3">
                                                 <label for="lib" class="form-label small fw-semibold">ہپ</label>
                                                 <input type="text" class="form-control form-control-sm" id="lib">
                                             </div>
                                             <div class="col-md-3">
-                                                <label for="ander" class="form-label small fw-semibold">اندر</label>
+                                                <label for="ander" class="form-label small fw-semibold">انسایڈ</label>
                                                 <input type="text" class="form-control form-control-sm" id="ander">
                                             </div>
-                                            <div class="col-md-3">
-                                                <label for="shalwar_pocket" class="form-label small fw-semibold">شلوار
-                                                    پاکٹ</label>
-                                                <select class="form-select form-select-sm" id="shalwar_pocket">
-                                                    <option value="">منتخب کریں</option>
-                                                    <option value="ہاں">ہاں</option>
-                                                    <option value="نہیں">نہیں</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label for="patti" class="form-label small fw-semibold">پٹی</label>
-                                                <input type="text" class="form-control form-control-sm" id="patti">
+                                        </div>
+
+                                        <!-- Trouser Style & Details -->
+                                        <div class="subsection mb-3">
+                                            <h6 class="subsection-title">شلوار کی تفصیلات</h6>
+                                            <div class="row g-2 mb-2">
+                                                <div class="col-md-4"> <label for="shalwar_type"
+                                                        class="form-label small fw-semibold">شلوار قسم</label><select
+                                                        class="form-select form-select-sm" id="shalwar_type">
+                                                        <option value="">منتخب کریں</option>
+                                                        <option value="عام">عام</option>
+                                                        <option value="ٹروزر">ٹروزر</option>
+                                                        <option value="سانجھا">سانجھا</option>
+                                                        <option value="پٹیالہ">پٹیالہ</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="shalwar_pocket"
+                                                        class="form-label small fw-semibold">شلوار پاکٹ</label>
+                                                    <select class="form-select form-select-sm" id="shalwar_pocket">
+                                                        <option value="">منتخب کریں</option>
+                                                        <option value="Yes">Yes</option>
+                                                        <option value="No">No</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

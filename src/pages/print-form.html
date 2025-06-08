@@ -36,51 +36,57 @@
         /* Header styles */
         .print-header {
             display: flex !important;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             width: 100%;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #000;
+            padding: 10px 0 15px 0;
+            border-bottom: 2px solid #000;
             margin-bottom: 15px;
-            gap: 20px;
         }
 
         .logo-left {
-            height: 60px;
+            height: 80px;
             width: auto;
+            flex-shrink: 0;
         }
 
         .logo-right-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
+            flex-shrink: 0;
         }
 
         .logo-right {
-            height: 60px;
+            height: 70px;
             width: auto;
         }
 
         .logo-right-bottom {
-            height: 50px;
+            height: 30px;
             width: auto;
         }
 
         .shop-info {
             text-align: center;
             flex: 1;
+            margin: 0 20px;
         }
 
         .shop-info h2 {
             margin: 0;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
+            color: #000;
+            letter-spacing: 1px;
         }
 
         .shop-info p {
-            margin: 5px 0 0;
-            font-size: 12px;
+            margin: 8px 0 0;
+            font-size: 16px;
+            font-style: italic;
+            color: #333;
         }
 
         /* Customer info section */
@@ -204,7 +210,7 @@
         }
 
         .qameez-value {
-            border-bottom: 1px solid #999;
+            border-bottom: none;
             min-width: 60px;
             width: fit-content;
             max-width: 100px;
@@ -217,6 +223,44 @@
             color: #666;
             white-space: nowrap;
             margin-left: 4px;
+        }
+
+        /* Shalwar two-column layout */
+        .shalwar-two-column-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-column-gap: 40px;
+            grid-row-gap: 8px;
+        }
+
+        .shalwar-column-1,
+        .shalwar-column-2 {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .shalwar-measure-item {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .shalwar-label {
+            font-weight: normal;
+            white-space: nowrap;
+            min-width: 60px;
+        }
+
+        .shalwar-value {
+            border-bottom: none;
+            min-width: 60px;
+            width: fit-content;
+            max-width: 100px;
+            min-height: 16px;
+            padding: 1px 2px;
         }
 
         /* Regular measurements grid for Shalwar */
@@ -238,7 +282,7 @@
         }
 
         .measure-value {
-            border-bottom: 1px solid #999;
+            border-bottom: none;
             min-width: 60px;
             width: fit-content;
             max-width: 100px;
@@ -399,7 +443,6 @@
             <div class="garment-type">شلوار قمیص</div>
         </div> <!-- Qameez Section -->
         <div class="measurement-section" id="print-qameez-section">
-            <div class="section-title">قمیص</div>
             <div class="qameez-two-column-grid">
                 <!-- Column 1 -->
                 <div class="qameez-column-1">
@@ -480,20 +523,55 @@
                         <span class="qameez-label">چک پٹی کاج</span>
                         <span class="qameez-value" id="qameez-chak-patti-kaj"></span>
                     </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">پٹی</span>
+                        <span class="qameez-value" id="qameez-patti"></span>
+                    </div>
+                    <div class="qameez-measure-item">
+                        <span class="qameez-label">پٹی چوڑائی</span>
+                        <span class="qameez-value" id="qameez-patti-churai"></span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Separator Line -->
-        <div class="separator"></div>
-
-        <!-- Shalwar Section -->
+        <div class="separator"></div> <!-- Shalwar Section -->
         <div class="measurement-section" id="print-shalwar-section">
-            <div class="section-title">شلوار</div>
-            <div class="measurements-grid" id="print-shalwar-measurements">
-                <!-- Will be populated by JavaScript -->
+            <div class="shalwar-two-column-grid">
+                <!-- Column 1 -->
+                <div class="shalwar-column-1">
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">شلوار لمبائی</span>
+                        <span class="shalwar-value" id="shalwar-lambai"></span>
+                    </div>
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">پانچہ</span>
+                        <span class="shalwar-value" id="shalwar-pacha"></span>
+                    </div>
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">ہپ</span>
+                        <span class="shalwar-value" id="shalwar-hip"></span>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="shalwar-column-2">
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">انسایڈ</span>
+                        <span class="shalwar-value" id="shalwar-ander"></span>
+                    </div>
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">شلوار پاکٹ</span>
+                        <span class="shalwar-value" id="shalwar-pocket"></span>
+                    </div>
+                    <div class="shalwar-measure-item">
+                        <span class="shalwar-label">شلوار قسم</span>
+                        <span class="shalwar-value" id="shalwar-type"></span>
+                    </div>
+                </div>
             </div>
-        </div> <!-- Extra Demand Section -->
+        </div><!-- Extra Demand Section -->
         <div class="extra-demand" id="print-extra-demand-section">
             <div class="extra-demand-label">ایکسٹرا ڈیمانڈ</div>
             <div class="extra-demand-value" id="print-extra-demand"></div>
@@ -599,24 +677,22 @@
                     { field: 'button_size', label: 'بٹن سائز' },
                     { field: 'cuff_plate', label: 'کف پلیٹ' },
                     { field: 'cuff_style', label: 'کف اسٹائل' },
-                    { field: 'cuff_kaj', label: 'کف کاج' },
-                    { field: 'chak_patti', label: 'چک پٹی' },
+                    { field: 'cuff_kaj', label: 'کف کاج' }, { field: 'chak_patti', label: 'چک پٹی' },
                     { field: 'chak_patti_kaj', label: 'چک پٹی کاج' },
                     { field: 'daman', label: 'دامن' },
                     { field: 'shoulder', label: 'شولڈر' },
                     { field: 'shoulder_style', label: 'شولڈر اسٹائل' },
-                    { field: 'sleeve_type', label: 'آستین کی قسم' }
+                    { field: 'sleeve_type', label: 'آستین کی قسم' },
+                    { field: 'patti', label: 'پٹی' },
+                    { field: 'patti_churai', label: 'پٹی چوڑائی' }
                 ];
 
-                const shalwarMeasurements = [
-                    { field: 'shalwar_lambai', label: 'شلوار لمبائی' },
-                    { field: 'shalwar', label: 'سانجھا' },
-                    { field: 'pacha', label: 'پانچہ' },
-                    { field: 'lib', label: 'ہپ' },
-                    { field: 'ander', label: 'اندر' },
-                    { field: 'shalwar_pocket', label: 'شلوار پاکٹ' },
-                    { field: 'shalwar_type', label: 'شلوار قسم' },
-                    { field: 'patti', label: 'پٹی' }
+                const shalwarMeasurements = [{ field: 'shalwar_lambai', label: 'شلوار لمبائی' },
+                { field: 'pacha', label: 'پانچہ' },
+                { field: 'lib', label: 'ہپ' },
+                { field: 'ander', label: 'انسایڈ' },
+                { field: 'shalwar_pocket', label: 'شلوار پاکٹ' },
+                { field: 'shalwar_type', label: 'شلوار قسم' }
                 ];
 
                 // Populate measurements
@@ -643,10 +719,18 @@
                 safeSetTextContent('qameez-silai', measurements.silai);
                 safeSetTextContent('qameez-button-color', measurements.button_color);
                 safeSetTextContent('qameez-button-size', measurements.button_size);
-                safeSetTextContent('qameez-cuff-style', measurements.cuff_style);
-                safeSetTextContent('qameez-cuff-kaj', measurements.cuff_kaj);
-                safeSetTextContent('qameez-chak-patti', measurements.chak_patti);
+                safeSetTextContent('qameez-cuff-style', measurements.cuff_style); safeSetTextContent('qameez-cuff-kaj', measurements.cuff_kaj); safeSetTextContent('qameez-chak-patti', measurements.chak_patti);
                 safeSetTextContent('qameez-chak-patti-kaj', measurements.chak_patti_kaj);
+                safeSetTextContent('qameez-patti', measurements.patti);
+                safeSetTextContent('qameez-patti-churai', measurements.patti_churai);
+
+                // Populate individual shalwar fields in the two-column layout with error handling
+                safeSetTextContent('shalwar-lambai', measurements.shalwar_lambai);
+                safeSetTextContent('shalwar-pacha', measurements.pacha);
+                safeSetTextContent('shalwar-hip', measurements.lib);
+                safeSetTextContent('shalwar-ander', measurements.ander);
+                safeSetTextContent('shalwar-pocket', measurements.shalwar_pocket);
+                safeSetTextContent('shalwar-type', measurements.shalwar_type);
 
                 // Generate Qameez measurements HTML (for dynamic container if needed)
                 // Note: We're now using static two-column layout, so this container might not exist
@@ -667,24 +751,6 @@
                     });
                 }
 
-                // Generate Shalwar measurements HTML with error handling
-                const shalwarContainer = document.getElementById('print-shalwar-measurements');
-                if (shalwarContainer) {
-                    shalwarContainer.innerHTML = '';
-
-                    shalwarMeasurements.forEach(item => {
-                        if (hasValue(measurements[item.field])) {
-                            const measureItem = document.createElement('div');
-                            measureItem.className = 'measure-item';
-                            measureItem.innerHTML = `
-                                <div class="measure-label">${item.label}</div>
-                                <div class="measure-value">${measurements[item.field]}</div>
-                            `;
-                            shalwarContainer.appendChild(measureItem);
-                        }
-                    });
-                }
-
                 // Hide sections if no measurements (with error handling)
                 const qameezSection = document.getElementById('print-qameez-section');
                 // Check if qameez has any data by looking at the main fields
@@ -695,11 +761,11 @@
                     } else {
                         qameezSection.classList.remove('hidden');
                     }
-                }
-
-                const shalwarSection = document.getElementById('print-shalwar-section');
-                if (shalwarSection && shalwarContainer) {
-                    if (shalwarContainer.children.length === 0) {
+                } const shalwarSection = document.getElementById('print-shalwar-section');
+                // Check if shalwar has any data by looking at the main fields
+                const hasShalwarData = measurements.shalwar_lambai || measurements.pacha || measurements.lib;
+                if (shalwarSection) {
+                    if (!hasShalwarData) {
                         shalwarSection.classList.add('hidden');
                     } else {
                         shalwarSection.classList.remove('hidden');
