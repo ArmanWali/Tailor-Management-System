@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Print Preview Test - Noor & Sons Tailors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.info { background: #d1ecf1; color: #0c5460; }
+        .status.warning { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🖨️ Live Print Preview System Test</h1>
+        
+        <div class="status info">
+            <strong>Test Instructions:</strong>
+            <ol>
+                <li>Make sure you have customer data in localStorage</li>
+                <li>Click the test buttons below to verify functionality</li>
+                <li>Check that print preview opens correctly</li>
+                <li>Test the print functionality from within the preview</li>
+            </ol>
+        </div>
+
+        <h2>🔧 System Tests</h2>
+        
+        <div style="margin: 20px 0;">
+            <h3>API Availability Tests</h3>
+            <button class="test-button" onclick="testElectronAPI()">Test Electron API</button>
+            <button class="test-button" onclick="testLocalStorage()">Test Customer Data</button>
+            <button class="test-button" onclick="testPrintPreview()">Test Print Preview</button>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <h3>Live Preview Tests</h3>
+            <button class="test-button" onclick="openPrintPreviewTest()">Open Print Preview (Test)</button>
+            <button class="test-button" onclick="openPrintPreviewWithData()">Open with Sample Data</button>
+            <button class="test-button" onclick="openLegacyForm()">Open Legacy Form</button>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <h3>Print Functions</h3>
+            <button class="test-button" onclick="testDirectPrint()">Test Direct Print</button>
+            <button class="test-button" onclick="testPDFExport()">Test PDF Export</button>
+            <button class="test-button" onclick="testDevTools()">Test DevTools</button>
+        </div>
+
+        <div id="test-results" style="margin-top: 20px;"></div>
+
+        <h2>📋 Implementation Checklist</h2>
+        <div class="status success">
+            <h4>✅ Completed Features:</h4>
+            <ul>
+                <li>Live Print Preview Window</li>
+                <li>Electron Print API Integration</li>
+                <li>PDF Export Functionality</li>
+                <li>DevTools Integration</li>
+                <li>Print Form Layout Preservation</li>
+                <li>Customer Data Loading</li>
+                <li>Responsive Zoom Controls</li>
+                <li>Keyboard Shortcuts (Ctrl+P, Ctrl+Shift+P, Ctrl+E)</li>
+                <li>Print Button Updates in Customer Detail</li>
+                <li>Print Button Updates in Manage Customers</li>
+            </ul>
+        </div>
+
+        <div class="status warning">
+            <h4>📝 Usage Instructions:</h4>
+            <ol>
+                <li><strong>From Customer Detail Page:</strong> Click "Print Preview" or use Ctrl+P</li>
+                <li><strong>From Manage Customers:</strong> Click the "Print" button next to any customer</li>
+                <li><strong>In Print Preview:</strong> Use the sidebar controls to adjust zoom, reload data, or print directly</li>
+                <li><strong>For Development:</strong> Enable DevTools from the print preview to inspect and modify styles</li>
+                <li><strong>Keyboard Shortcuts:</strong>
+                    <ul>
+                        <li>Ctrl+P = Open Print Preview</li>
+                        <li>Ctrl+Shift+P = Print Directly</li>
+                        <li>Ctrl+E = Export to PDF</li>
+                        <li>Ctrl+R = Refresh Preview</li>
+                        <li>Ctrl+Shift+I = Open DevTools</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <h2>🔧 Troubleshooting</h2>
+        <div class="status info">
+            <ul>
+                <li><strong>Print Preview not opening:</strong> Check if Electron APIs are available</li>
+                <li><strong>Customer data not loading:</strong> Verify customer exists in localStorage</li>
+                <li><strong>Print layout issues:</strong> Use DevTools to inspect and adjust CSS</li>
+                <li><strong>PDF export not working:</strong> Ensure you're running in Electron (not browser)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Test functions
+        function logResult(message, type = 'info') {
+            const results = document.getElementById('test-results');
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}:</strong> ${message}`;
+            results.appendChild(div);
+        }
+
+        function testElectronAPI() {
+            if (window.electronAPI) {
+                logResult('✅ Electron API is available', 'success');
+                logResult(`Available methods: ${Object.keys(window.electronAPI).join(', ')}`, 'info');
+            } else {
+                logResult('❌ Electron API not found - running in browser mode', 'warning');
+            }
+        }
+
+        function testLocalStorage() {
+            try {
+                const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+                logResult(`✅ Found ${customers.length} customers in localStorage`, 'success');
+                if (customers.length > 0) {
+                    logResult(`Sample customer: ${customers[0].name} (${customers[0].id || customers[0]._id})`, 'info');
+                }
+            } catch (error) {
+                logResult(`❌ Error reading localStorage: ${error.message}`, 'warning');
+            }
+        }
+
+        function testPrintPreview() {
+            const printPreviewExists = document.createElement('link');
+            printPreviewExists.href = 'src/pages/print-preview.html';
+            printPreviewExists.onload = () => logResult('✅ Print preview page exists', 'success');
+            printPreviewExists.onerror = () => logResult('❌ Print preview page not found', 'warning');
+            document.head.appendChild(printPreviewExists);
+        }
+
+        function openPrintPreviewTest() {
+            const url = 'src/pages/print-preview.html';
+            window.open(url, '_blank', 'width=1400,height=900');
+            logResult('🖨️ Opened print preview test window', 'info');
+        }
+
+        function openPrintPreviewWithData() {
+            try {
+                const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+                if (customers.length > 0) {
+                    const customerId = customers[0].id || customers[0]._id;
+                    const url = `src/pages/print-preview.html?id=${customerId}`;
+                    window.open(url, '_blank', 'width=1400,height=900');
+                    logResult(`🖨️ Opened print preview with customer: ${customers[0].name}`, 'success');
+                } else {
+                    logResult('❌ No customer data available', 'warning');
+                }
+            } catch (error) {
+                logResult(`❌ Error opening print preview: ${error.message}`, 'warning');
+            }
+        }
+
+        function openLegacyForm() {
+            try {
+                const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+                if (customers.length > 0) {
+                    const customerId = customers[0].id || customers[0]._id;
+                    const url = `src/pages/print-form.html?id=${customerId}`;
+                    window.open(url, '_blank');
+                    logResult(`📄 Opened legacy print form`, 'info');
+                } else {
+                    logResult('❌ No customer data available', 'warning');
+                }
+            } catch (error) {
+                logResult(`❌ Error opening legacy form: ${error.message}`, 'warning');
+            }
+        }
+
+        function testDirectPrint() {
+            if (window.electronAPI && window.electronAPI.printPage) {
+                window.electronAPI.printPage();
+                logResult('🖨️ Print command sent to Electron', 'success');
+            } else {
+                window.print();
+                logResult('🖨️ Browser print dialog opened', 'info');
+            }
+        }
+
+        function testPDFExport() {
+            if (window.electronAPI && window.electronAPI.exportToPDF) {
+                window.electronAPI.exportToPDF();
+                logResult('📄 PDF export command sent', 'success');
+            } else {
+                logResult('❌ PDF export only available in Electron', 'warning');
+            }
+        }
+
+        function testDevTools() {
+            if (window.electronAPI && window.electronAPI.openDevTools) {
+                window.electronAPI.openDevTools();
+                logResult('🔧 DevTools command sent', 'success');
+            } else {
+                logResult('❌ DevTools only available in Electron', 'warning');
+            }
+        }
+
+        // Run initial tests
+        document.addEventListener('DOMContentLoaded', function() {
+            logResult('🚀 Live Print Preview Test Suite Loaded', 'success');
+            testElectronAPI();
+            testLocalStorage();
+        });
+    </script>
+</body>
+</html>

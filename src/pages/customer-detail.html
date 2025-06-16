@@ -316,10 +316,29 @@
                             </button>
                             <button id="cancel-btn" class="btn btn-secondary me-2 hidden">
                                 <i class="bi bi-x"></i> Cancel
+                            </button>                            <button id="print-btn" class="btn btn-primary me-2">
+                                <i class="bi bi-printer"></i> Print Preview
                             </button>
-                            <button id="print-btn" class="btn btn-primary">
-                                <i class="bi bi-printer"></i> Print
-                            </button>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-printer"></i> Print Options
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" onclick="openPrintPreview()">
+                                        <i class="bi bi-eye"></i> Live Print Preview
+                                    </a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="printDirectly()">
+                                        <i class="bi bi-printer"></i> Print Directly
+                                    </a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="exportToPDF()">
+                                        <i class="bi bi-file-pdf"></i> Export to PDF
+                                    </a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#" onclick="openLegacyPrintForm()">
+                                        <i class="bi bi-file-text"></i> Legacy Print Form
+                                    </a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -477,10 +496,8 @@
                                                     <input type="text" class="form-control form-control-sm"
                                                         id="collar_measurement">
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <label for="collar_ben_width_churai"
-                                                        class="form-label small fw-semibold">کالر/بین چوڑائی
-                                                        (چورائی)</label>
+                                                <div class="col-md-4">                                                    <label for="collar_ben_width_churai"
+                                                        class="form-label small fw-semibold">کالر/بین چوڑائی</label>
                                                     <input type="text" class="form-control form-control-sm"
                                                         id="collar_ben_width_churai">
                                                 </div>
@@ -598,14 +615,13 @@
                                                         <option value="NO">NO</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <label for="cuff_kaj" class="form-label small fw-semibold">کف
+                                                <div class="col-md-4">                                                    <label for="cuff_kaj" class="form-label small fw-semibold">کف
                                                         کاج</label>
                                                     <select class="form-select form-select-sm" id="cuff_kaj">
                                                         <option value="">منتخب کریں</option>
                                                         <option value="سنگل">سنگل</option>
                                                         <option value="ڈبل">ڈبل</option>
-                                                        <option value="سیدہا">سیدہا</option>
+                                                        <option value="سٹڈ">سٹڈ</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -652,33 +668,34 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="row g-2 mb-2">
-                                                <div class="col-md-3">
+                                            <div class="row g-2 mb-2">                                                <div class="col-md-3">
                                                     <label for="patti" class="form-label small fw-semibold">پٹی</label>
                                                     <select class="form-select form-select-sm" id="patti">
                                                         <option value="">منتخب کریں</option>
+                                                        <option value="پٹی">پٹی</option>
                                                         <option value="پلیٹ والی">پلیٹ والی</option>
                                                         <option value="نوک والی">نوک والی</option>
                                                         <option value="عام">عام</option>
                                                         <option value="گول">گول</option>
                                                     </select>
-                                                </div>
-                                                <div class="col-md-3">
+                                                </div>                                                <div class="col-md-3">
                                                     <label for="patti_churai" class="form-label small fw-semibold">پٹی
                                                         چوڑائی</label>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        id="patti_churai">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="extra_demand"
-                                                        class="form-label small fw-semibold">ایکسٹرا ڈیمانڈ</label>
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        id="extra_demand">
+                                                    <select class="form-select form-select-sm" id="patti_churai">
+                                                        <option value="">منتخب کریں</option>
+                                                        <option value="آدھا انچ">آدھا انچ</option>
+                                                        <option value="پونےایک انچ">پونےایک انچ</option>
+                                                        <option value="ایک انچ">ایک انچ</option>
+                                                        <option value="سوا ایک انچ">سوا ایک انچ</option>
+                                                        <option value="ساڑے ایک انچ">ساڑے ایک انچ</option>
+                                                        <option value="پونے دوانچ">پونے دوانچ</option>
+                                                        <option value="دوانچ">دوانچ</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div> <!-- Trouser Measurements (شلوار) -->
+                                </div><!-- Trouser Measurements (شلوار) -->
                                 <div class="measurement-section shalwar-section">
                                     <div class="section-header">
                                         <h6 class="fw-bold mb-0"><i class="bi bi-person-standing"></i> شلوار
@@ -727,9 +744,25 @@
                                                     <select class="form-select form-select-sm" id="shalwar_pocket">
                                                         <option value="">منتخب کریں</option>
                                                         <option value="Yes">Yes</option>
-                                                        <option value="No">No</option>
-                                                    </select>
+                                                        <option value="No">No</option>                                                    </select>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Extra Demand Section -->
+                                <div class="measurement-section">
+                                    <div class="section-header">
+                                        <h6 class="fw-bold mb-0"><i class="bi bi-plus-circle"></i> اضافی ڈیمانڈ</h6>
+                                    </div>
+                                    <div class="measurement-content">
+                                        <div class="row g-2 mb-2">
+                                            <div class="col-md-12">
+                                                <label for="extra_demand"
+                                                    class="form-label small fw-semibold">ایکسٹرا ڈیمانڈ</label>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    id="extra_demand">
                                             </div>
                                         </div>
                                     </div>

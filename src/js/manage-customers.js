@@ -151,19 +151,18 @@ function displayCustomers(customers) {
                 // Open customer detail page in edit mode
                 window.location.href = `customer-detail.html?id=${customerId}&edit=true`;
             });
-        });
-        document.querySelectorAll('.print-btn').forEach(button => {
+        });        document.querySelectorAll('.print-btn').forEach(button => {
             button.addEventListener('click', function () {
                 const customerId = this.getAttribute('data-id');
                 console.log('Print button clicked for customer:', customerId);
-                // Find the customer from localStorage
-                const customers = JSON.parse(localStorage.getItem('customers') || '[]');
-                const customer = customers.find(c => (c.id || c._id) === customerId);
-                if (customer) {
-                    // Print customer details
-                    printCustomerDetails(customer);
+                
+                // Use new print preview functionality
+                if (window.electronAPI && window.electronAPI.openPrintPreview) {
+                    window.electronAPI.openPrintPreview(customerId);
                 } else {
-                    alert('Customer not found');
+                    // Fallback: open print preview in new window
+                    const printPreviewUrl = `print-preview.html?id=${customerId}`;
+                    window.open(printPreviewUrl, '_blank', 'width=1400,height=900,scrollbars=yes,resizable=yes');
                 }
             });
         });

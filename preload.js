@@ -18,7 +18,11 @@ contextBridge.exposeInMainWorld(
             'delete-customer',
             'print-customer',
             'get-customer',
-            'logout'
+            'logout',
+            'open-print-preview',
+            'print-page',
+            'export-to-pdf',
+            'open-devtools'
         ];
         if (validChannels.includes(channel)) {
             console.log(`Sending message via ${channel}`, data);
@@ -35,7 +39,8 @@ contextBridge.exposeInMainWorld(
             'search-customers-response',
             'update-customer-response',
             'delete-customer-response',
-            'get-customer-response'
+            'get-customer-response',
+            'export-pdf-response'
         ];
         if (validChannels.includes(channel)) {
             // Deliberately strip event as it includes `sender` 
@@ -44,3 +49,36 @@ contextBridge.exposeInMainWorld(
     }
 }
 );
+
+// Expose print-specific APIs
+contextBridge.exposeInMainWorld(
+    'electronAPI', {
+    // Print the current page
+    printPage: () => {
+        ipcRenderer.send('print-page');
+    },
+    
+    // Export current page to PDF
+    exportToPDF: () => {
+        ipcRenderer.send('export-to-pdf');
+    },
+    
+    // Open DevTools for current window
+    openDevTools: () => {
+        ipcRenderer.send('open-devtools');
+    },
+    
+    // Open print preview window
+    openPrintPreview: (customerId) => {
+        ipcRenderer.send('open-print-preview', { customerId });
+    },
+    
+    // Listen for PDF export response
+    onExportPDFResponse: (callback) => {
+        ipcRenderer.on('export-pdf-response', (event, response) => {
+            callback(response);
+        });
+    }
+});
+
+console.log('Preload script completed - APIs exposed');

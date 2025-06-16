@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Set up collar type dropdown
         setupCollarTypeDropdown();
+
+        // Set up cuff plate dropdown
+        setupCuffPlateDropdown();
     } catch (error) {
         console.error('Error initializing add customer page:', error);
     }
@@ -121,6 +124,79 @@ function setupCollarTypeDropdown() {
         });
     } catch (error) {
         console.error('Error setting up collar type dropdown:', error);
+    }
+}
+
+// Setup cuff plate dropdown functionality
+function setupCuffPlateDropdown() {
+    console.log('Setting up cuff plate dropdown');
+
+    try {
+        const cuffPlateDropdown = document.getElementById('cuff_plate');
+        const golAsteenField = document.getElementById('gol_asteen');
+        
+        console.log('Cuff plate dropdown found:', !!cuffPlateDropdown);
+        console.log('Gol asteen field found:', !!golAsteenField);
+
+        if (!cuffPlateDropdown) {
+            console.error('cuff_plate dropdown not found');
+            return;
+        }
+
+        if (!golAsteenField) {
+            console.error('gol_asteen field not found');
+            return;
+        }
+
+        // Try different methods to find the container
+        let golAsteenContainer = golAsteenField.closest('.col-md-3');
+        
+        // If col-md-3 doesn't work, try other common Bootstrap classes
+        if (!golAsteenContainer) {
+            golAsteenContainer = golAsteenField.closest('.col');
+        }
+        
+        // If still not found, try parent element
+        if (!golAsteenContainer) {
+            golAsteenContainer = golAsteenField.parentElement;
+        }
+
+        console.log('Gol asteen container found:', !!golAsteenContainer);
+        console.log('Container class:', golAsteenContainer ? golAsteenContainer.className : 'none');
+
+        if (!golAsteenContainer) {
+            console.error('gol_asteen container not found');
+            return;
+        }
+
+        // Initially hide gol_asteen field
+        golAsteenContainer.style.display = 'none';
+        console.log('Initially hid gol_asteen field');
+
+        cuffPlateDropdown.addEventListener('change', function () {
+            console.log('Cuff plate changed to:', this.value);
+            
+            if (this.value === 'NO') {
+                console.log('Showing گول آستین option');
+                golAsteenContainer.style.display = 'block';
+                console.log('Set display to block');
+            } else {
+                console.log('Hiding گول آستین option');
+                golAsteenContainer.style.display = 'none';
+                // Reset the field value when hiding
+                golAsteenField.value = '';
+                console.log('Set display to none and cleared value');
+            }
+        });
+
+        // Check initial state
+        console.log('Initial cuff plate value:', cuffPlateDropdown.value);
+        if (cuffPlateDropdown.value === 'NO') {
+            golAsteenContainer.style.display = 'block';
+            console.log('Set initial display to block for NO value');
+        }
+    } catch (error) {
+        console.error('Error setting up cuff plate dropdown:', error);
     }
 }
 

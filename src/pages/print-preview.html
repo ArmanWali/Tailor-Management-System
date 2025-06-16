@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+          body {
+            margin: 0;
+            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        
+        .print-header {
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .print-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .print-btn:hover {
+            background: #218838;
+        }
+        
+        .preview-container {
+            padding: 60px 20px 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .print-preview {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transform: scale(0.8);
+            padding: 20px;
+        }
+        
+        /* Form Header */
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #333;
+        }
+        
+        .logo-left {
+            width: 60px;
+            height: 60px;
+        }
+        
+        .shop-info {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .shop-info h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .shop-info p {
+            font-style: italic;
+            color: #666;
+        }
+        
+        .logo-right-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .logo-right {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .logo-right-bottom {
+            width: 50px;
+            height: 30px;
+        }
+        
+        /* Customer Info */
+        .customer-info {
+            margin-bottom: 20px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-item.grid-span-3 {
+            flex: 1;
+        }
+          .info-label {
+            font-weight: bold;
+            min-width: 100px;
+            text-align: left;
+            direction: ltr;
+        }
+        
+        .info-value {
+            border-bottom: 1px solid #999;
+            min-width: 100px;
+            padding: 2px 5px;
+            text-align: right;
+            direction: rtl;
+        }
+        
+        /* Cutting Section */
+        .cutting-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        
+        .cutting-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .cutting-value {
+            border-bottom: 1px solid #999;
+            min-width: 60px;
+            padding: 2px 5px;
+            text-align: center;
+        }
+        
+        .garment-type {
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+            direction: rtl;
+        }
+        
+        /* Measurement Sections */        .measurement-section {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ccc;
+            text-align: right;
+            direction: rtl;
+        }
+          /* Qameez Two-Column Layout */
+        .qameez-two-column-grid {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .qameez-column-1 {
+            width: 45%;
+        }        .qameez-column-2 {
+            width: 200px;
+            position: absolute;
+            right: 20px;
+            top: 0;
+            z-index: 1;
+        }
+          .qameez-measure-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 4px 0;
+            gap: 15px;
+        }
+        
+        .qameez-label {
+            font-weight: normal;
+            text-align: right;
+            direction: rtl;
+            min-width: 80px;
+        }
+          .qameez-value {
+            min-width: 60px;
+            padding: 2px 5px;
+            text-align: center;
+        }
+        
+        .qameez-style {
+            font-size: 12px;
+            color: #666;
+            margin-left: 10px;
+            direction: rtl;
+        }
+        
+        .qameez-collar-combined {
+            min-width: 100px;
+            padding: 2px 5px;
+            text-align: center;
+            direction: rtl;
+        }
+          /* Grouped Options */
+        .grouped-options-container {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }          .grouped-options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #333;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            justify-content: center;
+            gap: 8px;
+            background: white;
+        }.grouped-option-item {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+            text-align: center;
+            font-size: 0;
+        }
+        
+        .option-label {
+            font-size: 14px;
+            color: #333;
+            direction: rtl;
+            font-weight: bold;
+        }          .option-value {
+            text-align: center;
+            direction: rtl;
+            font-size: 14px;
+            font-weight: bold;
+            background: white;
+            display: inline-block;
+        }
+        
+        /* Separator */
+        .separator {
+            height: 2px;
+            background: #333;
+            margin: 20px 0;
+        }
+          /* Shalwar Three-Column Layout (2 rows x 3 columns) */
+        .shalwar-two-column-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 15px 20px;
+            margin-bottom: 20px;
+        }
+        
+        .shalwar-column-1 {
+            display: contents;
+        }
+        
+        .shalwar-column-2 {
+            display: contents;
+        }
+          .shalwar-measure-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 4px 0;
+            gap: 15px;
+        }
+        
+        .shalwar-label {
+            font-weight: normal;
+            text-align: right;
+            direction: rtl;
+            min-width: 80px;
+        }
+          .shalwar-value {
+            min-width: 60px;
+            padding: 2px 5px;
+            text-align: center;
+            direction: rtl;
+        }
+        
+        /* Extra Demand */
+        .extra-demand {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+        
+        .extra-demand-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: right;
+            direction: rtl;
+        }
+          .extra-demand-value {
+            min-width: 200px;
+            padding: 5px;
+            text-align: right;
+            direction: rtl;
+        }
+        
+        @media print {
+            .print-header { 
+                display: none !important; 
+            }
+            .preview-container { 
+                padding: 0 !important; 
+            }
+            .print-preview { 
+                transform: none !important; 
+                box-shadow: none !important; 
+                width: 100% !important; 
+                min-height: auto !important; 
+                margin: 0 !important;
+                padding: 10px !important;
+            }
+            body {
+                background: white !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-header">
+        <h3>Print Preview</h3>
+        <button class="print-btn" onclick="window.print()">Print</button>
+    </div>
+    
+    <div class="preview-container">
+        <div class="print-preview">
+            <div class="print-form">                <!-- Header -->
+                <div class="form-header">
+                    <img src="../assets/img/logo-pic.png" alt="Logo" class="logo-left">
+                    <div class="shop-info">
+                        <h2>Noor & Sons Tailors And Fabrics</h2>
+                        <p>We offer you stitching of your choice</p>
+                    </div>
+                    <div class="logo-right-container">
+                        <img src="../assets/img/coat_logo-pic.png" alt="Coat Logo" class="logo-right">
+                        <img src="../assets/img/Needle-logo.jpg" alt="Needle Logo" class="logo-right-bottom">
+                    </div>
+                </div>                <!-- Customer Info -->
+                <div class="customer-info">
+                    <div class="info-row">
+                        <div class="info-item">
+                            <span class="info-label">Code No:</span>
+                            <span class="info-value" id="code">C001</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Order Date:</span>
+                            <span class="info-value" id="order-date">16/6/2025</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Return Date:</span>
+                            <span class="info-value" id="return-date">23/6/2025</span>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <span class="info-label">Name:</span>
+                            <span class="info-value" id="name">محمد احمد</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Age:</span>
+                            <span class="info-value" id="age">30</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Mobile No:</span>
+                            <span class="info-value" id="phone">0300-1234567</span>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-item grid-span-3">
+                            <span class="info-label">Address:</span>
+                            <span class="info-value" id="address">لاہور، پنجاب</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cutting Section -->
+                <div class="cutting-section">
+                    <div class="cutting-item">
+                        <label>Cutting No:</label>
+                        <div class="cutting-value">001</div>
+                    </div>
+                    <div class="cutting-item">
+                        <label>Quantity:</label>
+                        <div class="cutting-value">2</div>
+                    </div>
+                    <div class="cutting-item">
+                        <label>Enter by Abubakkar</label>
+                    </div>
+                    <div class="garment-type">شلوار قمیص</div>
+                </div>                <!-- Qameez Section -->
+                <div class="measurement-section">
+                    <div class="qameez-two-column-grid"><div class="qameez-column-1">
+                            <div class="qameez-measure-item">
+                                <span class="qameez-label">لمبائی</span>
+                                <span class="qameez-value" id="qameez-lambai">42</span>
+                                <span class="qameez-style">گول</span>
+                            </div>                            <div class="qameez-measure-item">
+                                <span class="qameez-label">آستین</span>
+                                <span class="qameez-value" id="qameez-asteen">24</span>
+                                <span class="qameez-style" id="qameez-sleeve-type">سادہ</span>
+                            </div>
+                            <div class="qameez-measure-item">
+                                <span class="qameez-label">تیرا</span>
+                                <span class="qameez-value" id="qameez-tera">18</span>
+                            </div>
+                            <div class="qameez-measure-item">
+                                <span class="qameez-label">بین / کالر</span>
+                                <span class="qameez-collar-combined" id="qameez-collar-combined">انگلش 15</span>
+                            </div>
+                            <div class="qameez-measure-item">
+                                <span class="qameez-label">چھاتی</span>
+                                <span class="qameez-value" id="qameez-chati">42</span>
+                            </div>
+                            <div class="qameez-measure-item">
+                                <span class="qameez-label">کمر</span>
+                                <span class="qameez-value" id="qameez-kamar">40</span>
+                            </div>
+                            <div class="qameez-measure-item">
+                                <span class="qameez-label">گیرا</span>
+                                <span class="qameez-value" id="qameez-gira">12</span>
+                            </div>                            <div class="qameez-measure-item">
+                                <span class="qameez-label">موڑہ</span>
+                                <span class="qameez-value" id="qameez-moza">32</span>
+                            </div>
+                            <div class="qameez-measure-item">
+                                <span class="qameez-label">شولڈر</span>
+                                <span class="qameez-value" id="qameez-shoulder">18</span>
+                            </div>
+                        </div>
+                        <div class="qameez-column-2">                            <div class="qameez-measure-item">
+                                <span class="qameez-label">پاکٹ</span>
+                                <span class="qameez-value" id="qameez-pocket">ہاں</span>
+                            </div>
+                            <div class="qameez-measure-item">
+                                <span class="qameez-label">فرنٹ پاکٹ</span>
+                                <span class="qameez-style" id="qameez-front-pocket-style">گول</span>
+                                <span class="qameez-value" id="qameez-front-pocket-size">2</span>
+                            </div>
+                            <div class="qameez-measure-item">
+                                <span class="qameez-label">کف</span>
+                                <span class="qameez-style" id="qameez-cuff-style">گول</span>
+                            </div>
+                            <div class="qameez-measure-item">
+                                <span class="qameez-label">کف کاج</span>
+                                <span class="qameez-value" id="qameez-cuff-kaj">سنگل</span>
+                            </div>
+                            <div class="qameez-measure-item">
+                                <span class="qameez-label">چاک پٹی</span>
+                                <span class="qameez-value" id="qameez-chak-patti">ہاں</span>
+                            </div>
+                            <div class="qameez-measure-item">
+                                <span class="qameez-label">چاک پٹی کاج</span>
+                                <span class="qameez-value" id="qameez-chak-patti-kaj">سنگل</span>
+                            </div>                            <div class="qameez-measure-item">
+                                <span class="qameez-label">پٹی</span>
+                                <span class="qameez-value" id="qameez-patti-combined">بٹن والی ایک انچ</span>                            </div>
+                        </div>
+                    </div><div class="grouped-options-container">                        <div class="grouped-options">
+                            <div class="grouped-option-item">
+                                <span class="option-label">رنگ بٹن</span><span class="option-value" id="qameez-button-color">کراچی</span>
+                            </div>
+                            <div class="grouped-option-item">
+                                <span class="option-label">بٹن</span><span class="option-value" id="qameez-button">12</span>
+                            </div>
+                            <div class="grouped-option-item">
+                                <span class="option-label">سلائی</span><span class="option-value" id="qameez-silai">ساده</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Separator -->
+                <div class="separator"></div>                <!-- Shalwar Section -->                <div class="measurement-section">
+                    <div class="shalwar-two-column-grid">
+                        <!-- First Row -->
+                        <div class="shalwar-measure-item">
+                            <span class="shalwar-label">شلوار لمبائی</span>
+                            <span class="shalwar-value" id="shalwar-lambai">102</span>
+                        </div>
+                        <div class="shalwar-measure-item">
+                            <span class="shalwar-label">شلوار پاکٹ</span>
+                            <span class="shalwar-value" id="shalwar-pocket">ہاں</span>
+                        </div>
+                        <div class="shalwar-measure-item">
+                            <span class="shalwar-label">ہپ</span>
+                            <span class="shalwar-value" id="shalwar-hip">44</span>
+                        </div>
+                        
+                        <!-- Second Row -->
+                        <div class="shalwar-measure-item">
+                            <span class="shalwar-label">پانچہ</span>
+                            <span class="shalwar-value" id="shalwar-pacha">22</span>
+                        </div>
+                        <div class="shalwar-measure-item">
+                            <span class="shalwar-label">شلوار قسم</span>
+                            <span class="shalwar-value" id="shalwar-type">کھلا</span>
+                        </div>
+                        <div class="shalwar-measure-item">
+                            <span class="shalwar-label">انسایڈ</span>
+                            <span class="shalwar-value" id="shalwar-ander">32</span>
+                        </div>
+                    </div>
+                </div><!-- Extra Demand -->
+                <div class="extra-demand">
+                    <div class="extra-demand-value" id="extra-demand">کوئی خاص ضرورت نہیں</div>
+                </div>
+            </div>
+        </div>
+    </div>    <script>
+        // Load customer data if available
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const customerId = urlParams.get('id');
+            
+            if (customerId) {
+                try {
+                    const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+                    const customer = customers.find(c => (c.id || c._id) === customerId);
+                    
+                    if (customer) {
+                        populateCustomerData(customer);
+                    }
+                } catch (error) {
+                    console.log('Using default data');
+                }
+            }
+        });
+
+        function populateCustomerData(customer) {
+            // Populate basic customer info
+            safeSetText('code', customer.codeNumber);
+            safeSetText('name', customer.name);
+            safeSetText('phone', customer.cellNumber);
+            safeSetText('age', customer.age);
+            safeSetText('address', customer.address);
+            
+            if (customer.orderDate) {
+                safeSetText('order-date', new Date(customer.orderDate).toLocaleDateString());
+            }
+            if (customer.returnDate) {
+                safeSetText('return-date', new Date(customer.returnDate).toLocaleDateString());
+            }
+
+            // Populate measurements if available
+            if (customer.measurements) {
+                const m = customer.measurements;
+                  // Qameez measurements
+                safeSetText('qameez-lambai', m.lambai);
+                safeSetText('qameez-asteen', m.asteen);
+                safeSetText('qameez-sleeve-type', m.sleeve_type);
+                safeSetText('qameez-tera', m.tera);
+                safeSetText('qameez-chati', m.chati);
+                safeSetText('qameez-kamar', m.kamar);                safeSetText('qameez-gira', m.gira);
+                safeSetText('qameez-moza', m.moza);                
+                // Convert shoulder value to dropdown option
+                let shoulderValue = m.shoulder;
+                if (shoulderValue) {
+                    // Check if it's already one of the valid dropdown options
+                    if (shoulderValue === 'نارمل' || shoulderValue === 'سیدھا' || shoulderValue === 'ڈاؤن') {
+                        // Keep the existing value
+                    } else {
+                        // If it's a number or any other value, default to نارمل
+                        // You can customize this mapping based on your business logic
+                        shoulderValue = 'نارمل';
+                    }
+                } else {
+                    shoulderValue = 'نارمل'; // default if no value
+                }
+                safeSetText('qameez-shoulder', shoulderValue);// Collar information (correct format: style, half/full, width, measurement)
+                let collarDisplay = '';
+                if (m.collar_type) {
+                    if (m.collar_type.trim() === 'بین' || m.collar_type.trim().toLowerCase() === 'ben') {
+                        // Ben: [style] [half/full] [width] [measurement]
+                        if (m.collar_style) collarDisplay += m.collar_style;
+                        if (m.ben_half_full) collarDisplay += (collarDisplay ? ' ' : '') + m.ben_half_full;
+                        if (m.collar_ben_width_churai) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_ben_width_churai;
+                        if (m.collar_measurement) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_measurement;
+                    } else if (m.collar_type.trim() === 'کالر' || m.collar_type.trim().toLowerCase() === 'collar') {
+                        // Collar: [style] [width] [measurement]
+                        if (m.collar_style) collarDisplay += m.collar_style;
+                        if (m.collar_ben_width_churai) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_ben_width_churai;
+                        if (m.collar_measurement) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_measurement;
+                    } else {
+                        // Fallback: show available data in order
+                        if (m.collar_style) collarDisplay += m.collar_style;
+                        if (m.ben_half_full) collarDisplay += (collarDisplay ? ' ' : '') + m.ben_half_full;
+                        if (m.collar_ben_width_churai) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_ben_width_churai;
+                        if (m.collar_measurement) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_measurement;
+                    }
+                }
+                safeSetText('qameez-collar-combined', collarDisplay);
+                
+                // Qameez details
+                safeSetText('qameez-pocket', m.single_pocket || m.double_side_pocket || 'No');
+                safeSetText('qameez-front-pocket-style', m.front_pocket);
+                safeSetText('qameez-front-pocket-size', m.front_pocket_size);
+                safeSetText('qameez-cuff-style', m.cuff_style);
+                safeSetText('qameez-cuff-kaj', m.cuff_kaj);                safeSetText('qameez-chak-patti', m.chak_patti);
+                safeSetText('qameez-chak-patti-kaj', m.chak_patti_kaj);
+                
+                // Combine patti type and width
+                let pattiCombined = '';
+                if (m.patti) pattiCombined += m.patti;
+                if (m.patti_churai) pattiCombined += (pattiCombined ? ' ' : '') + m.patti_churai;
+                safeSetText('qameez-patti-combined', pattiCombined);
+                  // Grouped options
+                safeSetText('qameez-button-color', m.button_color);
+                safeSetText('qameez-button', m.button);
+                safeSetText('qameez-silai', m.silai);
+                
+                // Shalwar measurements
+                safeSetText('shalwar-lambai', m.shalwar_lambai);
+                safeSetText('shalwar-pacha', m.pacha);
+                safeSetText('shalwar-hip', m.lib);
+                safeSetText('shalwar-ander', m.ander);
+                safeSetText('shalwar-pocket', m.shalwar_pocket);
+                safeSetText('shalwar-type', m.shalwar_type);
+                
+                // Extra demand
+                safeSetText('extra-demand', m.extra_demand);
+            }
+        }
+
+        function safeSetText(id, value) {
+            const element = document.getElementById(id);
+            if (element && value) {
+                element.textContent = value;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Print Preview Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-section { background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .test-form { background: white; padding: 20px; border: 1px solid #ccc; margin: 20px 0; }
+        .info-item { margin: 5px 0; }
+        .info-label { font-weight: bold; margin-right: 10px; }
+        .info-value { color: blue; }
+        button { padding: 10px 20px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Debug Print Preview Test</h1>
+    
+    <div class="debug-section">
+        <h3>Debug Controls</h3>
+        <button onclick="loadAndTestSampleData()">Load & Test Sample Data</button>
+        <button onclick="checkAllElements()">Check All Elements</button>
+        <button onclick="clearDebugLog()">Clear Debug Log</button>
+    </div>
+
+    <div class="debug-section">
+        <h3>Debug Log</h3>
+        <div id="debug-log" style="background: black; color: green; padding: 10px; font-family: monospace; height: 200px; overflow-y: auto;"></div>
+    </div>
+
+    <div class="test-form">
+        <h3>Sample Print Form (Simplified)</h3>
+        
+        <!-- Customer Info -->
+        <div class="info-item">
+            <span class="info-label">کوڈ نمبر:</span>
+            <span class="info-value" id="print-code-number">[Empty]</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">نام:</span>
+            <span class="info-value" id="print-name">[Empty]</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">موبائل:</span>
+            <span class="info-value" id="print-cell-number">[Empty]</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">پتہ:</span>
+            <span class="info-value" id="print-address">[Empty]</span>
+        </div>
+
+        <!-- Measurements -->
+        <div class="info-item">
+            <span class="info-label">لمبائی:</span>
+            <span class="info-value" id="qameez-lambai">[Empty]</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">آستین:</span>
+            <span class="info-value" id="qameez-asteen">[Empty]</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">چھاتی:</span>
+            <span class="info-value" id="qameez-chati">[Empty]</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">شلوار لمبائی:</span>
+            <span class="info-value" id="shalwar-lambai">[Empty]</span>
+        </div>
+    </div>
+
+    <script>
+        function debugLog(message) {
+            const log = document.getElementById('debug-log');
+            const timestamp = new Date().toLocaleTimeString();
+            log.innerHTML += `[${timestamp}] ${message}<br>`;
+            log.scrollTop = log.scrollHeight;
+            console.log(message);
+        }
+
+        function clearDebugLog() {
+            document.getElementById('debug-log').innerHTML = '';
+        }
+
+        function createSampleCustomer() {
+            return {
+                id: 'TEST_001',
+                codeNumber: 'کوڈ_123456',
+                name: 'محمد احمد خان',
+                cellNumber: '0300-1234567',
+                address: 'لاہور، پنجاب',
+                measurements: {
+                    lambai: '42 انچ',
+                    asteen: '24 انچ',
+                    chati: '42 انچ',
+                    shalwar_lambai: '102 انچ'
+                }
+            };
+        }
+
+        function populateForm(customer) {
+            debugLog('🔄 Starting form population...');
+            
+            const safeSetTextContent = (id, value) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = value || '';
+                    debugLog(`✅ Set ${id} = "${value}"`);
+                    return true;
+                } else {
+                    debugLog(`❌ Element '${id}' not found`);
+                    return false;
+                }
+            };
+
+            // Customer info
+            safeSetTextContent('print-code-number', customer.codeNumber);
+            safeSetTextContent('print-name', customer.name);
+            safeSetTextContent('print-cell-number', customer.cellNumber);
+            safeSetTextContent('print-address', customer.address);
+
+            // Measurements
+            const measurements = customer.measurements || {};
+            safeSetTextContent('qameez-lambai', measurements.lambai);
+            safeSetTextContent('qameez-asteen', measurements.asteen);
+            safeSetTextContent('qameez-chati', measurements.chati);
+            safeSetTextContent('shalwar-lambai', measurements.shalwar_lambai);
+
+            debugLog('✅ Form population completed');
+        }
+
+        function checkAllElements() {
+            debugLog('🔍 Checking all form elements...');
+            const expectedElements = [
+                'print-code-number', 'print-name', 'print-cell-number', 'print-address',
+                'qameez-lambai', 'qameez-asteen', 'qameez-chati', 'shalwar-lambai'
+            ];
+            
+            let found = 0;
+            let missing = 0;
+            
+            expectedElements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    found++;
+                    debugLog(`✅ Found: ${id} = "${element.textContent}"`);
+                } else {
+                    missing++;
+                    debugLog(`❌ Missing: ${id}`);
+                }
+            });
+            
+            debugLog(`📊 Summary: ${found} found, ${missing} missing`);
+        }
+
+        function loadAndTestSampleData() {
+            debugLog('🚀 Loading and testing sample data...');
+            const sampleCustomer = createSampleCustomer();
+            debugLog(`📝 Created sample customer: ${JSON.stringify(sampleCustomer)}`);
+            populateForm(sampleCustomer);
+            
+            // Verify after a short delay
+            setTimeout(() => {
+                debugLog('🔍 Verifying after population...');
+                checkAllElements();
+            }, 100);
+        }
+
+        // Auto-run on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            debugLog('📄 Page loaded, running initial test...');
+            loadAndTestSampleData();
+        });
+    </script>
+</body>
+</html>

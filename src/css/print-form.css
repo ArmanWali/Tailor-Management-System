@@ -256,17 +256,27 @@
 
 /* Qameez Two-Column Layout Styles */
 .qameez-two-column-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    display: flex;
+    align-items: flex-start;
     margin-bottom: 20px;
+    width: 100%;
+    justify-content: flex-start;
 }
 
-.qameez-column-1,
-.qameez-column-2 {
+.qameez-column-1 {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    width: 45%;
+    margin-right: 30px;
+}
+
+.qameez-column-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 25%;
+    margin-left: auto;
 }
 
 .qameez-measure-item {
@@ -308,10 +318,11 @@
 
 /* Shalwar Two-Column Layout Styles */
 .shalwar-two-column-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    display: flex;
+    align-items: flex-start;
     margin-bottom: 20px;
+    width: 100%;
+    position: relative;
 }
 
 .shalwar-column-1,
@@ -319,6 +330,18 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.shalwar-column-1 {
+    width: 80mm;
+    margin-left: 0;
+}
+
+.shalwar-column-2 {
+    width: 80mm;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .shalwar-measure-item {
@@ -665,22 +688,26 @@
 
     .avoid-break {
         page-break-inside: avoid;
-    }
-
-    /* Qameez Two-Column Layout Print Styles */
+    }    /* Qameez Two-Column Layout Print Styles */
     .qameez-two-column-grid {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 15px !important;
+        display: flex !important;
+        align-items: flex-start !important;
         margin-bottom: 15px !important;
+        width: 100% !important;
+        justify-content: flex-start !important;
         page-break-inside: avoid;
-    }
-
-    .qameez-column-1,
-    .qameez-column-2 {
+    }    .qameez-column-1 {
         display: flex !important;
         flex-direction: column !important;
         gap: 6px !important;
+        width: 45% !important;
+        margin-right: 25px !important;
+    }    .qameez-column-2 {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 4px !important;
+        width: 25% !important;
+        margin-left: auto !important;
     }
 
     .qameez-measure-item {
@@ -836,14 +863,13 @@
         max-width: 100px !important;
         min-width: 60px !important;
         padding: 1px 2px !important;
-    }
-
-    /* Shalwar Two-Column Layout Print Styles */
+    }    /* Shalwar Two-Column Layout Print Styles */
     .shalwar-two-column-grid {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 15px !important;
+        display: flex !important;
+        align-items: flex-start !important;
         margin-bottom: 15px !important;
+        width: 100% !important;
+        position: relative !important;
     }
 
     .shalwar-column-1,
@@ -851,6 +877,18 @@
         display: flex !important;
         flex-direction: column !important;
         gap: 6px !important;
+    }
+
+    .shalwar-column-1 {
+        width: 75mm !important;
+        margin-left: 0 !important;
+    }
+
+    .shalwar-column-2 {
+        width: 75mm !important;
+        position: absolute !important;
+        right: 0 !important;
+        top: 0 !important;
     }
 
     .shalwar-measure-item {
@@ -879,5 +917,99 @@
         max-width: 100px !important;
         min-width: 60px !important;
         padding: 1px 2px !important;
+    }
+
+    /* Collar Combined Field */
+    .qameez-collar-combined {
+        border-bottom: none !important;
+        min-height: 14px !important;
+        font-size: 9pt !important;
+        color: #000 !important;
+        width: fit-content !important;
+        padding: 1px 2px !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* Grouped Options Oval Section Print Styles */
+    .qameez-grouped-options {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border: 2px solid #000 !important;
+        border-radius: 50px !important;
+        padding: 6px 12px !important;
+        margin: 12px auto 8px auto !important;
+        width: fit-content !important;
+        max-width: 250px !important;
+        background: white !important;
+        page-break-inside: avoid;
+    }
+
+    .grouped-option-item {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        margin: 1px 0 !important;
+        text-align: center !important;
+    }
+
+    .option-label {
+        font-weight: bold !important;
+        font-size: 9pt !important;
+        color: #000 !important;
+        white-space: nowrap !important;
+    }
+
+    .option-value {
+        font-size: 9pt !important;
+        color: #000 !important;
+        font-weight: normal !important;
+        min-width: 25px !important;
+        text-align: center !important;
+    }
+
+    /* Hide empty fields for print */
+    .print-hide-empty {
+        display: none !important;
+    }
+
+    /* Print optimization for A4 page layout */
+    @page {
+        size: A4;
+        margin: 0.5in;
+    }
+
+    /* Live Print Preview specific optimizations */
+    .preview-paper {
+        /* A4 dimensions: 210mm x 297mm */
+        width: 210mm;
+        min-height: 297mm;
+        max-width: 210mm;
+        margin: 0 auto;
+        background: white;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        padding: 15mm;
+        box-sizing: border-box;
+    }
+
+    /* Responsive scaling for preview */
+    @media screen and (max-width: 1200px) {
+        .preview-paper.zoom-100 { transform: scale(0.8); }
+        .preview-paper.zoom-125 { transform: scale(1.0); }
+        .preview-paper.zoom-150 { transform: scale(1.2); }
+    }
+
+    @media screen and (max-width: 768px) {
+        .preview-paper { 
+            transform: scale(0.6); 
+            margin: 10px auto;
+        }
+        
+        .preview-sidebar {
+            width: 250px;
+        }
     }
 }

@@ -169,14 +169,15 @@
             font-weight: bold;
             text-align: center;
             margin-bottom: 10px;
-        }
-
-        /* Qameez two-column layout */
+        }        /* Qameez two-column layout */
         .qameez-two-column-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-column-gap: 40px;
-            grid-row-gap: 8px;
+            display: flex;
+            align-items: flex-start;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            position: relative;
+            min-height: 300px; /* Ensure container has enough height */
         }
 
         .qameez-column-1,
@@ -184,6 +185,20 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+        }
+
+        .qameez-column-1 {
+            /* Left column stays in normal position */
+            width: 80mm;
+            margin-left: 0;
+        }
+
+        .qameez-column-2 {
+            /* Right column positioned to the absolute rightmost edge */
+            width: 80mm;
+            position: absolute;
+            right: 0;
+            top: 0;
         }
 
         .qameez-measure-item {
@@ -206,27 +221,59 @@
             min-height: 16px;
             flex: 1;
             padding: 1px 2px;
+        }        .qameez-style {
+            border-bottom: none;
+            min-height: 18px;
+            font-size: 12px;
+            color: #000;
+            min-width: 40px;
+            padding: 1px 3px;
+            margin-left: 5px;
         }
 
-        .qameez-style {
-            font-size: 10px;
-            color: #666;
-            white-space: nowrap;
-            margin-left: 4px;
+        /* Compact styling for collar/ben field */
+        .qameez-value.compact,
+        .qameez-style.compact {
+            margin-left: 8px;
+            margin-right: 5px;
+            min-width: 25px;
+            max-width: 50px;
+            font-size: 11px;
+            border-bottom: 1px solid #999;
+            padding: 1px 2px;
+            display: inline-block;
         }
 
-        /* Regular measurements grid for Shalwar */
+        .qameez-style.compact {
+            border-bottom: none;
+            color: #000;
+            font-weight: normal;
+        }/* Regular measurements grid for Shalwar */
         .measurements-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-column-gap: 30px;
-            grid-row-gap: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        .measurements-grid .measure-item:nth-child(even) {
+            margin-left: auto;
+            margin-right: 0;
+            width: 80mm;
+        }
+
+        .measurements-grid .measure-item:nth-child(odd) {
+            width: 80mm;
+            margin-right: auto;
         }
 
         .measure-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 10px;
         }
 
         .measure-label {
@@ -313,6 +360,66 @@
             .print-controls {
                 display: none !important;
             }
+
+            /* Hide measurement fields marked as empty or "NO" during print */
+            .print-hide-empty {
+                display: none !important;
+            }
+        }        /* Grouped options section below qameez columns */
+        .qameez-grouped-options {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 15px 25px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            width: 120px;
+            height: 80px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: transparent;
+        }
+
+        .grouped-option-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .option-label {
+            font-weight: normal;
+            white-space: nowrap;
+            font-size: 9px;
+        }        .option-value {
+            border-bottom: 1px solid #999;
+            min-width: 30px;
+            min-height: 12px;
+            padding: 1px 2px;
+            font-size: 9px;
+            flex-shrink: 0;
+        }
+
+        /* Collar combined field styling */
+        .qameez-collar-combined {
+            border-bottom: none;
+            min-height: 18px;
+            font-size: 12px;
+            color: #000;
+            width: fit-content;
+            padding: 1px 3px;
+            direction: rtl;
+            text-align: right;
+        }
+
+        /* Hide empty fields for print */
+        .print-hide-empty {
+            display: none !important;
         }
     </style>
 </head>
@@ -413,11 +520,9 @@
                     <div class="qameez-measure-item">
                         <span class="qameez-label">تیرا</span>
                         <span class="qameez-value" id="qameez-tera"></span>
-                    </div>
-                    <div class="qameez-measure-item">
-                        <span class="qameez-label" id="qameez-collar-type-label">بین / کالر</span>
-                        <span class="qameez-value" id="qameez-collar-measurement"></span>
-                        <span class="qameez-style" id="qameez-collar-style"></span>
+                    </div>                    <div class="qameez-measure-item">
+                        <span class="qameez-label">بین / کالر</span>
+                        <span class="qameez-collar-combined" id="qameez-collar-combined"></span>
                     </div>
                     <div class="qameez-measure-item">
                         <span class="qameez-label">چھاتی</span>
@@ -439,9 +544,7 @@
                         <span class="qameez-label">شولڈر</span>
                         <span class="qameez-value" id="qameez-shoulder"></span>
                     </div>
-                </div>
-
-                <!-- Column 2 -->
+                </div>                <!-- Column 2 -->
                 <div class="qameez-column-2">
                     <div class="qameez-measure-item">
                         <span class="qameez-label">پاکٹ</span>
@@ -451,15 +554,6 @@
                         <span class="qameez-label">فرنٹ پاکٹ</span>
                         <span class="qameez-style" id="qameez-front-pocket-style"></span>
                         <span class="qameez-value" id="qameez-front-pocket-size"></span>
-                    </div>
-                    <div class="qameez-measure-item">
-                        <span class="qameez-label">سلائی</span>
-                        <span class="qameez-value" id="qameez-silai"></span>
-                    </div>
-                    <div class="qameez-measure-item">
-                        <span class="qameez-label">رنگ بٹن</span>
-                        <span class="qameez-style" id="qameez-button-color"></span>
-                        <span class="qameez-value" id="qameez-button-size"></span>
                     </div>
                     <div class="qameez-measure-item">
                         <span class="qameez-label" id="qameez-cuff-plate-label">پلیٹ والا کف</span>
@@ -485,6 +579,22 @@
                         <span class="qameez-label">پٹی چوڑائی</span>
                         <span class="qameez-value" id="qameez-patti-churai"></span>
                     </div>
+                </div>
+            </div>
+
+            <!-- Grouped Options Section -->
+            <div class="qameez-grouped-options">
+                <div class="grouped-option-item">
+                    <span class="option-label">عام رنگ بٹن</span>
+                    <span class="option-value" id="qameez-button-color-grouped"></span>
+                </div>
+                <div class="grouped-option-item">
+                    <span class="option-label">بٹن</span>
+                    <span class="option-value" id="qameez-button-size-grouped"></span>
+                </div>
+                <div class="grouped-option-item">
+                    <span class="option-label">سادہ سلائی</span>
+                    <span class="option-value" id="qameez-silai-grouped"></span>
                 </div>
             </div>
         </div>
@@ -620,13 +730,18 @@
                 ];
 
                 // Populate measurements
-                const measurements = customer.measurements || {};
-
-                // Populate individual qameez fields in the two-column layout with error handling
-                safeSetTextContent('qameez-lambai', measurements.lambai);
+                const measurements = customer.measurements || {};                // Populate individual qameez fields in the two-column layout with error handling                safeSetTextContent('qameez-lambai', measurements.lambai);
                 safeSetTextContent('qameez-asteen', measurements.asteen);
                 safeSetTextContent('qameez-tera', measurements.tera);
-                safeSetTextContent('qameez-collar-measurement', measurements.collar_measurement);
+                
+                // Populate combined collar field in the format: کالرانگلش 2 15 بین / کالر
+                const collarParts = [];
+                if (measurements.collar_type) collarParts.push(measurements.collar_type);
+                if (measurements.collar_measurement) collarParts.push(measurements.collar_measurement);
+                if (measurements.collar_ben_width_churai) collarParts.push(measurements.collar_ben_width_churai);
+                if (collarParts.length > 0) collarParts.push('بین / کالر');
+                safeSetTextContent('qameez-collar-combined', collarParts.join(' '));
+                
                 safeSetTextContent('qameez-chati', measurements.chati);
                 safeSetTextContent('qameez-kamar', measurements.kamar);
                 safeSetTextContent('qameez-gira', measurements.gira);
@@ -648,24 +763,10 @@
                 safeSetTextContent('qameez-patti', measurements.patti);
                 safeSetTextContent('qameez-patti-churai', measurements.patti_churai);
 
-                // Generate Qameez measurements HTML (for dynamic container if needed)
-                // Note: We're now using static two-column layout, so this container might not exist
-                const qameezContainer = document.getElementById('print-qameez-measurements');
-                if (qameezContainer) {
-                    qameezContainer.innerHTML = '';
-
-                    qameezMeasurements.forEach(item => {
-                        if (hasValue(measurements[item.field])) {
-                            const measureItem = document.createElement('div');
-                            measureItem.className = 'measure-item';
-                            measureItem.innerHTML = `
-                                <div class="measure-label">${item.label}</div>
-                                <div class="measure-value">${measurements[item.field]}</div>
-                            `;
-                            qameezContainer.appendChild(measureItem);
-                        }
-                    });
-                }
+                // Populate grouped options section
+                safeSetTextContent('qameez-button-color-grouped', measurements.button_color);
+                safeSetTextContent('qameez-button-size-grouped', measurements.button_size);
+                safeSetTextContent('qameez-silai-grouped', measurements.silai);
 
                 // Generate Shalwar measurements HTML with error handling
                 const shalwarContainer = document.getElementById('print-shalwar-measurements');
@@ -717,9 +818,132 @@
                         extraDemandSection.classList.add('hidden');
                     }
                 }
+
+                // Hide measurement fields that are "NO" or empty for print
+                hidePrintEmptyFields(measurements);
+
+                // Adjust qameez container height to prevent separator overlap
+                adjustQameezContainerHeight();
             } catch (error) {
                 console.error('Error populating print form:', error);
                 alert('Error loading print data: ' + error.message);
+            }
+        }        // Function to hide measurement fields that are "NO" or empty for print
+        function hidePrintEmptyFields(measurements) {
+            try {
+                // Get all measurement items in qameez and shalwar sections
+                const qameezItems = document.querySelectorAll('.qameez-measure-item');
+                const shalwarItems = document.querySelectorAll('.shalwar-measure-item');
+                const dynamicItems = document.querySelectorAll('.measure-item');
+                const groupedItems = document.querySelectorAll('.grouped-option-item');
+                  // Process qameez measurement items
+                qameezItems.forEach(item => {
+                    const valueElement = item.querySelector('.qameez-value');
+                    const styleElement = item.querySelector('.qameez-style');
+                    const collarElement = item.querySelector('.qameez-collar-combined');
+                    
+                    if (valueElement) {
+                        const value = valueElement.textContent.trim();
+                        const styleValue = styleElement ? styleElement.textContent.trim() : '';
+                        
+                        // Hide if value is empty, "NO", or style is "NO"
+                        if (!value || value.toLowerCase() === 'no' || styleValue.toLowerCase() === 'no') {
+                            item.classList.add('print-hide-empty');
+                        } else {
+                            item.classList.remove('print-hide-empty');
+                        }
+                    } else if (collarElement) {
+                        const value = collarElement.textContent.trim();
+                        
+                        // Hide if collar combined value is empty, just "بین / کالر", or "NO"
+                        if (!value || value === 'بین / کالر' || value.toLowerCase() === 'no') {
+                            item.classList.add('print-hide-empty');
+                        } else {
+                            item.classList.remove('print-hide-empty');
+                        }
+                    }
+                });
+                
+                // Process shalwar measurement items (static layout)
+                shalwarItems.forEach(item => {
+                    const valueElement = item.querySelector('.shalwar-value');
+                    
+                    if (valueElement) {
+                        const value = valueElement.textContent.trim();
+                        
+                        // Hide if value is empty or "NO"
+                        if (!value || value.toLowerCase() === 'no') {
+                            item.classList.add('print-hide-empty');
+                        } else {
+                            item.classList.remove('print-hide-empty');
+                        }
+                    }
+                });
+                
+                // Process dynamic measurement items (if any)
+                dynamicItems.forEach(item => {
+                    const valueElement = item.querySelector('.measure-value');
+                    
+                    if (valueElement) {
+                        const value = valueElement.textContent.trim();
+                        
+                        // Hide if value is empty or "NO"
+                        if (!value || value.toLowerCase() === 'no') {
+                            item.classList.add('print-hide-empty');
+                        } else {
+                            item.classList.remove('print-hide-empty');
+                        }
+                    }
+                });
+                
+                // Process grouped option items
+                groupedItems.forEach(item => {
+                    const valueElement = item.querySelector('.option-value');
+                    
+                    if (valueElement) {
+                        const value = valueElement.textContent.trim();
+                        
+                        // Hide if value is empty or "NO"
+                        if (!value || value.toLowerCase() === 'no') {
+                            item.classList.add('print-hide-empty');
+                        } else {
+                            item.classList.remove('print-hide-empty');
+                        }
+                    }
+                });
+                
+                console.log('Applied print hide rules to measurement fields');
+                console.log('Qameez items processed:', qameezItems.length);
+                console.log('Shalwar items processed:', shalwarItems.length);
+                console.log('Dynamic items processed:', dynamicItems.length);
+                console.log('Grouped items processed:', groupedItems.length);
+            } catch (error) {
+                console.error('Error hiding empty print fields:', error);
+            }
+        }
+
+        // Function to adjust qameez container height to prevent separator overlap
+        function adjustQameezContainerHeight() {
+            try {
+                const container = document.querySelector('.qameez-two-column-grid');
+                const column1 = document.querySelector('.qameez-column-1');
+                const column2 = document.querySelector('.qameez-column-2');
+                
+                if (container && column1 && column2) {
+                    // Get the actual height of both columns
+                    const column1Height = column1.offsetHeight;
+                    const column2Height = column2.offsetHeight;
+                    
+                    // Set container height to the taller column plus some padding
+                    const maxHeight = Math.max(column1Height, column2Height);
+                    container.style.minHeight = (maxHeight + 20) + 'px';
+                    
+                    console.log('Adjusted qameez container height:', maxHeight + 20, 'px');
+                    console.log('Column 1 height:', column1Height, 'px');
+                    console.log('Column 2 height:', column2Height, 'px');
+                }
+            } catch (error) {
+                console.error('Error adjusting qameez container height:', error);
             }
         }
 

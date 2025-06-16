@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test پٹی چوڑائی Dropdown</title>
+    <link href="src/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+    <h2>Test پٹی چوڑائی Dropdown</h2>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <h4>پٹی چوڑائی Dropdown Test</h4>
+            <div class="col-md-3">
+                <label for="patti_churai" class="form-label small fw-semibold">پٹی چوڑائی</label>
+                <select class="form-select form-select-sm" id="patti_churai">
+                    <option value="">منتخب کریں</option>
+                    <option value="آدھا انچ">آدھا انچ</option>
+                    <option value="پونےایک انچ">پونےایک انچ</option>
+                    <option value="ایک انچ">ایک انچ</option>
+                    <option value="سوا ایک انچ">سوا ایک انچ</option>
+                    <option value="ساڑے ایک انچ">ساڑے ایک انچ</option>
+                    <option value="پونے دوانچ">پونے دوانچ</option>
+                    <option value="دوانچ">دوانچ</option>
+                </select>
+            </div>
+            
+            <div class="mt-3">
+                <button class="btn btn-primary" onclick="showSelected()">Show Selected Value</button>
+                <div id="result" class="mt-2"></div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <h4>Expected Options:</h4>
+            <ul>
+                <li>منتخب کریں (default)</li>
+                <li>آدھا انچ</li>
+                <li>پونےایک انچ</li>
+                <li>ایک انچ</li>
+                <li>سوا ایک انچ</li>
+                <li>ساڑے ایک انچ</li>
+                <li>پونے دوانچ</li>
+                <li>دوانچ</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showSelected() {
+            const dropdown = document.getElementById('patti_churai');
+            const result = document.getElementById('result');
+            const selectedValue = dropdown.value;
+            const selectedText = dropdown.options[dropdown.selectedIndex].text;
+            
+            if (selectedValue) {
+                result.innerHTML = `<div class="alert alert-success">
+                    <strong>Selected:</strong><br>
+                    Value: ${selectedValue}<br>
+                    Text: ${selectedText}
+                </div>`;
+            } else {
+                result.innerHTML = `<div class="alert alert-warning">
+                    No option selected
+                </div>`;
+            }
+        }
+        
+        // Test automatic selection
+        document.getElementById('patti_churai').addEventListener('change', function() {
+            console.log('پٹی چوڑائی changed to:', this.value);
+        });
+    </script>
+</body>
+</html>

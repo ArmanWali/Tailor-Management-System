@@ -76,21 +76,13 @@ function setupEventListeners() {
     if (cancelBtn) {
         cancelBtn.addEventListener('click', () => {
             cancelEdit();
-        });
-    }    // Print button
+        });    }
+
+    // Print button - Updated to use print preview
     const printBtn = document.getElementById('print-btn');
     if (printBtn) {
         printBtn.addEventListener('click', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const customerId = urlParams.get('id');
-
-            if (customerId) {
-                // Open the separate print form page
-                const printUrl = `print-form.html?id=${customerId}`;
-                window.open(printUrl, '_blank');
-            } else {
-                alert('No customer ID found. Cannot generate print form.');
-            }
+            openPrintPreview();
         });
     }
 }
@@ -100,7 +92,7 @@ function setupCollarDropdown() {
     if (elements.collar_type) {
         elements.collar_type.addEventListener('change', function () {
             const collarBenOptions = document.getElementById('collar-ben-options');
-            const collarBenLabel = document.getElementById('collar-ben-label');
+            const collarBenLabel = document.getElementById('collar_ben_label');
             const collarStyleDropdown = elements.collar_style;
             const selectedValue = this.value;
 
@@ -483,5 +475,121 @@ function cancelEdit() {
         switchToViewMode();
     }
 }
+
+// ===================== NEW PRINT PREVIEW FUNCTIONS =====================
+
+// Open live print preview window
+function openPrintPreview() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const customerId = urlParams.get('id');
+
+    if (!customerId) {
+        alert('No customer ID found. Cannot open print preview.');
+        return;
+    }
+
+    // Use Electron API to open print preview
+    if (window.electronAPI && window.electronAPI.openPrintPreview) {
+        window.electronAPI.openPrintPreview(customerId);
+    } else {
+        // Fallback: open in new window/tab
+        const printPreviewUrl = `print-preview.html?id=${customerId}`;
+        window.open(printPreviewUrl, '_blank', 'width=1400,height=900,scrollbars=yes,resizable=yes');
+    }
+}
+
+// Print directly without preview
+function printDirectly() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const customerId = urlParams.get('id');
+
+    if (!customerId) {
+        alert('No customer ID found. Cannot print.');
+        return;
+    }
+
+    // Open print preview first, then trigger print
+    if (window.electronAPI && window.electronAPI.openPrintPreview) {
+        window.electronAPI.openPrintPreview(customerId);
+        // The print preview window will handle the printing
+    } else {
+        // Fallback: open legacy print form
+        const printUrl = `print-form.html?id=${customerId}`;
+        window.open(printUrl, '_blank');
+    }
+}
+
+// Export current form to PDF
+function exportToPDF() {
+    if (window.electronAPI && window.electronAPI.exportToPDF) {
+        // Listen for export response
+        window.electronAPI.onExportPDFResponse((response) => {
+            if (response.success) {
+                alert(`PDF saved successfully to: ${response.path}`);
+            } else {
+                alert(`Error exporting PDF: ${response.error}`);
+            }
+        });
+        
+        // Trigger PDF export
+        window.electronAPI.exportToPDF();
+    } else {
+        alert('PDF export is only available in the desktop app.');
+    }
+}
+
+// Open legacy print form (backup)
+function openLegacyPrintForm() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const customerId = urlParams.get('id');
+
+    if (customerId) {
+        const printUrl = `print-form.html?id=${customerId}`;
+        window.open(printUrl, '_blank');
+    } else {
+        alert('No customer ID found. Cannot generate print form.');
+    }
+}
+
+// Quick print function (can be called from anywhere)
+function quickPrint() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const customerId = urlParams.get('id');
+
+    if (!customerId) {
+        alert('No customer ID found. Cannot print.');
+        return;
+    }
+
+    openPrintPreview();
+}
+
+// Keyboard shortcut handler
+document.addEventListener('keydown', function(e) {
+    // Ctrl+P or Cmd+P for print preview
+    if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+        e.preventDefault();
+        openPrintPreview();
+    }
+    
+    // Ctrl+Shift+P for direct print
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'P') {
+        e.preventDefault();
+        printDirectly();
+    }
+    
+    // Ctrl+E for export PDF
+    if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+        e.preventDefault();
+        exportToPDF();
+    }
+});
+
+// Make functions available globally
+window.openPrintPreview = openPrintPreview;
+window.printDirectly = printDirectly;
+window.exportToPDF = exportToPDF;
+window.openLegacyPrintForm = openLegacyPrintForm;
+window.quickPrint = quickPrint;
 
 
