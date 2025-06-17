@@ -261,7 +261,7 @@ ipcMain.on('export-to-pdf', (event) => {
     const focusedWindow = BrowserWindow.getFocusedWindow();
     if (focusedWindow) {
         const { dialog } = require('electron');
-        
+
         dialog.showSaveDialog(focusedWindow, {
             title: 'Export Print Form to PDF',
             defaultPath: `print-form-${new Date().toISOString().split('T')[0]}.pdf`,

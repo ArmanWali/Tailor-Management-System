@@ -79,18 +79,23 @@
 
 <body>
     <div class="test-container">
-        <h1 class="test-title">🎯 Print Form Rightmost Column Positioning Test</h1>        <div class="test-description">
-            <strong>Test Objective:</strong> Verify that the second column of both Qameez and Shalwar sections is positioned at the absolute rightmost edge of the print page (aligned with the red line indicator) while keeping the left column in its original position.
+        <h1 class="test-title">🎯 Print Form Rightmost Column Positioning Test</h1>
+        <div class="test-description">
+            <strong>Test Objective:</strong> Verify that the second column of both Qameez and Shalwar sections is
+            positioned at the absolute rightmost edge of the print page (aligned with the red line indicator) while
+            keeping the left column in its original position.
             <br><br>
-            <strong>Expected Result:</strong> The second column should align exactly with the red "RIGHTMOST EDGE" indicator, touching the right margin of the page.
+            <strong>Expected Result:</strong> The second column should align exactly with the red "RIGHTMOST EDGE"
+            indicator, touching the right margin of the page.
             <br><br>
-            <strong>Updated Positioning:</strong> Now using absolute positioning with right: 0 for precise rightmost edge alignment.
+            <strong>Updated Positioning:</strong> Now using absolute positioning with right: 0 for precise rightmost
+            edge alignment.
         </div>
 
         <div class="page-container">
             <div class="page-guide"></div>
             <div class="rightmost-indicator">RIGHTMOST EDGE</div>
-            
+
             <!-- Header -->
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2>Noor & Sons Tailors</h2>
@@ -203,15 +208,17 @@
             <ul>
                 <li><strong>Left Column Position:</strong> Should remain in its original position on the left side</li>
                 <li><strong>Right Column Position:</strong> Should align with the red "RIGHTMOST EDGE" indicator</li>
-                <li><strong>Gap Between Columns:</strong> Should have appropriate spacing between left and right columns</li>
+                <li><strong>Gap Between Columns:</strong> Should have appropriate spacing between left and right columns
+                </li>
                 <li><strong>Print Test:</strong> Use Ctrl+P to verify print layout</li>
             </ul>
         </div>
 
         <div class="test-container">
             <h3>🖨️ Print Test Controls</h3>
-            <p>Use the button below to test the print layout and verify that the rightmost positioning works correctly in print mode.</p>
-            <button onclick="window.print()" 
+            <p>Use the button below to test the print layout and verify that the rightmost positioning works correctly
+                in print mode.</p>
+            <button onclick="window.print()"
                 style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">
                 🖨️ Print Test
             </button>
@@ -235,17 +242,17 @@
 
             if (qameezGrid && shalwarGrid && qameezColumn2 && shalwarColumn2) {
                 console.log('✅ All layout elements found successfully');
-                
+
                 // Check computed styles
                 const qameezGridStyle = getComputedStyle(qameezGrid);
                 const qameezCol2Style = getComputedStyle(qameezColumn2);
-                
+
                 console.log('Qameez grid display:', qameezGridStyle.display);
                 console.log('Qameez grid justify-content:', qameezGridStyle.justifyContent);
                 console.log('Qameez column 2 margin-left:', qameezCol2Style.marginLeft);
                 console.log('Qameez column 2 margin-right:', qameezCol2Style.marginRight);
-                
-                if (qameezGridStyle.display === 'flex' && 
+
+                if (qameezGridStyle.display === 'flex' &&
                     qameezGridStyle.justifyContent === 'space-between' &&
                     qameezCol2Style.marginLeft === 'auto') {
                     console.log('✅ Rightmost positioning CSS is correctly applied');

@@ -151,11 +151,11 @@ function displayCustomers(customers) {
                 // Open customer detail page in edit mode
                 window.location.href = `customer-detail.html?id=${customerId}&edit=true`;
             });
-        });        document.querySelectorAll('.print-btn').forEach(button => {
+        }); document.querySelectorAll('.print-btn').forEach(button => {
             button.addEventListener('click', function () {
                 const customerId = this.getAttribute('data-id');
                 console.log('Print button clicked for customer:', customerId);
-                
+
                 // Use new print preview functionality
                 if (window.electronAPI && window.electronAPI.openPrintPreview) {
                     window.electronAPI.openPrintPreview(customerId);

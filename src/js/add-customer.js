@@ -134,7 +134,7 @@ function setupCuffPlateDropdown() {
     try {
         const cuffPlateDropdown = document.getElementById('cuff_plate');
         const golAsteenField = document.getElementById('gol_asteen');
-        
+
         console.log('Cuff plate dropdown found:', !!cuffPlateDropdown);
         console.log('Gol asteen field found:', !!golAsteenField);
 
@@ -150,12 +150,12 @@ function setupCuffPlateDropdown() {
 
         // Try different methods to find the container
         let golAsteenContainer = golAsteenField.closest('.col-md-3');
-        
+
         // If col-md-3 doesn't work, try other common Bootstrap classes
         if (!golAsteenContainer) {
             golAsteenContainer = golAsteenField.closest('.col');
         }
-        
+
         // If still not found, try parent element
         if (!golAsteenContainer) {
             golAsteenContainer = golAsteenField.parentElement;
@@ -175,7 +175,7 @@ function setupCuffPlateDropdown() {
 
         cuffPlateDropdown.addEventListener('change', function () {
             console.log('Cuff plate changed to:', this.value);
-            
+
             if (this.value === 'NO') {
                 console.log('Showing گول آستین option');
                 golAsteenContainer.style.display = 'block';

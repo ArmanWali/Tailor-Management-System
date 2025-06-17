@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self';">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self';">
     <title>Print Form - Noor & Sons Tailors</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/print-form.css">    <style>
+    <link rel="stylesheet" href="../css/print-form.css">
+    <style>
         /* Print-specific styles for the standalone print form */
         body {
             margin: 0;
@@ -177,7 +178,9 @@
             font-weight: bold;
             text-align: center;
             margin-bottom: 10px;
-        }        /* Qameez two-column layout */
+        }
+
+        /* Qameez two-column layout */
         .qameez-two-column-grid {
             display: flex;
             align-items: flex-start;
@@ -185,7 +188,8 @@
             padding: 0;
             width: 100%;
             position: relative;
-            min-height: 300px; /* Ensure container has enough height */
+            min-height: 300px;
+            /* Ensure container has enough height */
         }
 
         .qameez-column-1,
@@ -230,7 +234,9 @@
             max-width: 100px;
             min-height: 16px;
             padding: 1px 2px;
-        }        .qameez-style {
+        }
+
+        .qameez-style {
             font-size: 10px;
             color: #666;
             white-space: nowrap;
@@ -254,7 +260,9 @@
             border-bottom: none;
             color: #000;
             font-weight: normal;
-        }/* Grouped options section below qameez columns */
+        }
+
+        /* Grouped options section below qameez columns */
         .qameez-grouped-options {
             margin-top: 15px;
             display: flex;
@@ -294,7 +302,9 @@
             padding: 1px 2px;
             font-size: 9px;
             flex-shrink: 0;
-        }/* Shalwar two-column layout */
+        }
+
+        /* Shalwar two-column layout */
         .shalwar-two-column-grid {
             display: flex;
             align-items: flex-start;
@@ -346,7 +356,9 @@
             max-width: 100px;
             min-height: 16px;
             padding: 1px 2px;
-        }        /* Regular measurements grid for Shalwar */
+        }
+
+        /* Regular measurements grid for Shalwar */
         .measurements-grid {
             display: flex;
             flex-wrap: wrap;
@@ -543,7 +555,7 @@
                 <label>Enter by <span id="print-entered-by">Abubakkar</span></label>
             </div>
             <div class="garment-type">شلوار قمیص</div>
-        </div>        <!-- Qameez Section -->
+        </div> <!-- Qameez Section -->
         <div class="measurement-section" id="print-qameez-section">
             <div class="section-title">قمیص</div>
             <div class="qameez-two-column-grid">
@@ -562,7 +574,8 @@
                     <div class="qameez-measure-item">
                         <span class="qameez-label">تیرا</span>
                         <span class="qameez-value" id="qameez-tera"></span>
-                    </div>                    <div class="qameez-measure-item">
+                    </div>
+                    <div class="qameez-measure-item">
                         <span class="qameez-label">بین / کالر</span>
                         <span class="qameez-collar-combined" id="qameez-collar-combined"></span>
                     </div>
@@ -586,7 +599,7 @@
                         <span class="qameez-label">شولڈر</span>
                         <span class="qameez-value" id="qameez-shoulder"></span>
                     </div>
-                </div>                <!-- Column 2 -->
+                </div> <!-- Column 2 -->
                 <div class="qameez-column-2">
                     <div class="qameez-measure-item">
                         <span class="qameez-label">پاکٹ</span>
@@ -806,7 +819,7 @@
                 safeSetTextContent('qameez-lambai', measurements.lambai);
                 safeSetTextContent('qameez-asteen', measurements.asteen);
                 safeSetTextContent('qameez-tera', measurements.tera);
-                
+
                 // Populate combined collar field in the format: کالرانگلش 2 15 بین / کالر
                 const collarParts = [];
                 if (measurements.collar_type) collarParts.push(measurements.collar_type);
@@ -814,7 +827,7 @@
                 if (measurements.collar_ben_width_churai) collarParts.push(measurements.collar_ben_width_churai);
                 if (collarParts.length > 0) collarParts.push('بین / کالر');
                 safeSetTextContent('qameez-collar-combined', collarParts.join(' '));
-                
+
                 safeSetTextContent('qameez-chati', measurements.chati);
                 safeSetTextContent('qameez-kamar', measurements.kamar);
                 safeSetTextContent('qameez-gira', measurements.gira);
@@ -918,16 +931,16 @@
                 const shalwarItems = document.querySelectorAll('.shalwar-measure-item');
                 const dynamicItems = document.querySelectorAll('.measure-item');
                 const groupedItems = document.querySelectorAll('.grouped-option-item');
-                  // Process qameez measurement items
+                // Process qameez measurement items
                 qameezItems.forEach(item => {
                     const valueElement = item.querySelector('.qameez-value');
                     const styleElement = item.querySelector('.qameez-style');
                     const collarElement = item.querySelector('.qameez-collar-combined');
-                    
+
                     if (valueElement) {
                         const value = valueElement.textContent.trim();
                         const styleValue = styleElement ? styleElement.textContent.trim() : '';
-                        
+
                         // Hide if value is empty, "NO", or style is "NO"
                         if (!value || value.toLowerCase() === 'no' || styleValue.toLowerCase() === 'no') {
                             item.classList.add('print-hide-empty');
@@ -936,7 +949,7 @@
                         }
                     } else if (collarElement) {
                         const value = collarElement.textContent.trim();
-                        
+
                         // Hide if collar combined value is empty, just "بین / کالر", or "NO"
                         if (!value || value === 'بین / کالر' || value.toLowerCase() === 'no') {
                             item.classList.add('print-hide-empty');
@@ -945,14 +958,14 @@
                         }
                     }
                 });
-                
+
                 // Process shalwar measurement items (static layout)
                 shalwarItems.forEach(item => {
                     const valueElement = item.querySelector('.shalwar-value');
-                    
+
                     if (valueElement) {
                         const value = valueElement.textContent.trim();
-                        
+
                         // Hide if value is empty or "NO"
                         if (!value || value.toLowerCase() === 'no') {
                             item.classList.add('print-hide-empty');
@@ -961,14 +974,14 @@
                         }
                     }
                 });
-                
+
                 // Process dynamic measurement items (if any)
                 dynamicItems.forEach(item => {
                     const valueElement = item.querySelector('.measure-value');
-                    
+
                     if (valueElement) {
                         const value = valueElement.textContent.trim();
-                        
+
                         // Hide if value is empty or "NO"
                         if (!value || value.toLowerCase() === 'no') {
                             item.classList.add('print-hide-empty');
@@ -977,14 +990,14 @@
                         }
                     }
                 });
-                
+
                 // Process grouped option items
                 groupedItems.forEach(item => {
                     const valueElement = item.querySelector('.option-value');
-                    
+
                     if (valueElement) {
                         const value = valueElement.textContent.trim();
-                        
+
                         // Hide if value is empty or "NO"
                         if (!value || value.toLowerCase() === 'no') {
                             item.classList.add('print-hide-empty');
@@ -993,7 +1006,7 @@
                         }
                     }
                 });
-                
+
                 console.log('Applied print hide rules to measurement fields');
                 console.log('Qameez items processed:', qameezItems.length);
                 console.log('Shalwar items processed:', shalwarItems.length);
@@ -1010,16 +1023,16 @@
                 const container = document.querySelector('.qameez-two-column-grid');
                 const column1 = document.querySelector('.qameez-column-1');
                 const column2 = document.querySelector('.qameez-column-2');
-                
+
                 if (container && column1 && column2) {
                     // Get the actual height of both columns
                     const column1Height = column1.offsetHeight;
                     const column2Height = column2.offsetHeight;
-                    
+
                     // Set container height to the taller column plus some padding
                     const maxHeight = Math.max(column1Height, column2Height);
                     container.style.minHeight = (maxHeight + 20) + 'px';
-                    
+
                     console.log('Adjusted qameez container height:', maxHeight + 20, 'px');
                     console.log('Column 1 height:', column1Height, 'px');
                     console.log('Column 2 height:', column2Height, 'px');

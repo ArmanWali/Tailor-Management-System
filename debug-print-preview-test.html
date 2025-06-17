@@ -1,22 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Debug Print Preview Test</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .debug-section { background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .test-form { background: white; padding: 20px; border: 1px solid #ccc; margin: 20px 0; }
-        .info-item { margin: 5px 0; }
-        .info-label { font-weight: bold; margin-right: 10px; }
-        .info-value { color: blue; }
-        button { padding: 10px 20px; margin: 5px; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .debug-section {
+            background: #f0f0f0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .test-form {
+            background: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin: 20px 0;
+        }
+
+        .info-item {
+            margin: 5px 0;
+        }
+
+        .info-label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .info-value {
+            color: blue;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+        }
     </style>
 </head>
+
 <body>
     <h1>Debug Print Preview Test</h1>
-    
+
     <div class="debug-section">
         <h3>Debug Controls</h3>
         <button onclick="loadAndTestSampleData()">Load & Test Sample Data</button>
@@ -26,12 +57,14 @@
 
     <div class="debug-section">
         <h3>Debug Log</h3>
-        <div id="debug-log" style="background: black; color: green; padding: 10px; font-family: monospace; height: 200px; overflow-y: auto;"></div>
+        <div id="debug-log"
+            style="background: black; color: green; padding: 10px; font-family: monospace; height: 200px; overflow-y: auto;">
+        </div>
     </div>
 
     <div class="test-form">
         <h3>Sample Print Form (Simplified)</h3>
-        
+
         <!-- Customer Info -->
         <div class="info-item">
             <span class="info-label">کوڈ نمبر:</span>
@@ -100,7 +133,7 @@
 
         function populateForm(customer) {
             debugLog('🔄 Starting form population...');
-            
+
             const safeSetTextContent = (id, value) => {
                 const element = document.getElementById(id);
                 if (element) {
@@ -135,10 +168,10 @@
                 'print-code-number', 'print-name', 'print-cell-number', 'print-address',
                 'qameez-lambai', 'qameez-asteen', 'qameez-chati', 'shalwar-lambai'
             ];
-            
+
             let found = 0;
             let missing = 0;
-            
+
             expectedElements.forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
@@ -149,7 +182,7 @@
                     debugLog(`❌ Missing: ${id}`);
                 }
             });
-            
+
             debugLog(`📊 Summary: ${found} found, ${missing} missing`);
         }
 
@@ -158,7 +191,7 @@
             const sampleCustomer = createSampleCustomer();
             debugLog(`📝 Created sample customer: ${JSON.stringify(sampleCustomer)}`);
             populateForm(sampleCustomer);
-            
+
             // Verify after a short delay
             setTimeout(() => {
                 debugLog('🔍 Verifying after population...');
@@ -167,10 +200,11 @@
         }
 
         // Auto-run on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             debugLog('📄 Page loaded, running initial test...');
             loadAndTestSampleData();
         });
     </script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
             margin: 20px;
             line-height: 1.6;
         }
+
         .test-container {
             max-width: 800px;
             margin: 0 auto;
@@ -17,6 +19,7 @@
             border: 1px solid #ddd;
             border-radius: 8px;
         }
+
         .test-button {
             display: inline-block;
             padding: 10px 20px;
@@ -28,23 +31,38 @@
             border: none;
             cursor: pointer;
         }
+
         .test-button:hover {
             background: #0056b3;
         }
+
         .status {
             padding: 10px;
             margin: 10px 0;
             border-radius: 4px;
         }
-        .status.success { background: #d4edda; color: #155724; }
-        .status.info { background: #d1ecf1; color: #0c5460; }
-        .status.warning { background: #fff3cd; color: #856404; }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
     </style>
 </head>
+
 <body>
     <div class="test-container">
         <h1>🖨️ Live Print Preview System Test</h1>
-        
+
         <div class="status info">
             <strong>Test Instructions:</strong>
             <ol>
@@ -56,7 +74,7 @@
         </div>
 
         <h2>🔧 System Tests</h2>
-        
+
         <div style="margin: 20px 0;">
             <h3>API Availability Tests</h3>
             <button class="test-button" onclick="testElectronAPI()">Test Electron API</button>
@@ -102,8 +120,10 @@
             <ol>
                 <li><strong>From Customer Detail Page:</strong> Click "Print Preview" or use Ctrl+P</li>
                 <li><strong>From Manage Customers:</strong> Click the "Print" button next to any customer</li>
-                <li><strong>In Print Preview:</strong> Use the sidebar controls to adjust zoom, reload data, or print directly</li>
-                <li><strong>For Development:</strong> Enable DevTools from the print preview to inspect and modify styles</li>
+                <li><strong>In Print Preview:</strong> Use the sidebar controls to adjust zoom, reload data, or print
+                    directly</li>
+                <li><strong>For Development:</strong> Enable DevTools from the print preview to inspect and modify
+                    styles</li>
                 <li><strong>Keyboard Shortcuts:</strong>
                     <ul>
                         <li>Ctrl+P = Open Print Preview</li>
@@ -233,11 +253,12 @@
         }
 
         // Run initial tests
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             logResult('🚀 Live Print Preview Test Suite Loaded', 'success');
             testElectronAPI();
             testLocalStorage();
         });
     </script>
 </body>
+
 </html>

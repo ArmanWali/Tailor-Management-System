@@ -76,7 +76,8 @@ function setupEventListeners() {
     if (cancelBtn) {
         cancelBtn.addEventListener('click', () => {
             cancelEdit();
-        });    }
+        });
+    }
 
     // Print button - Updated to use print preview
     const printBtn = document.getElementById('print-btn');
@@ -530,7 +531,7 @@ function exportToPDF() {
                 alert(`Error exporting PDF: ${response.error}`);
             }
         });
-        
+
         // Trigger PDF export
         window.electronAPI.exportToPDF();
     } else {
@@ -565,19 +566,19 @@ function quickPrint() {
 }
 
 // Keyboard shortcut handler
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     // Ctrl+P or Cmd+P for print preview
     if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
         e.preventDefault();
         openPrintPreview();
     }
-    
+
     // Ctrl+Shift+P for direct print
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'P') {
         e.preventDefault();
         printDirectly();
     }
-    
+
     // Ctrl+E for export PDF
     if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
         e.preventDefault();

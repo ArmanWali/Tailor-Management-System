@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
             margin: 20px;
             font-family: Arial, sans-serif;
         }
+
         .test-section {
             margin: 20px 0;
             padding: 20px;
@@ -17,9 +19,10 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Test Print Form Changes</h1>
-    
+
     <div class="test-section">
         <h2>Qameez Section Test</h2>
         <div class="qameez-two-column-grid">
@@ -109,7 +112,7 @@
         function testPrint() {
             window.print();
         }
-        
+
         // Add a print button
         const button = document.createElement('button');
         button.textContent = 'Test Print';
@@ -120,4 +123,5 @@
         document.body.insertBefore(button, document.body.firstChild.nextSibling);
     </script>
 </body>
+
 </html>

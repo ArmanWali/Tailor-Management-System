@@ -57,22 +57,22 @@ contextBridge.exposeInMainWorld(
     printPage: () => {
         ipcRenderer.send('print-page');
     },
-    
+
     // Export current page to PDF
     exportToPDF: () => {
         ipcRenderer.send('export-to-pdf');
     },
-    
+
     // Open DevTools for current window
     openDevTools: () => {
         ipcRenderer.send('open-devtools');
     },
-    
+
     // Open print preview window
     openPrintPreview: (customerId) => {
         ipcRenderer.send('open-print-preview', { customerId });
     },
-    
+
     // Listen for PDF export response
     onExportPDFResponse: (callback) => {
         ipcRenderer.on('export-pdf-response', (event, response) => {

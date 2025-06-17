@@ -688,7 +688,9 @@
 
     .avoid-break {
         page-break-inside: avoid;
-    }    /* Qameez Two-Column Layout Print Styles */
+    }
+
+    /* Qameez Two-Column Layout Print Styles */
     .qameez-two-column-grid {
         display: flex !important;
         align-items: flex-start !important;
@@ -696,13 +698,17 @@
         width: 100% !important;
         justify-content: flex-start !important;
         page-break-inside: avoid;
-    }    .qameez-column-1 {
+    }
+
+    .qameez-column-1 {
         display: flex !important;
         flex-direction: column !important;
         gap: 6px !important;
         width: 45% !important;
         margin-right: 25px !important;
-    }    .qameez-column-2 {
+    }
+
+    .qameez-column-2 {
         display: flex !important;
         flex-direction: column !important;
         gap: 4px !important;
@@ -863,7 +869,9 @@
         max-width: 100px !important;
         min-width: 60px !important;
         padding: 1px 2px !important;
-    }    /* Shalwar Two-Column Layout Print Styles */
+    }
+
+    /* Shalwar Two-Column Layout Print Styles */
     .shalwar-two-column-grid {
         display: flex !important;
         align-items: flex-start !important;
@@ -990,24 +998,32 @@
         max-width: 210mm;
         margin: 0 auto;
         background: white;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         padding: 15mm;
         box-sizing: border-box;
     }
 
     /* Responsive scaling for preview */
     @media screen and (max-width: 1200px) {
-        .preview-paper.zoom-100 { transform: scale(0.8); }
-        .preview-paper.zoom-125 { transform: scale(1.0); }
-        .preview-paper.zoom-150 { transform: scale(1.2); }
+        .preview-paper.zoom-100 {
+            transform: scale(0.8);
+        }
+
+        .preview-paper.zoom-125 {
+            transform: scale(1.0);
+        }
+
+        .preview-paper.zoom-150 {
+            transform: scale(1.2);
+        }
     }
 
     @media screen and (max-width: 768px) {
-        .preview-paper { 
-            transform: scale(0.6); 
+        .preview-paper {
+            transform: scale(0.6);
             margin: 10px auto;
         }
-        
+
         .preview-sidebar {
             width: 250px;
         }
