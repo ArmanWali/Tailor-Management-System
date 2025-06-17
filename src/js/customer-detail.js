@@ -35,13 +35,14 @@ function initializeElements() {
         'lambai', 'asteen', 'tera', 'chati', 'kamar', 'gira', 'moza', 'gol_asteen',
         'collar_type', 'collar_measurement', 'collar_ben_width_churai', 'collar_style', 'ben_half_full', 'front_pocket_size', 'double_side_pocket',
         'single_pocket', 'front_pocket', 'silai', 'button_color', 'button',
-        'button_size', 'cuff_plate', 'cuff_style', 'cuff_kaj', 'chak_patti', 'chak_patti_kaj', 'daman', 'shoulder_style', 'sleeve_type', 'extra_demand',
+        'button_size', 'cuff_plate', 'cuff_style', 'cuff_kaj', 'cuff_length', 'chak_patti', 'chak_patti_kaj', 'daman', 'shoulder_style', 'sleeve_type', 'extra_demand',
         'shalwar_lambai', 'shalwar_type', 'shalwar', 'pacha', 'lib', 'ander',
-        'shalwar_pocket', 'patti', 'patti_churai'
-    ];
-
-    elementIds.forEach(id => {
+        'shalwar_pocket', 'patti', 'patti_churai', 'patti_lambai'
+    ];    elementIds.forEach(id => {
         elements[id] = document.getElementById(id);
+        if (!elements[id]) {
+            console.warn(`⚠️ Element with ID '${id}' not found in DOM`);
+        }
     });
 }
 
@@ -217,6 +218,19 @@ function safeSetValue(element, value) {
     }
 }
 
+// Safe get value function
+function safeGetValue(element) {
+    if (!element) {
+        console.warn('Element is null in safeGetValue');
+        return '';
+    }
+    if (element.value === undefined) {
+        console.warn('Element value is undefined in safeGetValue:', element);
+        return '';
+    }
+    return element.value || '';
+}
+
 // Display customer data in the view
 function displayCustomerData(customer) {
     try {
@@ -277,8 +291,8 @@ function displayCustomerData(customer) {
 
             // Cuff options
             safeSetValue(elements.cuff_plate, m.cuff_plate);
-            safeSetValue(elements.cuff_style, m.cuff_style);
-            safeSetValue(elements.cuff_kaj, m.cuff_kaj);
+            safeSetValue(elements.cuff_style, m.cuff_style);            safeSetValue(elements.cuff_kaj, m.cuff_kaj);
+            safeSetValue(elements.cuff_length, m.cuff_length);
             safeSetValue(elements.chak_patti, m.chak_patti);
             safeSetValue(elements.chak_patti_kaj, m.chak_patti_kaj);
             safeSetValue(elements.daman, m.daman);
@@ -295,6 +309,7 @@ function displayCustomerData(customer) {
             safeSetValue(elements.shalwar_pocket, m.shalwar_pocket);
             safeSetValue(elements.patti, m.patti);
             safeSetValue(elements.patti_churai, m.patti_churai);
+            safeSetValue(elements.patti_lambai, m.patti_lambai);
         }
 
         console.log('Customer data displayed successfully');
@@ -379,80 +394,95 @@ function disableFormFields() {
 // Save customer changes
 function saveCustomerChanges() {
     try {
-        console.log('Saving customer changes');
-
-        // Validate required fields
-        if (!elements.name.value || !elements.cellNumber.value || !elements.orderDate.value) {
+        console.log('Saving customer changes');        // Validate required fields
+        if (!elements.name || !elements.name.value || !elements.cellNumber || !elements.cellNumber.value || !elements.orderDate || !elements.orderDate.value) {
             alert('Please fill in all required fields (Name, Cell Number, Order Date)');
             return;
         }
 
         // Get updated customer data
         const updatedCustomer = {
-            ...originalCustomerData,
-            // Basic info
-            name: elements.name.value,
-            cellNumber: elements.cellNumber.value,
-            age: elements.age.value,
-            address: elements.address.value,
-            quantity: elements.quantity.value,
-            cuttingNo: elements.cuttingNo.value,
-            orderDate: elements.orderDate.value,
-            returnDate: elements.returnDate.value,
-            lastModified: new Date().toISOString(),
-
-            // Measurements
+            ...originalCustomerData,            // Basic info
+            name: safeGetValue(elements.name),
+            cellNumber: safeGetValue(elements.cellNumber),
+            age: safeGetValue(elements.age),
+            address: safeGetValue(elements.address),
+            quantity: safeGetValue(elements.quantity),
+            cuttingNo: safeGetValue(elements.cuttingNo),
+            orderDate: safeGetValue(elements.orderDate),
+            returnDate: safeGetValue(elements.returnDate),
+            lastModified: new Date().toISOString(),            // Measurements
             measurements: {
-                lambai: elements.lambai.value,
-                asteen: elements.asteen.value,
-                tera: elements.tera.value,
-                chati: elements.chati.value,
-                kamar: elements.kamar.value,
-                gira: elements.gira.value, moza: elements.moza.value,
-                gol_asteen: elements.gol_asteen.value,
-                collar_type: elements.collar_type.value,
-                collar_measurement: elements.collar_measurement.value,
-                collar_ben_width_churai: elements.collar_ben_width_churai.value,
-                collar_style: elements.collar_style.value,
-                ben_half_full: elements.ben_half_full.value,
-                front_pocket_size: elements.front_pocket_size.value,
-                double_side_pocket: elements.double_side_pocket.value,
-                single_pocket: elements.single_pocket.value,
-                front_pocket: elements.front_pocket.value,
-                silai: elements.silai.value,
-                button_color: elements.button_color.value,
-                button: elements.button.value,
-                button_size: elements.button_size.value,
-                cuff_plate: elements.cuff_plate.value,
-                cuff_style: elements.cuff_style.value,
-                cuff_kaj: elements.cuff_kaj.value,
-                chak_patti: elements.chak_patti.value,
-                chak_patti_kaj: elements.chak_patti_kaj.value,
-                daman: elements.daman.value,
-                shoulder_style: elements.shoulder_style.value,
-                sleeve_type: elements.sleeve_type.value,
-                extra_demand: elements.extra_demand.value,
-                shalwar_lambai: elements.shalwar_lambai.value,
-                shalwar_type: elements.shalwar_type.value,
-                shalwar: elements.shalwar.value,
-                pacha: elements.pacha.value,
-                lib: elements.lib.value, ander: elements.ander.value,
-                shalwar_pocket: elements.shalwar_pocket.value,
-                patti: elements.patti.value,
-                patti_churai: elements.patti_churai.value
+                lambai: safeGetValue(elements.lambai),
+                asteen: safeGetValue(elements.asteen),
+                tera: safeGetValue(elements.tera),
+                chati: safeGetValue(elements.chati),
+                kamar: safeGetValue(elements.kamar),
+                gira: safeGetValue(elements.gira), 
+                moza: safeGetValue(elements.moza),
+                gol_asteen: safeGetValue(elements.gol_asteen),
+                collar_type: safeGetValue(elements.collar_type),
+                collar_measurement: safeGetValue(elements.collar_measurement),
+                collar_ben_width_churai: safeGetValue(elements.collar_ben_width_churai),
+                collar_style: safeGetValue(elements.collar_style),
+                ben_half_full: safeGetValue(elements.ben_half_full),
+                front_pocket_size: safeGetValue(elements.front_pocket_size),
+                double_side_pocket: safeGetValue(elements.double_side_pocket),
+                single_pocket: safeGetValue(elements.single_pocket),
+                front_pocket: safeGetValue(elements.front_pocket),
+                silai: safeGetValue(elements.silai),
+                button_color: safeGetValue(elements.button_color),
+                button: safeGetValue(elements.button),
+                button_size: safeGetValue(elements.button_size),
+                cuff_plate: safeGetValue(elements.cuff_plate),
+                cuff_style: safeGetValue(elements.cuff_style),                
+                cuff_kaj: safeGetValue(elements.cuff_kaj),
+                cuff_length: safeGetValue(elements.cuff_length),
+                chak_patti: safeGetValue(elements.chak_patti),
+                chak_patti_kaj: safeGetValue(elements.chak_patti_kaj),
+                daman: safeGetValue(elements.daman),
+                shoulder_style: safeGetValue(elements.shoulder_style),
+                sleeve_type: safeGetValue(elements.sleeve_type),
+                extra_demand: safeGetValue(elements.extra_demand),
+                shalwar_lambai: safeGetValue(elements.shalwar_lambai),
+                shalwar_type: safeGetValue(elements.shalwar_type),
+                shalwar: safeGetValue(elements.shalwar),
+                pacha: safeGetValue(elements.pacha),
+                lib: safeGetValue(elements.lib), 
+                ander: safeGetValue(elements.ander),
+                shalwar_pocket: safeGetValue(elements.shalwar_pocket),
+                patti: safeGetValue(elements.patti),                
+                patti_churai: safeGetValue(elements.patti_churai),
+                patti_lambai: safeGetValue(elements.patti_lambai)
             }
         };
 
         // Update localStorage
         const customers = JSON.parse(localStorage.getItem('customers') || '[]');
-        const customerIndex = customers.findIndex(c => (c.id || c._id) === customerId);
-
-        if (customerIndex !== -1) {
+        const customerIndex = customers.findIndex(c => (c.id || c._id) === customerId);        if (customerIndex !== -1) {
             customers[customerIndex] = updatedCustomer;
             localStorage.setItem('customers', JSON.stringify(customers));
 
             // Update original data
             originalCustomerData = JSON.parse(JSON.stringify(updatedCustomer));
+
+            // 🔄 Create automatic backup for customer update
+            if (window.autoBackup) {
+                console.log('📦 Creating automatic backup for customer update...');
+                window.autoBackup.createBackup(updatedCustomer, 'update')
+                    .then(success => {
+                        if (success) {
+                            console.log('✅ Automatic backup created successfully for update');
+                        } else {
+                            console.warn('⚠️ Automatic backup failed for update, but data was saved');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('❌ Backup error on update:', error);
+                    });
+            } else {
+                console.warn('⚠️ Backup system not available for update');
+            }
 
             alert('Customer data updated successfully!');
             switchToViewMode();

@@ -453,16 +453,11 @@
                                             <div class="col-md-3">
                                                 <label for="moza" class="form-label small fw-semibold">موڑہ</label>
                                                 <input type="text" class="form-control form-control-sm" id="moza">
-                                            </div>
-                                            <div class="col-md-3">
+                                            </div>                                            <div class="col-md-3">
                                                 <label for="gol_asteen" class="form-label small fw-semibold">گول
                                                     آستین</label>
-                                                <select class="form-select form-select-sm" id="gol_asteen">
-                                                    <option value="">منتخب کریں</option>
-                                                    <option value="فل">فل</option>
-                                                    <option value="فٹ">فٹ</option>
-                                                    <option value="ہاف">ہاف</option>
-                                                </select>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    id="gol_asteen" placeholder="گول آستین درج کریں">
                                             </div>
                                         </div> <!-- Row 3 with sleeve type -->
                                         <div class="row g-2 mb-3">
@@ -616,8 +611,7 @@
                                                 </div>
                                                 <div class="col-md-4"> <label for="cuff_kaj"
                                                         class="form-label small fw-semibold">کف
-                                                        کاج</label>
-                                                    <select class="form-select form-select-sm" id="cuff_kaj">
+                                                        کاج</label>                                                    <select class="form-select form-select-sm" id="cuff_kaj">
                                                         <option value="">منتخب کریں</option>
                                                         <option value="سنگل">سنگل</option>
                                                         <option value="ڈبل">ڈبل</option>
@@ -625,7 +619,15 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div> <!-- Additional Details Section -->
+                                            <div class="row g-2 mb-2">
+                                                <div class="col-md-4">
+                                                    <label for="cuff_length" class="form-label small fw-semibold">کف
+                                                        لمبائی</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="cuff_length" placeholder="کف لمبائی درج کریں">
+                                                </div>
+                                            </div>
+                                        </div><!-- Additional Details Section -->
                                         <div class="subsection mb-3">
                                             <h6 class="subsection-title">اضافی تفصیلات</h6>
                                             <div class="row g-2 mb-2">
@@ -682,8 +684,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="patti_churai" class="form-label small fw-semibold">پٹی
-                                                        چوڑائی</label>
-                                                    <select class="form-select form-select-sm" id="patti_churai">
+                                                        چوڑائی</label>                                                    <select class="form-select form-select-sm" id="patti_churai">
                                                         <option value="">منتخب کریں</option>
                                                         <option value="آدھا انچ">آدھا انچ</option>
                                                         <option value="پونےایک انچ">پونےایک انچ</option>
@@ -693,6 +694,12 @@
                                                         <option value="پونے دوانچ">پونے دوانچ</option>
                                                         <option value="دوانچ">دوانچ</option>
                                                     </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="patti_lambai" class="form-label small fw-semibold">پٹی
+                                                        لمبائی</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="patti_lambai" placeholder="پٹی لمبائی درج کریں">
                                                 </div>
                                             </div>
                                         </div>
@@ -778,8 +785,8 @@
         </div>
     </div> <!-- End main container -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/backup-system.js"></script>
     <script src="../js/customer-detail.js"></script>
 </body>
 

@@ -237,9 +237,7 @@
             right: 20px;
             top: 0;
             z-index: 1;
-        }
-
-        .qameez-measure-item {
+        }        .qameez-measure-item {
             display: flex;
             align-items: center;
             margin-bottom: 8px;
@@ -247,11 +245,21 @@
             gap: 15px;
         }
 
+        /* Second column mirrored layout */
+        .qameez-column-2 .qameez-measure-item {
+            flex-direction: row-reverse;
+        }
+
         .qameez-label {
             font-weight: normal;
             text-align: right;
             direction: rtl;
             min-width: 80px;
+        }
+
+        /* Second column label alignment */
+        .qameez-column-2 .qameez-label {
+            text-align: left;
         }
 
         .qameez-value {
@@ -511,10 +519,17 @@
             .measurement-section {
                 page-break-inside: avoid !important;
                 page-break-after: avoid !important;
+            }            .extra-demand {
+                page-break-inside: avoid !important;
             }
 
-            .extra-demand {
-                page-break-inside: avoid !important;
+            /* Second column mirrored layout for print */
+            .qameez-column-2 .qameez-measure-item {
+                flex-direction: row-reverse !important;
+            }
+
+            .qameez-column-2 .qameez-label {
+                text-align: left !important;
             }
         }
     </style>
@@ -624,14 +639,16 @@
                             <div class="qameez-measure-item">
                                 <span class="qameez-label">گیرا</span>
                                 <span class="qameez-value" id="qameez-gira">12</span>
-                            </div>
-                            <div class="qameez-measure-item">
+                            </div>                            <div class="qameez-measure-item">
                                 <span class="qameez-label">موڑہ</span>
                                 <span class="qameez-value" id="qameez-moza">32</span>
                             </div>
                             <div class="qameez-measure-item">
+                                <span class="qameez-label">گول آستین</span>
+                                <span class="qameez-value" id="qameez-gol-asteen"></span>
+                            </div>                            <div class="qameez-measure-item">
                                 <span class="qameez-label">شولڈر</span>
-                                <span class="qameez-value" id="qameez-shoulder">18</span>
+                                <span class="qameez-value" id="qameez-shoulder"></span>
                             </div>
                         </div>
                         <div class="qameez-column-2">
@@ -769,13 +786,23 @@
                 safeSetText('qameez-sleeve-type', m.sleeve_type);
                 safeSetText('qameez-tera', m.tera);
                 safeSetText('qameez-chati', m.chati);
-                safeSetText('qameez-kamar', m.kamar); safeSetText('qameez-gira', m.gira);
-                safeSetText('qameez-moza', m.moza);
-                // Convert shoulder value to dropdown option
-                let shoulderValue = m.shoulder;
+                safeSetText('qameez-kamar', m.kamar); safeSetText('qameez-gira', m.gira);                safeSetText('qameez-moza', m.moza);                
+                // Show gol asteen when there's a value or when cuff plate is "NO"
+                const golAsteenElement = document.getElementById('qameez-gol-asteen');
+                const golAsteenItem = golAsteenElement ? golAsteenElement.closest('.qameez-measure-item') : null;
+                
+                if (m.gol_asteen || (m.cuff_plate && m.cuff_plate.toLowerCase() === 'no')) {
+                    safeSetText('qameez-gol-asteen', m.gol_asteen || '');
+                    if (golAsteenItem) golAsteenItem.style.display = '';
+                } else {
+                    safeSetText('qameez-gol-asteen', '');
+                    if (golAsteenItem) golAsteenItem.style.display = 'none';
+                }// Convert shoulder value to dropdown option
+                let shoulderValue = m.shoulder_style; // Use correct field name
                 if (shoulderValue) {
                     // Check if it's already one of the valid dropdown options
-                    if (shoulderValue === 'نارمل' || shoulderValue === 'سیدھا' || shoulderValue === 'ڈاؤن') {
+                    // Note: Fixed spelling - using سیدہا (with ہ) not سیدھا (with ھ) to match dropdown options
+                    if (shoulderValue === 'نارمل' || shoulderValue === 'سیدہا' || shoulderValue === 'ڈاؤن') {
                         // Keep the existing value
                     } else {
                         // If it's a number or any other value, default to نارمل
@@ -785,42 +812,47 @@
                 } else {
                     shoulderValue = 'نارمل'; // default if no value
                 }
-                safeSetText('qameez-shoulder', shoulderValue);// Collar information (correct format: style, half/full, width, measurement)
+                safeSetText('qameez-shoulder', shoulderValue);                // Collar information (correct format: style, half/full, width, measurement)
                 let collarDisplay = '';
                 if (m.collar_type) {
                     if (m.collar_type.trim() === 'بین' || m.collar_type.trim().toLowerCase() === 'ben') {
-                        // Ben: [style] [half/full] [width] [measurement]
-                        if (m.collar_style) collarDisplay += m.collar_style;
-                        if (m.ben_half_full) collarDisplay += (collarDisplay ? ' ' : '') + m.ben_half_full;
+                        // Ben: [half/full] [style] [width] [measurement]
+                        if (m.ben_half_full) collarDisplay += m.ben_half_full;
+                        if (m.collar_style) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_style;
                         if (m.collar_ben_width_churai) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_ben_width_churai;
                         if (m.collar_measurement) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_measurement;
                     } else if (m.collar_type.trim() === 'کالر' || m.collar_type.trim().toLowerCase() === 'collar') {
-                        // Collar: [style] [width] [measurement]
+                        // Collar: [style] [width] [measurement] - no change for collar type
                         if (m.collar_style) collarDisplay += m.collar_style;
                         if (m.collar_ben_width_churai) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_ben_width_churai;
                         if (m.collar_measurement) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_measurement;
                     } else {
-                        // Fallback: show available data in order
-                        if (m.collar_style) collarDisplay += m.collar_style;
-                        if (m.ben_half_full) collarDisplay += (collarDisplay ? ' ' : '') + m.ben_half_full;
+                        // Fallback: show available data in order with half/full before style
+                        if (m.ben_half_full) collarDisplay += m.ben_half_full;
+                        if (m.collar_style) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_style;
                         if (m.collar_ben_width_churai) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_ben_width_churai;
                         if (m.collar_measurement) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_measurement;
                     }
                 }
-                safeSetText('qameez-collar-combined', collarDisplay);
-
-                // Qameez details
+                safeSetText('qameez-collar-combined', collarDisplay);                // Qameez details
                 safeSetText('qameez-pocket', m.single_pocket || m.double_side_pocket || 'No');
                 safeSetText('qameez-front-pocket-style', m.front_pocket);
                 safeSetText('qameez-front-pocket-size', m.front_pocket_size);
-                safeSetText('qameez-cuff-style', m.cuff_style);
-                safeSetText('qameez-cuff-kaj', m.cuff_kaj); safeSetText('qameez-chak-patti', m.chak_patti);
-                safeSetText('qameez-chak-patti-kaj', m.chak_patti_kaj);
-
-                // Combine patti type and width
+                  // Combine cuff style and length
+                let cuffCombined = '';
+                if (m.cuff_style) cuffCombined += m.cuff_style;
+                if (m.cuff_length) cuffCombined += (cuffCombined ? ' ' : '') + m.cuff_length;
+                safeSetText('qameez-cuff-style', cuffCombined);
+                
+                safeSetText('qameez-cuff-kaj', m.cuff_kaj);safeSetText('qameez-chak-patti', m.chak_patti);
+                safeSetText('qameez-chak-patti-kaj', m.chak_patti_kaj);                // Combine patti type and width
                 let pattiCombined = '';
-                if (m.patti) pattiCombined += m.patti;
+                // Only show patti if it's not the default "پٹی" option
+                if (m.patti && m.patti !== 'پٹی') {
+                    pattiCombined += m.patti;
+                }
                 if (m.patti_churai) pattiCombined += (pattiCombined ? ' ' : '') + m.patti_churai;
+                if (m.patti_lambai) pattiCombined += (pattiCombined ? ' ' : '') + m.patti_lambai;
                 safeSetText('qameez-patti-combined', pattiCombined);
                 // Grouped options
                 safeSetText('qameez-button-color', m.button_color);

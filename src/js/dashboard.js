@@ -4,10 +4,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     try {
         // Check if user is logged in (optional for development)
-        checkUserSession();
-
-        // Set up event listeners
+        checkUserSession();        // Set up event listeners
         setupEventListeners();
+
+        // Initialize backup status display
+        initializeBackupStatus();
 
         console.log('Dashboard initialized successfully');
     } catch (error) {
@@ -84,4 +85,106 @@ function logout() {
         alert('Error logging out. Please try closing the application.');
     }
 }
+
+// Initialize backup status display
+function initializeBackupStatus() {
+    try {
+        // Wait for backup system to be ready
+        setTimeout(() => {
+            if (window.autoBackup) {
+                const stats = window.autoBackup.getBackupStats();
+                updateBackupStats(stats);
+                console.log('✅ Backup status initialized');
+            } else {
+                console.warn('⚠️ Backup system not loaded yet');
+                // Try again in 1 second
+                setTimeout(initializeBackupStatus, 1000);
+            }
+        }, 500);
+    } catch (error) {
+        console.error('Error initializing backup status:', error);
+    }
+}
+
+// Update backup statistics display
+function updateBackupStats(stats) {
+    try {
+        const statsElement = document.getElementById('backup-stats');
+        if (statsElement && stats) {
+            let statusText = '';
+            
+            if (stats.totalBackups > 0) {
+                statusText = `📊 Total backups created: <strong>${stats.totalBackups}</strong>`;
+                
+                if (stats.lastBackup) {
+                    const lastBackupDate = new Date(stats.lastBackup.timestamp);
+                    const timeAgo = getTimeAgo(lastBackupDate);
+                    statusText += ` | 🕒 Last backup: <strong>${timeAgo}</strong>`;
+                }
+            } else {
+                statusText = '📊 No backups created yet. Add your first customer to create a backup!';
+            }
+            
+            statsElement.innerHTML = `<small class="text-info">${statusText}</small>`;
+        }
+    } catch (error) {
+        console.error('Error updating backup stats:', error);
+    }
+}
+
+// Get human-readable time ago
+function getTimeAgo(date) {
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+}
+
+// Manual backup function (called from dashboard button)
+async function createManualBackup() {
+    try {
+        if (!window.autoBackup) {
+            alert('❌ Backup system is not available. Please refresh the page.');
+            return;
+        }
+        
+        console.log('📦 Creating manual full backup...');
+        
+        // Show loading state
+        const button = event.target;
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="bi bi-hourglass-split"></i> Creating Backup...';
+        button.disabled = true;
+        
+        // Create full backup
+        const success = await window.autoBackup.createFullBackup();
+        
+        // Restore button state
+        button.innerHTML = originalText;
+        button.disabled = false;
+        
+        if (success) {
+            alert('✅ Manual backup created successfully!\n\nBackup saved to: C:\\Customer Data Backup\n\nNote: In browser mode, the backup file will be downloaded to your Downloads folder.');
+            
+            // Update stats
+            const stats = window.autoBackup.getBackupStats();
+            updateBackupStats(stats);
+        } else {
+            alert('❌ Failed to create manual backup. Please try again.');
+        }
+        
+    } catch (error) {
+        console.error('Error creating manual backup:', error);
+        alert('❌ Error creating backup: ' + error.message);
+    }
+}
+
+// Make function available globally for button onclick
+window.createManualBackup = createManualBackup;
 

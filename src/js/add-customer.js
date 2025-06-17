@@ -239,8 +239,8 @@ function saveCustomer() {
                 button: document.getElementById('button') ? document.getElementById('button').value : '',
                 button_size: document.getElementById('button_size') ? document.getElementById('button_size').value : '',
                 cuff_plate: document.getElementById('cuff_plate') ? document.getElementById('cuff_plate').value : '',
-                cuff_style: document.getElementById('cuff_style') ? document.getElementById('cuff_style').value : '',
-                cuff_kaj: document.getElementById('cuff_kaj') ? document.getElementById('cuff_kaj').value : '',
+                cuff_style: document.getElementById('cuff_style') ? document.getElementById('cuff_style').value : '',                cuff_kaj: document.getElementById('cuff_kaj') ? document.getElementById('cuff_kaj').value : '',
+                cuff_length: document.getElementById('cuff_length') ? document.getElementById('cuff_length').value : '',
                 chak_patti: document.getElementById('chak_patti') ? document.getElementById('chak_patti').value : '',
                 chak_patti_kaj: document.getElementById('chak_patti_kaj') ? document.getElementById('chak_patti_kaj').value : '',
                 daman: document.getElementById('daman') ? document.getElementById('daman').value : '',
@@ -253,9 +253,9 @@ function saveCustomer() {
                 shalwar: document.getElementById('shalwar') ? document.getElementById('shalwar').value : '',
                 pacha: document.getElementById('pacha') ? document.getElementById('pacha').value : '',
                 lib: document.getElementById('lib') ? document.getElementById('lib').value : '',
-                ander: document.getElementById('ander') ? document.getElementById('ander').value : '',
-                shalwar_pocket: document.getElementById('shalwar_pocket') ? document.getElementById('shalwar_pocket').value : '', patti: document.getElementById('patti') ? document.getElementById('patti').value : '',
-                patti_churai: document.getElementById('patti_churai') ? document.getElementById('patti_churai').value : ''
+                ander: document.getElementById('ander') ? document.getElementById('ander').value : '',                shalwar_pocket: document.getElementById('shalwar_pocket') ? document.getElementById('shalwar_pocket').value : '', patti: document.getElementById('patti') ? document.getElementById('patti').value : '',
+                patti_churai: document.getElementById('patti_churai') ? document.getElementById('patti_churai').value : '',
+                patti_lambai: document.getElementById('patti_lambai') ? document.getElementById('patti_lambai').value : ''
             }
         };
         console.log('Customer data prepared:', customerData);
@@ -268,15 +268,32 @@ function saveCustomer() {
 
         // Generate unique ID
         customerData.id = 'C_' + Date.now();
-        customerData.createdAt = new Date().toISOString();
-
-        // Save to localStorage
+        customerData.createdAt = new Date().toISOString();        // Save to localStorage
         try {
             let customers = JSON.parse(localStorage.getItem('customers') || '[]');
             customers.push(customerData);
             localStorage.setItem('customers', JSON.stringify(customers));
 
             console.log('Customer saved successfully to localStorage');
+            
+            // 🔄 Create automatic backup
+            if (window.autoBackup) {
+                console.log('📦 Creating automatic backup...');
+                window.autoBackup.createBackup(customerData, 'add')
+                    .then(success => {
+                        if (success) {
+                            console.log('✅ Automatic backup created successfully');
+                        } else {
+                            console.warn('⚠️ Automatic backup failed, but data was saved');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('❌ Backup error:', error);
+                    });
+            } else {
+                console.warn('⚠️ Backup system not available');
+            }
+
             alert('Customer saved successfully!');
 
             // Reset form
