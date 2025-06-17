@@ -48,35 +48,50 @@
             padding: 60px 20px 20px;
             display: flex;
             justify-content: center;
-        }
-        
-        .print-preview {
+        }        .print-preview {
             background: white;
             width: 210mm;
             min-height: 297mm;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             transform: scale(0.8);
             padding: 20px;
+            position: relative;
         }
-        
-        /* Form Header */
+          .print-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;            background-image: url('../assets/img/logo-pic.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 60%;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+        }/* Form Header */
         .form-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 2px solid #333;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
         }
         
         .logo-left {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
         }
         
         .shop-info {
             text-align: center;
-            flex: 1;
+            flex: 0 0 auto;
         }
         
         .shop-info h2 {
@@ -89,26 +104,26 @@
             font-style: italic;
             color: #666;
         }
-        
-        .logo-right-container {
+          .logo-right-container {
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 5px;
+        }        .logo-right {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
         }
-        
-        .logo-right {
-            width: 50px;
-            height: 50px;
-        }
-        
-        .logo-right-bottom {
-            width: 50px;
+          .logo-right-bottom {
+            width: 70px;
             height: 30px;
+            object-fit: contain;
         }
-        
-        /* Customer Info */
+          /* Customer Info */
         .customer-info {
             margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
         }
         
         .info-row {
@@ -140,8 +155,7 @@
             text-align: right;
             direction: rtl;
         }
-        
-        /* Cutting Section */
+          /* Cutting Section */
         .cutting-section {
             display: flex;
             justify-content: space-between;
@@ -149,6 +163,8 @@
             margin-bottom: 20px;
             padding: 10px;
             border: 1px solid #ccc;
+            position: relative;
+            z-index: 1;
         }
         
         .cutting-item {
@@ -170,10 +186,10 @@
             color: #333;
             direction: rtl;
         }
-        
-        /* Measurement Sections */        .measurement-section {
+          /* Measurement Sections */        .measurement-section {
             margin-bottom: 20px;
             position: relative;
+            z-index: 1;
         }
         
         .section-title {
@@ -336,9 +352,12 @@
             padding: 5px;
             text-align: right;
             direction: rtl;
-        }
-        
-        @media print {
+        }        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
             .print-header { 
                 display: none !important; 
             }
@@ -352,9 +371,33 @@
                 min-height: auto !important; 
                 margin: 0 !important;
                 padding: 10px !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .print-preview::before {
+                opacity: 0.08 !important;
+                background-size: 60% !important;
+                background-position: center center !important;
+                background-repeat: no-repeat !important;
+                background-image: url('../assets/img/logo-pic.png') !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                content: '' !important;
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                pointer-events: none !important;
+                z-index: 0 !important;
             }
             body {
                 background: white !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
         }
     </style>
@@ -373,12 +416,11 @@
                     <div class="shop-info">
                         <h2>Noor & Sons Tailors And Fabrics</h2>
                         <p>We offer you stitching of your choice</p>
-                    </div>
-                    <div class="logo-right-container">
+                    </div>                    <div class="logo-right-container">
                         <img src="../assets/img/coat_logo-pic.png" alt="Coat Logo" class="logo-right">
                         <img src="../assets/img/Needle-logo.jpg" alt="Needle Logo" class="logo-right-bottom">
                     </div>
-                </div>                <!-- Customer Info -->
+                </div><!-- Customer Info -->
                 <div class="customer-info">
                     <div class="info-row">
                         <div class="info-item">
@@ -416,21 +458,20 @@
                     </div>
                 </div>
 
-                <!-- Cutting Section -->
-                <div class="cutting-section">
+                <!-- Cutting Section -->                <div class="cutting-section">
                     <div class="cutting-item">
                         <label>Cutting No:</label>
-                        <div class="cutting-value">001</div>
+                        <div class="cutting-value" id="cutting-number">001</div>
                     </div>
                     <div class="cutting-item">
                         <label>Quantity:</label>
-                        <div class="cutting-value">2</div>
+                        <div class="cutting-value" id="quantity">2</div>
                     </div>
                     <div class="cutting-item">
                         <label>Enter by Abubakkar</label>
                     </div>
                     <div class="garment-type">شلوار قمیص</div>
-                </div>                <!-- Qameez Section -->
+                </div><!-- Qameez Section -->
                 <div class="measurement-section">
                     <div class="qameez-two-column-grid"><div class="qameez-column-1">
                             <div class="qameez-measure-item">
@@ -567,15 +608,17 @@
                     console.log('Using default data');
                 }
             }
-        });
-
-        function populateCustomerData(customer) {
+        });        function populateCustomerData(customer) {
             // Populate basic customer info
             safeSetText('code', customer.codeNumber);
             safeSetText('name', customer.name);
             safeSetText('phone', customer.cellNumber);
             safeSetText('age', customer.age);
             safeSetText('address', customer.address);
+            
+            // Populate cutting number and quantity
+            safeSetText('cutting-number', customer.cuttingNo);
+            safeSetText('quantity', customer.quantity);
             
             if (customer.orderDate) {
                 safeSetText('order-date', new Date(customer.orderDate).toLocaleDateString());
