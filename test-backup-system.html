@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +8,43 @@
     <link rel="stylesheet" href="src/css/bootstrap.min.css">
     <link rel="stylesheet" href="src/css/bootstrap-icons.css">
     <style>
-        body { padding: 20px; }
-        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
-        .log { background: #f8f9fa; padding: 10px; border-radius: 3px; margin: 10px 0; font-family: monospace; }
-        .success { color: green; }
-        .error { color: red; }
-        .info { color: blue; }
+        body {
+            padding: 20px;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 3px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .info {
+            color: blue;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>🔧 Backup System Test</h1>
-        
+
         <div class="test-section">
             <h3>System Status</h3>
             <div id="system-status">
@@ -54,9 +80,9 @@
     <script>
         let logElement;
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             logElement = document.getElementById('test-log');
-            
+
             // Wait for backup system to initialize
             setTimeout(checkSystemStatus, 1000);
         });
@@ -76,7 +102,7 @@
             if (window.autoBackup) {
                 const stats = window.autoBackup.getBackupStats();
                 const statusElement = document.getElementById('system-status');
-                
+
                 statusElement.innerHTML = `
                     <div class="alert alert-success">
                         <h5>✅ Backup System Active</h5>
@@ -87,7 +113,7 @@
                         <p><strong>Full Backups:</strong> ${stats.fullBackups}</p>
                     </div>
                 `;
-                
+
                 log('✅ Backup system initialized successfully', 'success');
                 log(`📁 Backup location: ${stats.backupPath}`, 'info');
             } else {
@@ -103,7 +129,7 @@
 
         async function testAutoBackup() {
             log('🧪 Testing automatic backup...', 'info');
-            
+
             if (!window.autoBackup) {
                 log('❌ Backup system not available', 'error');
                 return;
@@ -146,7 +172,7 @@
 
         async function testFullBackup() {
             log('🧪 Testing full backup...', 'info');
-            
+
             if (!window.autoBackup) {
                 log('❌ Backup system not available', 'error');
                 return;
@@ -175,7 +201,7 @@
 
         function showStats() {
             log('📊 Showing backup statistics...', 'info');
-            
+
             if (!window.autoBackup) {
                 log('❌ Backup system not available', 'error');
                 return;
@@ -187,7 +213,7 @@
             log(`Full Backups: ${stats.fullBackups}`, 'info');
             log(`System Enabled: ${stats.isEnabled}`, 'info');
             log(`Backup Path: ${stats.backupPath}`, 'info');
-            
+
             if (stats.lastBackup) {
                 log(`Last Backup: ${new Date(stats.lastBackup.timestamp).toLocaleString()}`, 'info');
             }
@@ -195,7 +221,7 @@
 
         async function openBackupFolder() {
             log('📁 Attempting to open backup folder...', 'info');
-            
+
             if (!window.autoBackup) {
                 log('❌ Backup system not available', 'error');
                 return;
@@ -211,4 +237,5 @@
         }
     </script>
 </body>
+
 </html>

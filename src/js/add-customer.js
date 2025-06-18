@@ -230,16 +230,14 @@ function saveCustomer() {
                 kamar: document.getElementById('kamar') ? document.getElementById('kamar').value : '',
                 gira: document.getElementById('gira') ? document.getElementById('gira').value : '',
                 moza: document.getElementById('moza') ? document.getElementById('moza').value : '',
-                front_pocket_size: document.getElementById('front_pocket_size') ? document.getElementById('front_pocket_size').value : '',
-                double_side_pocket: document.getElementById('double_side_pocket') ? document.getElementById('double_side_pocket').value : '',
-                single_pocket: document.getElementById('single_pocket') ? document.getElementById('single_pocket').value : '',
+                front_pocket_size: document.getElementById('front_pocket_size') ? document.getElementById('front_pocket_size').value : '', double_side_pocket: document.getElementById('double_side_pocket') ? document.getElementById('double_side_pocket').value : '',
                 silai: document.getElementById('silai') ? document.getElementById('silai').value : '',
                 front_pocket: document.getElementById('front_pocket') ? document.getElementById('front_pocket').value : '',
                 button_color: document.getElementById('button_color') ? document.getElementById('button_color').value : '',
                 button: document.getElementById('button') ? document.getElementById('button').value : '',
                 button_size: document.getElementById('button_size') ? document.getElementById('button_size').value : '',
                 cuff_plate: document.getElementById('cuff_plate') ? document.getElementById('cuff_plate').value : '',
-                cuff_style: document.getElementById('cuff_style') ? document.getElementById('cuff_style').value : '',                cuff_kaj: document.getElementById('cuff_kaj') ? document.getElementById('cuff_kaj').value : '',
+                cuff_style: document.getElementById('cuff_style') ? document.getElementById('cuff_style').value : '', cuff_kaj: document.getElementById('cuff_kaj') ? document.getElementById('cuff_kaj').value : '',
                 cuff_length: document.getElementById('cuff_length') ? document.getElementById('cuff_length').value : '',
                 chak_patti: document.getElementById('chak_patti') ? document.getElementById('chak_patti').value : '',
                 chak_patti_kaj: document.getElementById('chak_patti_kaj') ? document.getElementById('chak_patti_kaj').value : '',
@@ -248,12 +246,10 @@ function saveCustomer() {
                 sleeve_type: document.getElementById('sleeve_type') ? document.getElementById('sleeve_type').value : '',
                 gol_asteen: document.getElementById('gol_asteen') ? document.getElementById('gol_asteen').value : '',
                 extra_demand: document.getElementById('extra_demand') ? document.getElementById('extra_demand').value : '',
-                shalwar_lambai: document.getElementById('shalwar_lambai') ? document.getElementById('shalwar_lambai').value : '',
-                shalwar_type: document.getElementById('shalwar_type') ? document.getElementById('shalwar_type').value : '',
-                shalwar: document.getElementById('shalwar') ? document.getElementById('shalwar').value : '',
+                shalwar_lambai: document.getElementById('shalwar_lambai') ? document.getElementById('shalwar_lambai').value : '', shalwar_type: document.getElementById('shalwar_type') ? document.getElementById('shalwar_type').value : '',
                 pacha: document.getElementById('pacha') ? document.getElementById('pacha').value : '',
                 lib: document.getElementById('lib') ? document.getElementById('lib').value : '',
-                ander: document.getElementById('ander') ? document.getElementById('ander').value : '',                shalwar_pocket: document.getElementById('shalwar_pocket') ? document.getElementById('shalwar_pocket').value : '', patti: document.getElementById('patti') ? document.getElementById('patti').value : '',
+                ander: document.getElementById('ander') ? document.getElementById('ander').value : '', shalwar_pocket: document.getElementById('shalwar_pocket') ? document.getElementById('shalwar_pocket').value : '', patti: document.getElementById('patti') ? document.getElementById('patti').value : '',
                 patti_churai: document.getElementById('patti_churai') ? document.getElementById('patti_churai').value : '',
                 patti_lambai: document.getElementById('patti_lambai') ? document.getElementById('patti_lambai').value : ''
             }
@@ -275,7 +271,7 @@ function saveCustomer() {
             localStorage.setItem('customers', JSON.stringify(customers));
 
             console.log('Customer saved successfully to localStorage');
-            
+
             // 🔄 Create automatic backup
             if (window.autoBackup) {
                 console.log('📦 Creating automatic backup...');

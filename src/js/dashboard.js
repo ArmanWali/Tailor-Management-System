@@ -125,10 +125,10 @@ function updateBackupStats(stats) {
         const statsElement = document.getElementById('backup-stats');
         if (statsElement && stats) {
             let statusText = '';
-            
+
             if (stats.totalBackups > 0) {
                 statusText = `📊 Auto backups: <strong>${stats.individualBackups}</strong> | Full backups: <strong>${stats.fullBackups}</strong>`;
-                
+
                 if (stats.lastBackup) {
                     const lastBackupDate = new Date(stats.lastBackup.timestamp);
                     const timeAgo = getTimeAgo(lastBackupDate);
@@ -137,7 +137,7 @@ function updateBackupStats(stats) {
             } else {
                 statusText = '📊 No backups created yet. Add your first customer to create a backup!';
             }
-            
+
             statsElement.innerHTML = `<small class="text-info">${statusText}</small>`;
         }
     } catch (error) {
@@ -152,7 +152,7 @@ function getTimeAgo(date) {
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
-    
+
     if (diffMins < 1) return 'Just now';
     if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
     if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
@@ -166,37 +166,37 @@ async function createManualBackup() {
             alert('❌ Backup system is not available. Please refresh the page.');
             return;
         }
-        
+
         console.log('📦 Creating manual full backup...');
-        
+
         // Show loading state
         const button = event.target;
         const originalText = button.innerHTML;
         button.innerHTML = '<i class="bi bi-hourglass-split"></i> Creating...';
         button.disabled = true;
-        
+
         // Create full backup
         const result = await window.autoBackup.createFullBackup();
-        
+
         // Restore button state
         button.innerHTML = originalText;
         button.disabled = false;
-        
+
         if (result.success) {
             const backupPath = window.autoBackup.getBackupPath();
             alert(`✅ Full backup created successfully!\n\n` +
-                  `📁 Location: ${backupPath}\n` +
-                  `📄 Filename: ${result.filename}\n` +
-                  `👥 Customers backed up: ${result.customerCount}\n\n` +
-                  `This backup contains all your customer data and will overwrite any existing full backup file.`);
-            
+                `📁 Location: ${backupPath}\n` +
+                `📄 Filename: ${result.filename}\n` +
+                `👥 Customers backed up: ${result.customerCount}\n\n` +
+                `This backup contains all your customer data and will overwrite any existing full backup file.`);
+
             // Update stats
             const stats = window.autoBackup.getBackupStats();
             updateBackupStats(stats);
         } else {
             alert(`❌ Failed to create full backup.\n\nError: ${result.error}\n\nPlease try again.`);
         }
-        
+
     } catch (error) {
         console.error('Error creating manual backup:', error);
         alert('❌ Error creating backup: ' + error.message);
@@ -210,14 +210,14 @@ async function openBackupFolder() {
             alert('❌ Backup system is not available. Please refresh the page.');
             return;
         }
-        
+
         const success = await window.autoBackup.openBackupFolder();
-        
+
         if (!success) {
             const backupPath = window.autoBackup.getBackupPath();
             alert(`📁 Backup folder location:\n${backupPath}\n\nPlease navigate to this folder manually to access your backup files.`);
         }
-        
+
     } catch (error) {
         console.error('Error opening backup folder:', error);
         alert('❌ Error opening backup folder: ' + error.message);

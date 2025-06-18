@@ -8,6 +8,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "electron-builder",
         "build:win": "electron-builder --win",
+        "build:installer": "electron-builder --win --publish=never",
         "postinstall": "electron-builder install-app-deps",
         "backup": "node -e \"require('./backup').createBackup()\"",
         "restore": "node -e \"require('./restore').restoreLatestBackup()\""
@@ -28,18 +29,18 @@
         "@seald-io/nedb": "^4.0.2",
         "bootstrap": "^5.3.2",
         "bootstrap-rtl": "^3.3.4",
-        "electron": "^28.0.0",
         "html2canvas": "^1.4.1",
         "jspdf": "^3.0.1",
         "jspdf-autotable": "^5.0.2"
     },
     "devDependencies": {
+        "electron": "^28.0.0",
         "electron-builder": "^24.13.3",
         "electron-reload": "^2.0.0-alpha.1"
     },
     "build": {
         "appId": "com.noorandsons.tailor-management",
-        "productName": "Noor & Sons Tailor Management",
+        "productName": "N&S Tailors",
         "directories": {
             "output": "dist"
         },
@@ -58,15 +59,28 @@
             "!**/node_modules/**.{map,txt,md}"
         ],
         "win": {
-            "target": "nsis",
-            "icon": "logo-pic.jpg"
+            "target": [
+                {
+                    "target": "nsis",
+                    "arch": [
+                        "x64"
+                    ]
+                }
+            ],
+            "icon": "src/assets/img/logo-pic.png",
+            "artifactName": "N&S-Tailors-Setup-${version}.${ext}",
+            "requestedExecutionLevel": "asInvoker"
         },
         "nsis": {
             "oneClick": false,
             "allowToChangeInstallationDirectory": true,
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "shortcutName": "Noor & Sons Tailor Management"
+            "shortcutName": "N&S Tailors",
+            "displayLanguageSelector": false,
+            "language": "1033",
+            "perMachine": false,
+            "allowElevation": true
         }
     },
     "bugs": {

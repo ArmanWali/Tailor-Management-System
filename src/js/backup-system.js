@@ -15,13 +15,13 @@ class AutoBackupSystem {
     async init() {
         try {
             console.log('🔄 Initializing Auto Backup System...');
-            
+
             // Set up backup path
             await this.setupBackupPath();
-            
+
             // Create backup directory if it doesn't exist
             await this.ensureBackupDirectory();
-            
+
             this.isInitialized = true;
             console.log('✅ Auto Backup System initialized successfully');
             console.log(`📁 Backup location: ${this.backupPath}`);
@@ -39,7 +39,7 @@ class AutoBackupSystem {
                 const { app } = require('electron');
                 const path = require('path');
                 const os = require('os');
-                
+
                 // Use Documents folder to avoid admin rights issues
                 const documentsPath = app.getPath('documents');
                 this.backupPath = path.join(documentsPath, 'Customer Data Backup');
@@ -59,7 +59,7 @@ class AutoBackupSystem {
     async ensureBackupDirectory() {
         try {
             console.log(`📁 Ensuring backup directory exists: ${this.backupPath}`);
-            
+
             if (this.isElectron) {
                 const fs = require('fs');
                 if (!fs.existsSync(this.backupPath)) {
@@ -67,7 +67,7 @@ class AutoBackupSystem {
                     console.log('✅ Backup directory created successfully');
                 }
             }
-            
+
             return true;
         } catch (error) {
             console.error('Error creating backup directory:', error);
@@ -99,15 +99,15 @@ class AutoBackupSystem {
 
             // Generate unique filename for individual customer
             const filename = this.generateBackupFilename(customerData);
-            
+
             // Save backup
             await this.saveBackupFile(filename, backupData);
-            
+
             console.log(`✅ Automatic backup created successfully: ${filename}`);
-            
+
             // Update backup tracking
             this.trackBackup(filename, backupData.timestamp, 'individual');
-            
+
             return true;
         } catch (error) {
             console.error('❌ Failed to create automatic backup:', error);
@@ -124,15 +124,15 @@ class AutoBackupSystem {
         try {
             // Clean customer name for filename
             const cleanName = this.sanitizeFilename(customerData.name || 'Unknown');
-            
+
             // Get current date and time
             const now = new Date();
             const dateStr = now.toISOString().split('T')[0]; // YYYY-MM-DD
             const timeStr = now.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS
-            
+
             // Use customer code if available
             const customerCode = customerData.codeNumber || customerData.id || 'NoCode';
-            
+
             // Format: CustomerCode_CustomerName_Date_Time.json
             return `${customerCode}_${cleanName}_${dateStr}_${timeStr}.json`;
         } catch (error) {
@@ -160,38 +160,38 @@ class AutoBackupSystem {
     async saveBackupFile(filename, data) {
         try {
             const jsonString = JSON.stringify(data, null, 2);
-            
+
             if (this.isElectron) {
                 // Electron environment - save to file system
                 const fs = require('fs');
                 const path = require('path');
                 const fullPath = path.join(this.backupPath, filename);
-                
+
                 // For manual full backup, check if file exists and handle overwrite
                 if (data.backupType === 'full' && fs.existsSync(fullPath)) {
                     console.log(`📝 Overwriting existing full backup: ${filename}`);
                 }
-                
+
                 fs.writeFileSync(fullPath, jsonString, 'utf8');
                 console.log(`💾 Backup saved to: ${fullPath}`);
-                
+
             } else {
                 // Browser environment - trigger download
                 const blob = new Blob([jsonString], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
-                
+
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = filename;
                 a.style.display = 'none';
-                
+
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
-                
+
                 URL.revokeObjectURL(url);
             }
-            
+
         } catch (error) {
             console.error('Error saving backup file:', error);
             throw error;
@@ -213,12 +213,12 @@ class AutoBackupSystem {
                 type: type,
                 status: 'created'
             });
-            
+
             // Keep only last 100 backup records
             if (backupLog.length > 100) {
                 backupLog.splice(0, backupLog.length - 100);
             }
-            
+
             localStorage.setItem('backupLog', JSON.stringify(backupLog));
         } catch (error) {
             console.error('Error tracking backup:', error);
@@ -232,7 +232,7 @@ class AutoBackupSystem {
             const backupLog = JSON.parse(localStorage.getItem('backupLog') || '[]');
             const individualBackups = backupLog.filter(b => b.type === 'individual' || !b.type);
             const fullBackups = backupLog.filter(b => b.type === 'full');
-            
+
             return {
                 totalBackups: backupLog.length,
                 individualBackups: individualBackups.length,
@@ -244,11 +244,11 @@ class AutoBackupSystem {
             };
         } catch (error) {
             console.error('Error getting backup stats:', error);
-            return { 
-                totalBackups: 0, 
+            return {
+                totalBackups: 0,
                 individualBackups: 0,
                 fullBackups: 0,
-                lastBackup: null, 
+                lastBackup: null,
                 lastFullBackup: null,
                 isEnabled: false,
                 backupPath: this.backupPath
@@ -262,9 +262,9 @@ class AutoBackupSystem {
     async createFullBackup() {
         try {
             console.log('📦 Creating full backup of all customer data...');
-            
+
             const allCustomers = JSON.parse(localStorage.getItem('customers') || '[]');
-            
+
             const backupData = {
                 timestamp: new Date().toISOString(),
                 operation: 'full_backup',
@@ -277,12 +277,12 @@ class AutoBackupSystem {
 
             // Use fixed filename for full backup (will overwrite existing)
             const filename = 'FullBackup_AllCustomers.json';
-            
+
             await this.saveBackupFile(filename, backupData);
-            
+
             // Update tracking
             this.trackBackup(filename, backupData.timestamp, 'full');
-            
+
             console.log('✅ Full backup created successfully');
             return {
                 success: true,

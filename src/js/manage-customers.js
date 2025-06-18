@@ -105,12 +105,10 @@ function displayCustomers(customers) {
         }
 
         // Clear existing rows
-        tableBody.innerHTML = '';
-
-        // Check if there are customers to display
+        tableBody.innerHTML = '';        // Check if there are customers to display
         if (!customers || customers.length === 0) {
             const row = document.createElement('tr');
-            row.innerHTML = '<td colspan="6" class="text-center">No customers found</td>';
+            row.innerHTML = '<td colspan="7" class="text-center">No customers found</td>';
             tableBody.appendChild(row);
             return;
         }
@@ -123,11 +121,11 @@ function displayCustomers(customers) {
                 <td>${customer.name || '-'}</td>
                 <td>${customer.cellNumber || '-'}</td>
                 <td>${formatDate(customer.orderDate) || '-'}</td>
-                <td>${formatDate(customer.returnDate) || '-'}</td>
-                <td>
+                <td>${formatDate(customer.returnDate) || '-'}</td>                <td>
                     <button class="btn btn-sm btn-info view-btn" data-id="${customer.id || customer._id}">View</button>
                     <button class="btn btn-sm btn-primary edit-btn" data-id="${customer.id || customer._id}">Edit</button>
                     <button class="btn btn-sm btn-success print-btn" data-id="${customer.id || customer._id}">Print</button>
+                    <button class="btn btn-sm btn-danger delete-btn" data-id="${customer.id || customer._id}" data-code="${customer.codeNumber}">Delete</button>
                 </td>
             `;
 
@@ -164,6 +162,16 @@ function displayCustomers(customers) {
                     const printPreviewUrl = `print-preview.html?id=${customerId}`;
                     window.open(printPreviewUrl, '_blank', 'width=1400,height=900,scrollbars=yes,resizable=yes');
                 }
+            });
+        });
+
+        // Add delete button event listeners
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const customerId = this.getAttribute('data-id');
+                const customerCode = this.getAttribute('data-code');
+                console.log('Delete button clicked for customer:', customerId, customerCode);
+                deleteCustomer(customerId, customerCode);
             });
         });
     } catch (error) {
@@ -271,5 +279,53 @@ function logout() {
     } catch (error) {
         console.error('Error logging out:', error);
         alert('Error logging out. Please try closing the application.');
+    }
+}
+
+// Delete customer function
+function deleteCustomer(customerId, customerCode) {
+    console.log('Attempting to delete customer:', customerId, customerCode);
+
+    // Confirm deletion
+    if (!confirm(`Are you sure you want to delete customer ${customerCode}? This action cannot be undone.`)) {
+        return;
+    }
+
+    try {
+        // Load current customers
+        let customers = JSON.parse(localStorage.getItem('customers') || '[]');
+        console.log('Current customers before deletion:', customers.length);
+
+        // Find and remove the customer
+        const customerIndex = customers.findIndex(c => (c.id || c._id) === customerId);
+
+        if (customerIndex === -1) {
+            alert('Customer not found!');
+            return;
+        }
+
+        const deletedCustomer = customers[customerIndex];
+        customers.splice(customerIndex, 1);
+
+        // Update localStorage
+        localStorage.setItem('customers', JSON.stringify(customers));
+
+        // Decrement customer counter
+        let currentCounter = parseInt(localStorage.getItem('customerCounter') || '0');
+        if (currentCounter > 0) {
+            currentCounter--;
+            localStorage.setItem('customerCounter', currentCounter.toString());
+            console.log('Customer counter decremented to:', currentCounter);
+        }
+
+        console.log('Customer deleted successfully:', deletedCustomer.codeNumber);
+        alert(`Customer ${deletedCustomer.codeNumber} has been deleted successfully.`);
+
+        // Reload the customers list
+        loadCustomers();
+
+    } catch (error) {
+        console.error('Error deleting customer:', error);
+        alert('Error deleting customer. Please try again.');
     }
 }

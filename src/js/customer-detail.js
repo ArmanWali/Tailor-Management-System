@@ -34,11 +34,11 @@ function initializeElements() {
         'cuttingNo', 'enteredBy', 'orderDate', 'returnDate',
         'lambai', 'asteen', 'tera', 'chati', 'kamar', 'gira', 'moza', 'gol_asteen',
         'collar_type', 'collar_measurement', 'collar_ben_width_churai', 'collar_style', 'ben_half_full', 'front_pocket_size', 'double_side_pocket',
-        'single_pocket', 'front_pocket', 'silai', 'button_color', 'button',
+        'front_pocket', 'silai', 'button_color', 'button',
         'button_size', 'cuff_plate', 'cuff_style', 'cuff_kaj', 'cuff_length', 'chak_patti', 'chak_patti_kaj', 'daman', 'shoulder_style', 'sleeve_type', 'extra_demand',
-        'shalwar_lambai', 'shalwar_type', 'shalwar', 'pacha', 'lib', 'ander',
+        'shalwar_lambai', 'shalwar_type', 'pacha', 'lib', 'ander',
         'shalwar_pocket', 'patti', 'patti_churai', 'patti_lambai'
-    ];    elementIds.forEach(id => {
+    ]; elementIds.forEach(id => {
         elements[id] = document.getElementById(id);
         if (!elements[id]) {
             console.warn(`⚠️ Element with ID '${id}' not found in DOM`);
@@ -275,12 +275,9 @@ function displayCustomerData(customer) {
                     safeSetValue(elements.collar_style, m.collar_style || m.ben_style);
                     safeSetValue(elements.ben_half_full, m.ben_half_full);
                 }, 100);
-            }
-
-            // Pocket details
+            }            // Pocket details
             safeSetValue(elements.front_pocket_size, m.front_pocket_size);
             safeSetValue(elements.double_side_pocket, m.double_side_pocket);
-            safeSetValue(elements.single_pocket, m.single_pocket);
             safeSetValue(elements.front_pocket, m.front_pocket);
 
             // Sewing and buttons
@@ -291,19 +288,16 @@ function displayCustomerData(customer) {
 
             // Cuff options
             safeSetValue(elements.cuff_plate, m.cuff_plate);
-            safeSetValue(elements.cuff_style, m.cuff_style);            safeSetValue(elements.cuff_kaj, m.cuff_kaj);
+            safeSetValue(elements.cuff_style, m.cuff_style); safeSetValue(elements.cuff_kaj, m.cuff_kaj);
             safeSetValue(elements.cuff_length, m.cuff_length);
             safeSetValue(elements.chak_patti, m.chak_patti);
             safeSetValue(elements.chak_patti_kaj, m.chak_patti_kaj);
             safeSetValue(elements.daman, m.daman);
             safeSetValue(elements.shoulder_style, m.shoulder_style);
             safeSetValue(elements.sleeve_type, m.sleeve_type);
-            safeSetValue(elements.extra_demand, m.extra_demand);
-
-            // Trouser measurements
+            safeSetValue(elements.extra_demand, m.extra_demand);            // Trouser measurements
             safeSetValue(elements.shalwar_lambai, m.shalwar_lambai);
             safeSetValue(elements.shalwar_type, m.shalwar_type);
-            safeSetValue(elements.shalwar, m.shalwar);
             safeSetValue(elements.pacha, m.pacha);
             safeSetValue(elements.lib, m.lib); safeSetValue(elements.ander, m.ander);
             safeSetValue(elements.shalwar_pocket, m.shalwar_pocket);
@@ -418,24 +412,22 @@ function saveCustomerChanges() {
                 tera: safeGetValue(elements.tera),
                 chati: safeGetValue(elements.chati),
                 kamar: safeGetValue(elements.kamar),
-                gira: safeGetValue(elements.gira), 
+                gira: safeGetValue(elements.gira),
                 moza: safeGetValue(elements.moza),
                 gol_asteen: safeGetValue(elements.gol_asteen),
                 collar_type: safeGetValue(elements.collar_type),
                 collar_measurement: safeGetValue(elements.collar_measurement),
                 collar_ben_width_churai: safeGetValue(elements.collar_ben_width_churai),
                 collar_style: safeGetValue(elements.collar_style),
-                ben_half_full: safeGetValue(elements.ben_half_full),
-                front_pocket_size: safeGetValue(elements.front_pocket_size),
+                ben_half_full: safeGetValue(elements.ben_half_full), front_pocket_size: safeGetValue(elements.front_pocket_size),
                 double_side_pocket: safeGetValue(elements.double_side_pocket),
-                single_pocket: safeGetValue(elements.single_pocket),
                 front_pocket: safeGetValue(elements.front_pocket),
                 silai: safeGetValue(elements.silai),
                 button_color: safeGetValue(elements.button_color),
                 button: safeGetValue(elements.button),
                 button_size: safeGetValue(elements.button_size),
                 cuff_plate: safeGetValue(elements.cuff_plate),
-                cuff_style: safeGetValue(elements.cuff_style),                
+                cuff_style: safeGetValue(elements.cuff_style),
                 cuff_kaj: safeGetValue(elements.cuff_kaj),
                 cuff_length: safeGetValue(elements.cuff_length),
                 chak_patti: safeGetValue(elements.chak_patti),
@@ -443,15 +435,13 @@ function saveCustomerChanges() {
                 daman: safeGetValue(elements.daman),
                 shoulder_style: safeGetValue(elements.shoulder_style),
                 sleeve_type: safeGetValue(elements.sleeve_type),
-                extra_demand: safeGetValue(elements.extra_demand),
-                shalwar_lambai: safeGetValue(elements.shalwar_lambai),
+                extra_demand: safeGetValue(elements.extra_demand), shalwar_lambai: safeGetValue(elements.shalwar_lambai),
                 shalwar_type: safeGetValue(elements.shalwar_type),
-                shalwar: safeGetValue(elements.shalwar),
                 pacha: safeGetValue(elements.pacha),
-                lib: safeGetValue(elements.lib), 
+                lib: safeGetValue(elements.lib),
                 ander: safeGetValue(elements.ander),
                 shalwar_pocket: safeGetValue(elements.shalwar_pocket),
-                patti: safeGetValue(elements.patti),                
+                patti: safeGetValue(elements.patti),
                 patti_churai: safeGetValue(elements.patti_churai),
                 patti_lambai: safeGetValue(elements.patti_lambai)
             }
@@ -459,7 +449,7 @@ function saveCustomerChanges() {
 
         // Update localStorage
         const customers = JSON.parse(localStorage.getItem('customers') || '[]');
-        const customerIndex = customers.findIndex(c => (c.id || c._id) === customerId);        if (customerIndex !== -1) {
+        const customerIndex = customers.findIndex(c => (c.id || c._id) === customerId); if (customerIndex !== -1) {
             customers[customerIndex] = updatedCustomer;
             localStorage.setItem('customers', JSON.stringify(customers));
 

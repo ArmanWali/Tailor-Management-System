@@ -60,13 +60,13 @@ function createWindow() {
             contextIsolation: true,
             enableRemoteModule: false,
         }
-    });
-
-    // Load the index.html file
+    });    // Load the index.html file
     mainWindow.loadFile('src/index.html');
 
-    // Open the DevTools in development
-    mainWindow.webContents.openDevTools();
+    // Open the DevTools in development only
+    if (process.env.NODE_ENV === 'development') {
+        mainWindow.webContents.openDevTools();
+    }
 
     // Emitted when the window is closed
     mainWindow.on('closed', function () {
