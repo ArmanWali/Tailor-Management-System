@@ -94,6 +94,7 @@ function initializeBackupStatus() {
             if (window.autoBackup) {
                 const stats = window.autoBackup.getBackupStats();
                 updateBackupStats(stats);
+                updateBackupPath(stats.backupPath);
                 console.log('✅ Backup status initialized');
             } else {
                 console.warn('⚠️ Backup system not loaded yet');
@@ -106,6 +107,18 @@ function initializeBackupStatus() {
     }
 }
 
+// Update backup path display
+function updateBackupPath(path) {
+    try {
+        const pathElement = document.getElementById('backup-path');
+        if (pathElement && path) {
+            pathElement.textContent = path;
+        }
+    } catch (error) {
+        console.error('Error updating backup path:', error);
+    }
+}
+
 // Update backup statistics display
 function updateBackupStats(stats) {
     try {
@@ -114,12 +127,12 @@ function updateBackupStats(stats) {
             let statusText = '';
             
             if (stats.totalBackups > 0) {
-                statusText = `📊 Total backups created: <strong>${stats.totalBackups}</strong>`;
+                statusText = `📊 Auto backups: <strong>${stats.individualBackups}</strong> | Full backups: <strong>${stats.fullBackups}</strong>`;
                 
                 if (stats.lastBackup) {
                     const lastBackupDate = new Date(stats.lastBackup.timestamp);
                     const timeAgo = getTimeAgo(lastBackupDate);
-                    statusText += ` | 🕒 Last backup: <strong>${timeAgo}</strong>`;
+                    statusText += ` | 🕒 Last: <strong>${timeAgo}</strong>`;
                 }
             } else {
                 statusText = '📊 No backups created yet. Add your first customer to create a backup!';
@@ -159,24 +172,29 @@ async function createManualBackup() {
         // Show loading state
         const button = event.target;
         const originalText = button.innerHTML;
-        button.innerHTML = '<i class="bi bi-hourglass-split"></i> Creating Backup...';
+        button.innerHTML = '<i class="bi bi-hourglass-split"></i> Creating...';
         button.disabled = true;
         
         // Create full backup
-        const success = await window.autoBackup.createFullBackup();
+        const result = await window.autoBackup.createFullBackup();
         
         // Restore button state
         button.innerHTML = originalText;
         button.disabled = false;
         
-        if (success) {
-            alert('✅ Manual backup created successfully!\n\nBackup saved to: C:\\Customer Data Backup\n\nNote: In browser mode, the backup file will be downloaded to your Downloads folder.');
+        if (result.success) {
+            const backupPath = window.autoBackup.getBackupPath();
+            alert(`✅ Full backup created successfully!\n\n` +
+                  `📁 Location: ${backupPath}\n` +
+                  `📄 Filename: ${result.filename}\n` +
+                  `👥 Customers backed up: ${result.customerCount}\n\n` +
+                  `This backup contains all your customer data and will overwrite any existing full backup file.`);
             
             // Update stats
             const stats = window.autoBackup.getBackupStats();
             updateBackupStats(stats);
         } else {
-            alert('❌ Failed to create manual backup. Please try again.');
+            alert(`❌ Failed to create full backup.\n\nError: ${result.error}\n\nPlease try again.`);
         }
         
     } catch (error) {
@@ -185,6 +203,28 @@ async function createManualBackup() {
     }
 }
 
-// Make function available globally for button onclick
+// Open backup folder function
+async function openBackupFolder() {
+    try {
+        if (!window.autoBackup) {
+            alert('❌ Backup system is not available. Please refresh the page.');
+            return;
+        }
+        
+        const success = await window.autoBackup.openBackupFolder();
+        
+        if (!success) {
+            const backupPath = window.autoBackup.getBackupPath();
+            alert(`📁 Backup folder location:\n${backupPath}\n\nPlease navigate to this folder manually to access your backup files.`);
+        }
+        
+    } catch (error) {
+        console.error('Error opening backup folder:', error);
+        alert('❌ Error opening backup folder: ' + error.message);
+    }
+}
+
+// Make functions available globally for button onclick
 window.createManualBackup = createManualBackup;
+window.openBackupFolder = openBackupFolder;
 

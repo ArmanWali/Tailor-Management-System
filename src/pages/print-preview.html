@@ -779,24 +779,20 @@
 
             // Populate measurements if available
             if (customer.measurements) {
-                const m = customer.measurements;
-                // Qameez measurements
-                safeSetText('qameez-lambai', m.lambai);
-                safeSetText('qameez-asteen', m.asteen);
-                safeSetText('qameez-sleeve-type', m.sleeve_type);
-                safeSetText('qameez-tera', m.tera);
-                safeSetText('qameez-chati', m.chati);
-                safeSetText('qameez-kamar', m.kamar); safeSetText('qameez-gira', m.gira);                safeSetText('qameez-moza', m.moza);                
+                const m = customer.measurements;                // Qameez measurements
+                setTextWithVisibility('qameez-lambai', m.lambai);
+                setTextWithVisibility('qameez-asteen', m.asteen);
+                setTextWithVisibility('qameez-sleeve-type', m.sleeve_type);
+                setTextWithVisibility('qameez-tera', m.tera);
+                setTextWithVisibility('qameez-chati', m.chati);
+                setTextWithVisibility('qameez-kamar', m.kamar); 
+                setTextWithVisibility('qameez-gira', m.gira);                
+                setTextWithVisibility('qameez-moza', m.moza);                
                 // Show gol asteen when there's a value or when cuff plate is "NO"
-                const golAsteenElement = document.getElementById('qameez-gol-asteen');
-                const golAsteenItem = golAsteenElement ? golAsteenElement.closest('.qameez-measure-item') : null;
-                
                 if (m.gol_asteen || (m.cuff_plate && m.cuff_plate.toLowerCase() === 'no')) {
-                    safeSetText('qameez-gol-asteen', m.gol_asteen || '');
-                    if (golAsteenItem) golAsteenItem.style.display = '';
+                    setTextWithVisibility('qameez-gol-asteen', m.gol_asteen);
                 } else {
-                    safeSetText('qameez-gol-asteen', '');
-                    if (golAsteenItem) golAsteenItem.style.display = 'none';
+                    setTextWithVisibility('qameez-gol-asteen', '');
                 }// Convert shoulder value to dropdown option
                 let shoulderValue = m.shoulder_style; // Use correct field name
                 if (shoulderValue) {
@@ -808,11 +804,10 @@
                         // If it's a number or any other value, default to نارمل
                         // You can customize this mapping based on your business logic
                         shoulderValue = 'نارمل';
-                    }
-                } else {
+                    }                } else {
                     shoulderValue = 'نارمل'; // default if no value
                 }
-                safeSetText('qameez-shoulder', shoulderValue);                // Collar information (correct format: style, half/full, width, measurement)
+                setTextWithVisibility('qameez-shoulder', shoulderValue);// Collar information (correct format: style, half/full, width, measurement)
                 let collarDisplay = '';
                 if (m.collar_type) {
                     if (m.collar_type.trim() === 'بین' || m.collar_type.trim().toLowerCase() === 'ben') {
@@ -832,50 +827,73 @@
                         if (m.collar_style) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_style;
                         if (m.collar_ben_width_churai) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_ben_width_churai;
                         if (m.collar_measurement) collarDisplay += (collarDisplay ? ' ' : '') + m.collar_measurement;
-                    }
-                }
-                safeSetText('qameez-collar-combined', collarDisplay);                // Qameez details
-                safeSetText('qameez-pocket', m.single_pocket || m.double_side_pocket || 'No');
-                safeSetText('qameez-front-pocket-style', m.front_pocket);
-                safeSetText('qameez-front-pocket-size', m.front_pocket_size);
-                  // Combine cuff style and length
+                    }                }
+                setTextWithVisibility('qameez-collar-combined', collarDisplay);                // Qameez details
+                setTextWithVisibility('qameez-pocket', m.single_pocket || m.double_side_pocket || 'No');
+                setTextWithVisibility('qameez-front-pocket-style', m.front_pocket);
+                setTextWithVisibility('qameez-front-pocket-size', m.front_pocket_size);
+                
+                // Combine cuff style and length
                 let cuffCombined = '';
                 if (m.cuff_style) cuffCombined += m.cuff_style;
                 if (m.cuff_length) cuffCombined += (cuffCombined ? ' ' : '') + m.cuff_length;
-                safeSetText('qameez-cuff-style', cuffCombined);
+                setTextWithVisibility('qameez-cuff-style', cuffCombined);
                 
-                safeSetText('qameez-cuff-kaj', m.cuff_kaj);safeSetText('qameez-chak-patti', m.chak_patti);
-                safeSetText('qameez-chak-patti-kaj', m.chak_patti_kaj);                // Combine patti type and width
+                setTextWithVisibility('qameez-cuff-kaj', m.cuff_kaj);
+                setTextWithVisibility('qameez-chak-patti', m.chak_patti);
+                setTextWithVisibility('qameez-chak-patti-kaj', m.chak_patti_kaj);// Combine patti type and width
                 let pattiCombined = '';
                 // Only show patti if it's not the default "پٹی" option
                 if (m.patti && m.patti !== 'پٹی') {
                     pattiCombined += m.patti;
-                }
-                if (m.patti_churai) pattiCombined += (pattiCombined ? ' ' : '') + m.patti_churai;
+                }                if (m.patti_churai) pattiCombined += (pattiCombined ? ' ' : '') + m.patti_churai;
                 if (m.patti_lambai) pattiCombined += (pattiCombined ? ' ' : '') + m.patti_lambai;
-                safeSetText('qameez-patti-combined', pattiCombined);
+                setTextWithVisibility('qameez-patti-combined', pattiCombined);
                 // Grouped options
-                safeSetText('qameez-button-color', m.button_color);
-                safeSetText('qameez-button', m.button);
-                safeSetText('qameez-silai', m.silai);
-
-                // Shalwar measurements
-                safeSetText('shalwar-lambai', m.shalwar_lambai);
-                safeSetText('shalwar-pacha', m.pacha);
-                safeSetText('shalwar-hip', m.lib);
-                safeSetText('shalwar-ander', m.ander);
-                safeSetText('shalwar-pocket', m.shalwar_pocket);
-                safeSetText('shalwar-type', m.shalwar_type);
+                setTextWithVisibility('qameez-button-color', m.button_color);
+                setTextWithVisibility('qameez-button', m.button);
+                setTextWithVisibility('qameez-silai', m.silai);                // Shalwar measurements
+                setTextWithVisibility('shalwar-lambai', m.shalwar_lambai);
+                setTextWithVisibility('shalwar-pacha', m.pacha);
+                setTextWithVisibility('shalwar-hip', m.lib);
+                setTextWithVisibility('shalwar-ander', m.ander);
+                setTextWithVisibility('shalwar-pocket', m.shalwar_pocket);
+                setTextWithVisibility('shalwar-type', m.shalwar_type);
 
                 // Extra demand
-                safeSetText('extra-demand', m.extra_demand);
+                setTextWithVisibility('extra-demand', m.extra_demand);
             }
-        }
-
-        function safeSetText(id, value) {
+        }        function safeSetText(id, value) {
             const element = document.getElementById(id);
             if (element && value) {
                 element.textContent = value;
+            }
+        }
+
+        // Function to set text and hide element if value is empty or "NO"
+        function setTextWithVisibility(elementId, value) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                const measureItem = element.closest('.qameez-measure-item') || 
+                                   element.closest('.shalwar-measure-item') || 
+                                   element.closest('.grouped-option-item');
+                
+                // Check if value should be hidden
+                const shouldHide = !value || 
+                                  value.toString().trim() === '' || 
+                                  value.toString().toLowerCase() === 'no';
+                
+                if (shouldHide) {
+                    element.textContent = '';
+                    if (measureItem) {
+                        measureItem.style.display = 'none';
+                    }
+                } else {
+                    element.textContent = value;
+                    if (measureItem) {
+                        measureItem.style.display = '';
+                    }
+                }
             }
         }
     </script>

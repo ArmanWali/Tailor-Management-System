@@ -56,20 +56,21 @@
                     </div>
                     <div class="card-body">
                         <div class="row align-items-center">
-                            <div class="col-md-8">
-                                <div id="backup-status">
+                            <div class="col-md-8">                                <div id="backup-status">
                                     <span class="badge bg-success me-2">✅ Active</span>
                                     <small class="text-muted">
-                                        Your customer data is automatically backed up to <strong>C:\Customer Data Backup</strong> every time you save.
+                                        Your customer data is automatically backed up to <strong id="backup-path">Documents/Customer Data Backup</strong> every time you save.
                                     </small>
                                 </div>
                                 <div id="backup-stats" class="mt-2">
                                     <small class="text-info">Loading backup statistics...</small>
                                 </div>
-                            </div>
-                            <div class="col-md-4 text-end">
-                                <button class="btn btn-outline-success btn-sm" onclick="createManualBackup()">
-                                    <i class="bi bi-download"></i> Manual Backup
+                            </div>                            <div class="col-md-4 text-end">
+                                <button class="btn btn-outline-success btn-sm me-2" onclick="createManualBackup()">
+                                    <i class="bi bi-download"></i> Full Backup
+                                </button>
+                                <button class="btn btn-outline-info btn-sm" onclick="openBackupFolder()" title="Open backup folder">
+                                    <i class="bi bi-folder2-open"></i>
                                 </button>
                             </div>
                         </div>

@@ -1,12 +1,13 @@
 /**
  * Automatic Backup System for Tailor Management System
  * Creates backups every time customer data is saved
- * Stores backups in C:\Customer Data Backup
+ * Stores backups in Documents/Customer Data Backup
  */
 
 class AutoBackupSystem {
     constructor() {
-        this.backupPath = 'C:\\Customer Data Backup';
+        this.isElectron = typeof require !== 'undefined';
+        this.backupPath = null;
         this.isInitialized = false;
         this.init();
     }
@@ -15,13 +16,40 @@ class AutoBackupSystem {
         try {
             console.log('🔄 Initializing Auto Backup System...');
             
+            // Set up backup path
+            await this.setupBackupPath();
+            
             // Create backup directory if it doesn't exist
             await this.ensureBackupDirectory();
             
             this.isInitialized = true;
             console.log('✅ Auto Backup System initialized successfully');
+            console.log(`📁 Backup location: ${this.backupPath}`);
         } catch (error) {
             console.error('❌ Failed to initialize backup system:', error);
+        }
+    }
+
+    /**
+     * Setup backup path based on environment
+     */
+    async setupBackupPath() {
+        try {
+            if (this.isElectron) {
+                const { app } = require('electron');
+                const path = require('path');
+                const os = require('os');
+                
+                // Use Documents folder to avoid admin rights issues
+                const documentsPath = app.getPath('documents');
+                this.backupPath = path.join(documentsPath, 'Customer Data Backup');
+            } else {
+                // Fallback for browser environment
+                this.backupPath = 'Customer Data Backup';
+            }
+        } catch (error) {
+            console.error('Error setting up backup path:', error);
+            this.backupPath = 'Customer Data Backup';
         }
     }
 
@@ -30,25 +58,22 @@ class AutoBackupSystem {
      */
     async ensureBackupDirectory() {
         try {
-            // For browser environment, we'll use downloads folder
-            // But we'll simulate the directory creation for logging
             console.log(`📁 Ensuring backup directory exists: ${this.backupPath}`);
             
-            // In a real Electron app, you would use:
-            // const fs = require('fs');
-            // const path = require('path');
-            // if (!fs.existsSync(this.backupPath)) {
-            //     fs.mkdirSync(this.backupPath, { recursive: true });
-            // }
+            if (this.isElectron) {
+                const fs = require('fs');
+                if (!fs.existsSync(this.backupPath)) {
+                    fs.mkdirSync(this.backupPath, { recursive: true });
+                    console.log('✅ Backup directory created successfully');
+                }
+            }
             
             return true;
         } catch (error) {
             console.error('Error creating backup directory:', error);
             return false;
         }
-    }
-
-    /**
+    }    /**
      * Create backup when customer data is saved
      * @param {Object} customerData - The customer data being saved
      * @param {string} operation - 'add' or 'update'
@@ -60,31 +85,32 @@ class AutoBackupSystem {
         }
 
         try {
-            console.log(`💾 Creating backup for customer: ${customerData.name}`);
+            console.log(`💾 Creating automatic backup for customer: ${customerData.name}`);
 
-            // Get all current customer data
-            const allCustomers = JSON.parse(localStorage.getItem('customers') || '[]');
-            
-            // Create backup data structure
+            // Create backup data structure for single customer
             const backupData = {
                 timestamp: new Date().toISOString(),
                 operation: operation,
+                backupType: 'individual',
                 customerData: customerData,
-                allCustomersData: allCustomers,
                 version: '1.0',
-                source: 'Tailor Management System'
+                source: 'Tailor Management System - Auto Backup'
             };
 
-            // Generate unique filename
+            // Generate unique filename for individual customer
             const filename = this.generateBackupFilename(customerData);
             
             // Save backup
             await this.saveBackupFile(filename, backupData);
             
-            console.log(`✅ Backup created successfully: ${filename}`);
+            console.log(`✅ Automatic backup created successfully: ${filename}`);
+            
+            // Update backup tracking
+            this.trackBackup(filename, backupData.timestamp, 'individual');
+            
             return true;
         } catch (error) {
-            console.error('❌ Failed to create backup:', error);
+            console.error('❌ Failed to create automatic backup:', error);
             return false;
         }
     }
@@ -126,9 +152,7 @@ class AutoBackupSystem {
             .replace(/[<>:"/\\|?*]/g, '') // Remove invalid characters
             .replace(/\s+/g, '_') // Replace spaces with underscores
             .substring(0, 50); // Limit length
-    }
-
-    /**
+    }    /**
      * Save backup file
      * @param {string} filename - Backup filename
      * @param {Object} data - Backup data
@@ -137,35 +161,36 @@ class AutoBackupSystem {
         try {
             const jsonString = JSON.stringify(data, null, 2);
             
-            // For browser environment - trigger download
-            if (typeof window !== 'undefined') {
-                // Create blob and download link
+            if (this.isElectron) {
+                // Electron environment - save to file system
+                const fs = require('fs');
+                const path = require('path');
+                const fullPath = path.join(this.backupPath, filename);
+                
+                // For manual full backup, check if file exists and handle overwrite
+                if (data.backupType === 'full' && fs.existsSync(fullPath)) {
+                    console.log(`📝 Overwriting existing full backup: ${filename}`);
+                }
+                
+                fs.writeFileSync(fullPath, jsonString, 'utf8');
+                console.log(`💾 Backup saved to: ${fullPath}`);
+                
+            } else {
+                // Browser environment - trigger download
                 const blob = new Blob([jsonString], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
                 
-                // Create hidden download link
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = filename;
                 a.style.display = 'none';
                 
-                // Trigger download silently
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
                 
-                // Clean up
                 URL.revokeObjectURL(url);
-                
-                // Store backup info in localStorage for tracking
-                this.trackBackup(filename, data.timestamp);
             }
-            
-            // In Electron environment, save to actual file system:
-            // const fs = require('fs');
-            // const path = require('path');
-            // const fullPath = path.join(this.backupPath, filename);
-            // fs.writeFileSync(fullPath, jsonString, 'utf8');
             
         } catch (error) {
             console.error('Error saving backup file:', error);
@@ -177,47 +202,62 @@ class AutoBackupSystem {
      * Track backup creation for monitoring
      * @param {string} filename - Backup filename
      * @param {string} timestamp - Backup timestamp
+     * @param {string} type - Backup type ('individual' or 'full')
      */
-    trackBackup(filename, timestamp) {
+    trackBackup(filename, timestamp, type = 'individual') {
         try {
             const backupLog = JSON.parse(localStorage.getItem('backupLog') || '[]');
             backupLog.push({
                 filename: filename,
                 timestamp: timestamp,
+                type: type,
                 status: 'created'
             });
             
-            // Keep only last 50 backup records
-            if (backupLog.length > 50) {
-                backupLog.splice(0, backupLog.length - 50);
+            // Keep only last 100 backup records
+            if (backupLog.length > 100) {
+                backupLog.splice(0, backupLog.length - 100);
             }
             
             localStorage.setItem('backupLog', JSON.stringify(backupLog));
         } catch (error) {
             console.error('Error tracking backup:', error);
         }
-    }
-
-    /**
+    }    /**
      * Get backup statistics
      * @returns {Object} Backup stats
      */
     getBackupStats() {
         try {
             const backupLog = JSON.parse(localStorage.getItem('backupLog') || '[]');
+            const individualBackups = backupLog.filter(b => b.type === 'individual' || !b.type);
+            const fullBackups = backupLog.filter(b => b.type === 'full');
+            
             return {
                 totalBackups: backupLog.length,
+                individualBackups: individualBackups.length,
+                fullBackups: fullBackups.length,
                 lastBackup: backupLog.length > 0 ? backupLog[backupLog.length - 1] : null,
-                isEnabled: this.isInitialized
+                lastFullBackup: fullBackups.length > 0 ? fullBackups[fullBackups.length - 1] : null,
+                isEnabled: this.isInitialized,
+                backupPath: this.backupPath
             };
         } catch (error) {
             console.error('Error getting backup stats:', error);
-            return { totalBackups: 0, lastBackup: null, isEnabled: false };
+            return { 
+                totalBackups: 0, 
+                individualBackups: 0,
+                fullBackups: 0,
+                lastBackup: null, 
+                lastFullBackup: null,
+                isEnabled: false,
+                backupPath: this.backupPath
+            };
         }
     }
 
     /**
-     * Manual backup of all data
+     * Manual backup of all data - overwrites existing full backup
      */
     async createFullBackup() {
         try {
@@ -228,23 +268,60 @@ class AutoBackupSystem {
             const backupData = {
                 timestamp: new Date().toISOString(),
                 operation: 'full_backup',
+                backupType: 'full',
                 totalCustomers: allCustomers.length,
                 allCustomersData: allCustomers,
                 version: '1.0',
                 source: 'Tailor Management System - Full Backup'
             };
 
-            const now = new Date();
-            const dateStr = now.toISOString().split('T')[0];
-            const timeStr = now.toTimeString().split(' ')[0].replace(/:/g, '-');
-            const filename = `FullBackup_${dateStr}_${timeStr}.json`;
+            // Use fixed filename for full backup (will overwrite existing)
+            const filename = 'FullBackup_AllCustomers.json';
             
             await this.saveBackupFile(filename, backupData);
             
+            // Update tracking
+            this.trackBackup(filename, backupData.timestamp, 'full');
+            
             console.log('✅ Full backup created successfully');
-            return true;
+            return {
+                success: true,
+                filename: filename,
+                customerCount: allCustomers.length,
+                path: this.backupPath
+            };
         } catch (error) {
             console.error('❌ Failed to create full backup:', error);
+            return {
+                success: false,
+                error: error.message
+            };
+        }
+    }
+
+    /**
+     * Get backup folder path for display
+     * @returns {string} Backup folder path
+     */
+    getBackupPath() {
+        return this.backupPath;
+    }
+
+    /**
+     * Open backup folder in file explorer (Electron only)
+     */
+    async openBackupFolder() {
+        try {
+            if (this.isElectron) {
+                const { shell } = require('electron');
+                await shell.openPath(this.backupPath);
+                return true;
+            } else {
+                console.warn('Opening backup folder is only available in desktop app');
+                return false;
+            }
+        } catch (error) {
+            console.error('Error opening backup folder:', error);
             return false;
         }
     }
