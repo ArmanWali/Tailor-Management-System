@@ -37,7 +37,7 @@ function initializeElements() {
         'front_pocket', 'silai', 'button_color', 'button',
         'button_size', 'cuff_plate', 'cuff_style', 'cuff_kaj', 'cuff_length', 'chak_patti', 'chak_patti_kaj', 'daman', 'shoulder_style', 'sleeve_type', 'extra_demand',
         'shalwar_lambai', 'shalwar_type', 'pacha', 'lib', 'ander',
-        'shalwar_pocket', 'patti', 'patti_churai', 'patti_lambai'
+        'shalwar_pocket', 'patti', 'gum_patti', 'patti_churai', 'patti_lambai'
     ]; elementIds.forEach(id => {
         elements[id] = document.getElementById(id);
         if (!elements[id]) {
@@ -300,8 +300,8 @@ function displayCustomerData(customer) {
             safeSetValue(elements.shalwar_type, m.shalwar_type);
             safeSetValue(elements.pacha, m.pacha);
             safeSetValue(elements.lib, m.lib); safeSetValue(elements.ander, m.ander);
-            safeSetValue(elements.shalwar_pocket, m.shalwar_pocket);
-            safeSetValue(elements.patti, m.patti);
+            safeSetValue(elements.shalwar_pocket, m.shalwar_pocket);            safeSetValue(elements.patti, m.patti);
+            safeSetValue(elements.gum_patti, m.gum_patti);
             safeSetValue(elements.patti_churai, m.patti_churai);
             safeSetValue(elements.patti_lambai, m.patti_lambai);
         }
@@ -440,8 +440,8 @@ function saveCustomerChanges() {
                 pacha: safeGetValue(elements.pacha),
                 lib: safeGetValue(elements.lib),
                 ander: safeGetValue(elements.ander),
-                shalwar_pocket: safeGetValue(elements.shalwar_pocket),
-                patti: safeGetValue(elements.patti),
+                shalwar_pocket: safeGetValue(elements.shalwar_pocket),                patti: safeGetValue(elements.patti),
+                gum_patti: safeGetValue(elements.gum_patti),
                 patti_churai: safeGetValue(elements.patti_churai),
                 patti_lambai: safeGetValue(elements.patti_lambai)
             }
@@ -451,28 +451,8 @@ function saveCustomerChanges() {
         const customers = JSON.parse(localStorage.getItem('customers') || '[]');
         const customerIndex = customers.findIndex(c => (c.id || c._id) === customerId); if (customerIndex !== -1) {
             customers[customerIndex] = updatedCustomer;
-            localStorage.setItem('customers', JSON.stringify(customers));
-
-            // Update original data
+            localStorage.setItem('customers', JSON.stringify(customers));            // Update original data
             originalCustomerData = JSON.parse(JSON.stringify(updatedCustomer));
-
-            // 🔄 Create automatic backup for customer update
-            if (window.autoBackup) {
-                console.log('📦 Creating automatic backup for customer update...');
-                window.autoBackup.createBackup(updatedCustomer, 'update')
-                    .then(success => {
-                        if (success) {
-                            console.log('✅ Automatic backup created successfully for update');
-                        } else {
-                            console.warn('⚠️ Automatic backup failed for update, but data was saved');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('❌ Backup error on update:', error);
-                    });
-            } else {
-                console.warn('⚠️ Backup system not available for update');
-            }
 
             alert('Customer data updated successfully!');
             switchToViewMode();

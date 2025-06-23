@@ -511,20 +511,22 @@
     /* Hide the main app view when printing */
     .no-print {
         display: none !important;
-    }
-
-    /* Show the print form when printing */
+    }    /* Show the print form when printing */
     .print-form {
         display: block !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 !important;
-        padding: 15px !important;
+        width: 421px !important;
+        max-width: 421px !important;
+        height: 595px !important;
+        max-height: 595px !important;
+        margin: 0 auto !important;
+        padding: 10px !important;
         background: white !important;
         box-shadow: none !important;
         border: none !important;
-        font-size: 11pt;
-        line-height: 1.3;
+        font-size: 9pt;
+        line-height: 1.2;
+        overflow: hidden;
+        box-sizing: border-box;
     }
 
     .d-print-block {
@@ -537,50 +539,47 @@
 
     .d-none.d-print-block {
         display: block !important;
-    }
-
-    .details-container {
+    }    .details-container {
         width: 100%;
         max-width: 100%;
-        padding: 0.5cm;
+        padding: 0.2cm;
         box-shadow: none;
         margin: 0;
-    }
-
-    .header-section {
+        height: 100%;
+        overflow: hidden;
+    }    .header-section {
         text-align: center;
-        margin-bottom: 20px;
-        padding-top: 1cm;
+        margin-bottom: 10px;
+        padding-top: 0.3cm;
     }
 
     .logo {
-        max-height: 80px;
-        max-width: 200px;
+        max-height: 50px;
+        max-width: 150px;
     }
 
     h2 {
-        font-size: 18pt;
-        margin: 10px 0;
-    }
-
-    p {
+        font-size: 14pt;
         margin: 5px 0;
     }
 
-    .print-header {
+    p {
+        margin: 3px 0;
+        font-size: 8pt;
+    }    .print-header {
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
         width: 100% !important;
-        padding: 10px 0 15px 0 !important;
-        margin-bottom: 20px !important;
-        border-bottom: 2px solid #000 !important;
+        padding: 5px 0 8px 0 !important;
+        margin-bottom: 10px !important;
+        border-bottom: 1px solid #000 !important;
         page-break-after: avoid;
     }
 
     .logo-left,
     .logo-right {
-        height: 80px !important;
+        height: 45px !important;
         width: auto !important;
         flex-shrink: 0 !important;
         object-fit: contain;
@@ -590,12 +589,12 @@
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        gap: 5px !important;
+        gap: 3px !important;
         flex-shrink: 0 !important;
     }
 
     .logo-right-bottom {
-        height: 30px !important;
+        height: 20px !important;
         width: auto !important;
         object-fit: contain;
     }
@@ -982,50 +981,149 @@
     /* Hide empty fields for print */
     .print-hide-empty {
         display: none !important;
-    }
-
-    /* Print optimization for A4 page layout */
+    }    /* Print optimization for custom page layout - 421px × 595px at 72 DPI */
     @page {
-        size: A4;
-        margin: 0.5in;
-    }
-
-    /* Live Print Preview specific optimizations */
+        size: 421px 595px;
+        margin: 0.3in;
+    }    /* Live Print Preview specific optimizations */
     .preview-paper {
-        /* A4 dimensions: 210mm x 297mm */
-        width: 210mm;
-        min-height: 297mm;
-        max-width: 210mm;
+        /* Custom dimensions: 421px × 595px (approximately half A4 height) */
+        width: 421px;
+        min-height: 595px;
+        max-width: 421px;
         margin: 0 auto;
         background: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 15mm;
+        padding: 20px;
         box-sizing: border-box;
-    }
-
-    /* Responsive scaling for preview */
+    }    /* Responsive scaling for preview - adjusted for custom size */
     @media screen and (max-width: 1200px) {
         .preview-paper.zoom-100 {
-            transform: scale(0.8);
+            transform: scale(0.9);
         }
 
         .preview-paper.zoom-125 {
-            transform: scale(1.0);
+            transform: scale(1.1);
         }
 
         .preview-paper.zoom-150 {
-            transform: scale(1.2);
+            transform: scale(1.3);
         }
     }
 
     @media screen and (max-width: 768px) {
         .preview-paper {
-            transform: scale(0.6);
+            transform: scale(0.7);
             margin: 10px auto;
         }
 
         .preview-sidebar {
             width: 250px;
         }
+    }
+
+    /* Custom page-specific optimizations for 421x595px */
+    .shop-info {
+        text-align: center;
+        flex: 1;
+        padding: 0 10px;
+    }
+
+    .shop-info h2 {
+        margin: 0;
+        font-size: 14pt;
+        font-weight: bold;
+        line-height: 1.1;
+    }
+
+    .shop-info p {
+        margin: 2px 0;
+        font-size: 8pt;
+        line-height: 1.0;
+    }
+
+    /* Compact customer info grid for custom size */
+    .customer-info {
+        margin-top: 8px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 6px;
+        font-size: 8pt;
+    }
+
+    .info-row {
+        display: contents;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info-label {
+        font-weight: normal;
+        margin: 0;
+        font-size: 7pt;
+        line-height: 1.0;
+    }
+
+    .info-value {
+        border-bottom: 1px solid #999;
+        min-height: 12px;
+        padding: 1px 0;
+        font-size: 8pt;
+    }
+
+    /* Compact cutting section */
+    .cutting-section {
+        margin-top: 6px;
+        display: flex;
+        background-color: #f0f0f0;
+        padding: 3px 6px;
+        align-items: center;
+    }
+
+    .cutting-item {
+        margin-right: 8px;
+        display: flex;
+        align-items: center;
+    }
+
+    .cutting-item label {
+        margin-right: 3px;
+        font-size: 7pt;
+    }
+
+    .cutting-value {
+        border-bottom: 1px solid #999;
+        min-width: 40px;
+        min-height: 12px;
+        padding: 1px 3px;
+        font-size: 8pt;
+    }
+
+    /* Compact measurement sections */
+    .measurement-content {
+        font-size: 7pt;
+        line-height: 1.1;
+    }
+
+    .measurement-section {
+        margin-bottom: 8px;
+        page-break-inside: avoid;
+    }
+
+    .section-header {
+        background: #f5f5f5;
+        padding: 3px 6px;
+        border-radius: 3px;
+        margin-bottom: 6px;
+        font-size: 8pt;
+        font-weight: bold;
+    }
+
+    /* Ensure no content overflow */
+    * {
+        box-sizing: border-box !important;
     }
 }

@@ -613,11 +613,10 @@
                 </div><!-- Qameez Section -->
                 <div class="measurement-section">
                     <div class="qameez-two-column-grid">
-                        <div class="qameez-column-1">
-                            <div class="qameez-measure-item">
+                        <div class="qameez-column-1">                            <div class="qameez-measure-item">
                                 <span class="qameez-label">لمبائی</span>
                                 <span class="qameez-value" id="qameez-lambai">42</span>
-                                <span class="qameez-style">گول</span>
+                                <span class="qameez-style" id="qameez-daman"></span>
                             </div>
                             <div class="qameez-measure-item">
                                 <span class="qameez-label">آستین</span>
@@ -787,6 +786,7 @@
             if (customer.measurements) {
                 const m = customer.measurements;                // Qameez measurements
                 setTextWithVisibility('qameez-lambai', m.lambai);
+                setTextWithVisibility('qameez-daman', m.daman);
                 setTextWithVisibility('qameez-asteen', m.asteen);
                 setTextWithVisibility('qameez-sleeve-type', m.sleeve_type);
                 setTextWithVisibility('qameez-tera', m.tera);
@@ -848,14 +848,19 @@
                 setTextWithVisibility('qameez-cuff-style', cuffCombined);
 
                 setTextWithVisibility('qameez-cuff-kaj', m.cuff_kaj);
-                setTextWithVisibility('qameez-chak-patti', m.chak_patti);
-                setTextWithVisibility('qameez-chak-patti-kaj', m.chak_patti_kaj);// Combine patti type and width
+                setTextWithVisibility('qameez-chak-patti', m.chak_patti);                setTextWithVisibility('qameez-chak-patti-kaj', m.chak_patti_kaj);// Combine patti type and width
                 let pattiCombined = '';
                 // Only show patti if it's not the default "پٹی" option
                 if (m.patti && m.patti !== 'پٹی') {
                     pattiCombined += m.patti;
                 } if (m.patti_churai) pattiCombined += (pattiCombined ? ' ' : '') + m.patti_churai;
                 if (m.patti_lambai) pattiCombined += (pattiCombined ? ' ' : '') + m.patti_lambai;
+                
+                // Add "گم" prefix if gum_patti is "Yes"
+                if (m.gum_patti === 'Yes' && pattiCombined) {
+                    pattiCombined = 'گم ' + pattiCombined;
+                }
+                
                 setTextWithVisibility('qameez-patti-combined', pattiCombined);
                 // Grouped options
                 setTextWithVisibility('qameez-button-color', m.button_color);

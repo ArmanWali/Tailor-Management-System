@@ -844,9 +844,15 @@
                 safeSetTextContent('qameez-silai', measurements.silai);
                 safeSetTextContent('qameez-button-color', measurements.button_color);
                 safeSetTextContent('qameez-button-size', measurements.button_size);
-                safeSetTextContent('qameez-cuff-style', measurements.cuff_style); safeSetTextContent('qameez-cuff-kaj', measurements.cuff_kaj); safeSetTextContent('qameez-chak-patti', measurements.chak_patti);
-                safeSetTextContent('qameez-chak-patti-kaj', measurements.chak_patti_kaj);
-                safeSetTextContent('qameez-patti', measurements.patti);
+                safeSetTextContent('qameez-cuff-style', measurements.cuff_style); safeSetTextContent('qameez-cuff-kaj', measurements.cuff_kaj); safeSetTextContent('qameez-chak-patti', measurements.chak_patti);                safeSetTextContent('qameez-chak-patti-kaj', measurements.chak_patti_kaj);
+                
+                // Handle gum_patti prefix for patti field
+                let pattiValue = measurements.patti;
+                if (measurements.gum_patti === 'Yes' && pattiValue && pattiValue !== 'پٹی') {
+                    pattiValue = 'گم ' + pattiValue;
+                }
+                safeSetTextContent('qameez-patti', pattiValue);
+                
                 safeSetTextContent('qameez-patti-churai', measurements.patti_churai);
 
                 // Populate grouped options section

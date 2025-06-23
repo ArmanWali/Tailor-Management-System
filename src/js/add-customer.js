@@ -248,8 +248,8 @@ function saveCustomer() {
                 extra_demand: document.getElementById('extra_demand') ? document.getElementById('extra_demand').value : '',
                 shalwar_lambai: document.getElementById('shalwar_lambai') ? document.getElementById('shalwar_lambai').value : '', shalwar_type: document.getElementById('shalwar_type') ? document.getElementById('shalwar_type').value : '',
                 pacha: document.getElementById('pacha') ? document.getElementById('pacha').value : '',
-                lib: document.getElementById('lib') ? document.getElementById('lib').value : '',
-                ander: document.getElementById('ander') ? document.getElementById('ander').value : '', shalwar_pocket: document.getElementById('shalwar_pocket') ? document.getElementById('shalwar_pocket').value : '', patti: document.getElementById('patti') ? document.getElementById('patti').value : '',
+                lib: document.getElementById('lib') ? document.getElementById('lib').value : '',                ander: document.getElementById('ander') ? document.getElementById('ander').value : '', shalwar_pocket: document.getElementById('shalwar_pocket') ? document.getElementById('shalwar_pocket').value : '', patti: document.getElementById('patti') ? document.getElementById('patti').value : '',
+                gum_patti: document.getElementById('gum_patti') ? document.getElementById('gum_patti').value : '',
                 patti_churai: document.getElementById('patti_churai') ? document.getElementById('patti_churai').value : '',
                 patti_lambai: document.getElementById('patti_lambai') ? document.getElementById('patti_lambai').value : ''
             }
@@ -266,29 +266,10 @@ function saveCustomer() {
         customerData.id = 'C_' + Date.now();
         customerData.createdAt = new Date().toISOString();        // Save to localStorage
         try {
-            let customers = JSON.parse(localStorage.getItem('customers') || '[]');
-            customers.push(customerData);
+            let customers = JSON.parse(localStorage.getItem('customers') || '[]');            customers.push(customerData);
             localStorage.setItem('customers', JSON.stringify(customers));
 
             console.log('Customer saved successfully to localStorage');
-
-            // 🔄 Create automatic backup
-            if (window.autoBackup) {
-                console.log('📦 Creating automatic backup...');
-                window.autoBackup.createBackup(customerData, 'add')
-                    .then(success => {
-                        if (success) {
-                            console.log('✅ Automatic backup created successfully');
-                        } else {
-                            console.warn('⚠️ Automatic backup failed, but data was saved');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('❌ Backup error:', error);
-                    });
-            } else {
-                console.warn('⚠️ Backup system not available');
-            }
 
             alert('Customer saved successfully!');
 
