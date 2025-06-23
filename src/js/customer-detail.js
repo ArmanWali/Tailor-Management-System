@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeElements();
     setupEventListeners();
     setupCollarDropdown();
+    setupCuffPlateDropdown();
 
     if (!customerId) {
         alert('Customer ID not provided');
@@ -284,11 +285,13 @@ function displayCustomerData(customer) {
             safeSetValue(elements.silai, m.silai);
             safeSetValue(elements.button_color, m.button_color);
             safeSetValue(elements.button, m.button);
-            safeSetValue(elements.button_size, m.button_size);
-
-            // Cuff options
+            safeSetValue(elements.button_size, m.button_size);            // Cuff options
             safeSetValue(elements.cuff_plate, m.cuff_plate);
-            safeSetValue(elements.cuff_style, m.cuff_style); safeSetValue(elements.cuff_kaj, m.cuff_kaj);
+            // Trigger cuff plate visibility check after data is loaded
+            if (elements.cuff_plate) {
+                elements.cuff_plate.dispatchEvent(new Event('change'));
+            }
+            safeSetValue(elements.cuff_style, m.cuff_style);safeSetValue(elements.cuff_kaj, m.cuff_kaj);
             safeSetValue(elements.cuff_length, m.cuff_length);
             safeSetValue(elements.chak_patti, m.chak_patti);
             safeSetValue(elements.chak_patti_kaj, m.chak_patti_kaj);
@@ -592,5 +595,78 @@ window.printDirectly = printDirectly;
 window.exportToPDF = exportToPDF;
 window.openLegacyPrintForm = openLegacyPrintForm;
 window.quickPrint = quickPrint;
+
+// Setup cuff plate dropdown functionality
+function setupCuffPlateDropdown() {
+    console.log('Setting up cuff plate dropdown');
+
+    try {
+        const cuffPlateDropdown = elements.cuff_plate;
+        const golAsteenField = elements.gol_asteen;
+
+        console.log('Cuff plate dropdown found:', !!cuffPlateDropdown);
+        console.log('Gol asteen field found:', !!golAsteenField);
+
+        if (!cuffPlateDropdown) {
+            console.error('cuff_plate dropdown not found');
+            return;
+        }
+
+        if (!golAsteenField) {
+            console.error('gol_asteen field not found');
+            return;
+        }
+
+        // Try different methods to find the container
+        let golAsteenContainer = golAsteenField.closest('.col-md-3');
+
+        // If col-md-3 doesn't work, try other common Bootstrap classes
+        if (!golAsteenContainer) {
+            golAsteenContainer = golAsteenField.closest('.col');
+        }
+
+        // If still not found, try parent element
+        if (!golAsteenContainer) {
+            golAsteenContainer = golAsteenField.parentElement;
+        }
+
+        console.log('Gol asteen container found:', !!golAsteenContainer);
+        console.log('Container class:', golAsteenContainer ? golAsteenContainer.className : 'none');
+
+        if (!golAsteenContainer) {
+            console.error('gol_asteen container not found');
+            return;
+        }
+
+        // Initially hide gol_asteen field
+        golAsteenContainer.style.display = 'none';
+        console.log('Initially hid gol_asteen field');
+
+        cuffPlateDropdown.addEventListener('change', function () {
+            console.log('Cuff plate changed to:', this.value);
+
+            if (this.value === 'NO') {
+                console.log('Showing گول آستین option');
+                golAsteenContainer.style.display = 'block';
+                console.log('Set display to block');
+            } else {
+                console.log('Hiding گول آستین option');
+                golAsteenContainer.style.display = 'none';
+                // Reset the field value when hiding
+                golAsteenField.value = '';
+                console.log('Set display to none and cleared value');
+            }
+        });
+
+        // Check initial state based on current value
+        console.log('Initial cuff plate value:', cuffPlateDropdown.value);
+        if (cuffPlateDropdown.value === 'NO') {
+            golAsteenContainer.style.display = 'block';
+            console.log('Set initial display to block for NO value');
+        }
+    } catch (error) {
+        console.error('Error setting up cuff plate dropdown:', error);
+    }
+}
 
 

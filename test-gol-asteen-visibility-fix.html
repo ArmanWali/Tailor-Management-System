@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test گول آستین Visibility in Edit/View Page</title>
+    <link href="src/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-header {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .urdu {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            text-align: right;
+            direction: rtl;
+        }
+        .log-output {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Test گول آستین Field Visibility in Edit/View Customer Page</h1>
+        
+        <div class="test-section">
+            <div class="test-header">
+                <h3>Test: Cuff Plate Dropdown Controls گول آستین Visibility</h3>
+                <p>This test simulates the customer detail page functionality</p>
+            </div>
+            
+            <!-- Simulate customer detail form structure -->
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="cuff_plate" class="form-label small fw-semibold urdu">پلیٹ والا کف / پلیٹ کے بغیر</label>
+                    <select class="form-control form-control-sm" id="cuff_plate">
+                        <option value="">منتخب کریں</option>
+                        <option value="YES">پلیٹ والا کف</option>
+                        <option value="NO">پلیٹ کے بغیر</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-3" id="gol-asteen-container">
+                    <label for="gol_asteen" class="form-label small fw-semibold urdu">گول آستین</label>
+                    <input type="text" class="form-control form-control-sm" id="gol_asteen" 
+                           placeholder="گول آستین درج کریں">
+                </div>
+            </div>
+            
+            <div class="mt-3">
+                <h5>Test Steps:</h5>
+                <ol>
+                    <li>Initially "گول آستین" should be hidden</li>
+                    <li>Select "پلیٹ کے بغیر" (NO) - "گول آستین" should become visible</li>
+                    <li>Select "پلیٹ والا کف" (YES) - "گول آستین" should be hidden and value cleared</li>
+                    <li>Select empty option - "گول آستین" should be hidden</li>
+                </ol>
+            </div>
+            
+            <div class="mt-3">
+                <h5>Log Output:</h5>
+                <div id="log-output" class="log-output"></div>
+            </div>
+            
+            <div class="mt-3">
+                <button onclick="testDataLoad()" class="btn btn-primary">Test Data Load with NO</button>
+                <button onclick="testDataLoadYes()" class="btn btn-secondary">Test Data Load with YES</button>
+                <button onclick="clearLog()" class="btn btn-warning">Clear Log</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulate the elements object and functions from customer-detail.js
+        const elements = {};
+        let logOutput = document.getElementById('log-output');
+        
+        function log(message) {
+            console.log(message);
+            logOutput.textContent += new Date().toLocaleTimeString() + ': ' + message + '\n';
+            logOutput.scrollTop = logOutput.scrollHeight;
+        }
+        
+        function clearLog() {
+            logOutput.textContent = '';
+        }
+        
+        // Initialize elements
+        function initializeElements() {
+            elements.cuff_plate = document.getElementById('cuff_plate');
+            elements.gol_asteen = document.getElementById('gol_asteen');
+        }
+        
+        // Simulate safeSetValue function
+        function safeSetValue(element, value) {
+            if (element) {
+                element.value = value || '';
+            }
+        }
+        
+        // Copy the setupCuffPlateDropdown function from customer-detail.js
+        function setupCuffPlateDropdown() {
+            log('Setting up cuff plate dropdown');
+
+            try {
+                const cuffPlateDropdown = elements.cuff_plate;
+                const golAsteenField = elements.gol_asteen;
+
+                log('Cuff plate dropdown found: ' + !!cuffPlateDropdown);
+                log('Gol asteen field found: ' + !!golAsteenField);
+
+                if (!cuffPlateDropdown) {
+                    log('ERROR: cuff_plate dropdown not found');
+                    return;
+                }
+
+                if (!golAsteenField) {
+                    log('ERROR: gol_asteen field not found');
+                    return;
+                }
+
+                // Try different methods to find the container
+                let golAsteenContainer = golAsteenField.closest('.col-md-3');
+
+                // If col-md-3 doesn't work, try other common Bootstrap classes
+                if (!golAsteenContainer) {
+                    golAsteenContainer = golAsteenField.closest('.col');
+                }
+
+                // If still not found, try parent element
+                if (!golAsteenContainer) {
+                    golAsteenContainer = golAsteenField.parentElement;
+                }
+
+                log('Gol asteen container found: ' + !!golAsteenContainer);
+                log('Container class: ' + (golAsteenContainer ? golAsteenContainer.className : 'none'));
+
+                if (!golAsteenContainer) {
+                    log('ERROR: gol_asteen container not found');
+                    return;
+                }
+
+                // Initially hide gol_asteen field
+                golAsteenContainer.style.display = 'none';
+                log('Initially hid gol_asteen field');
+
+                cuffPlateDropdown.addEventListener('change', function () {
+                    log('Cuff plate changed to: ' + this.value);
+
+                    if (this.value === 'NO') {
+                        log('Showing گول آستین option');
+                        golAsteenContainer.style.display = 'block';
+                        log('Set display to block');
+                    } else {
+                        log('Hiding گول آستین option');
+                        golAsteenContainer.style.display = 'none';
+                        // Reset the field value when hiding
+                        golAsteenField.value = '';
+                        log('Set display to none and cleared value');
+                    }
+                });
+
+                // Check initial state based on current value
+                log('Initial cuff plate value: ' + cuffPlateDropdown.value);
+                if (cuffPlateDropdown.value === 'NO') {
+                    golAsteenContainer.style.display = 'block';
+                    log('Set initial display to block for NO value');
+                }
+            } catch (error) {
+                log('ERROR setting up cuff plate dropdown: ' + error.message);
+            }
+        }
+        
+        // Test functions
+        function testDataLoad() {
+            log('--- Testing data load with cuff_plate = NO ---');
+            safeSetValue(elements.cuff_plate, 'NO');
+            safeSetValue(elements.gol_asteen, 'Test گول آستین value');
+            
+            // Trigger change event (simulating data load)
+            if (elements.cuff_plate) {
+                elements.cuff_plate.dispatchEvent(new Event('change'));
+            }
+            log('Data loaded and change event triggered');
+        }
+        
+        function testDataLoadYes() {
+            log('--- Testing data load with cuff_plate = YES ---');
+            safeSetValue(elements.cuff_plate, 'YES');
+            safeSetValue(elements.gol_asteen, 'Should be hidden');
+            
+            // Trigger change event (simulating data load)
+            if (elements.cuff_plate) {
+                elements.cuff_plate.dispatchEvent(new Event('change'));
+            }
+            log('Data loaded and change event triggered');
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeElements();
+            setupCuffPlateDropdown();
+            log('Test page initialized');
+            log('گول آستین field should be hidden initially');
+        });
+    </script>
+</body>
+</html>

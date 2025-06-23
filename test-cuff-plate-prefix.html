@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Cuff Plate Prefix Feature</title>
+    <link href="src/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .test-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .example { background-color: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .demo-cuff-display {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">🔧 Cuff Plate Prefix Feature Test</h1>
+        
+        <div class="test-card">
+            <h3>✅ Cuff Plate + Cuff Style/Length Combination Test</h3>
+            <div class="test-result info">
+                <strong>Feature Description:</strong> The print forms now prefix the cuff plate option to the cuff style and length combination.
+            </div>
+            
+            <h4>Expected Behavior Examples:</h4>
+            <div class="test-result example">
+                <ul>
+                    <li><strong>Cuff Plate:</strong> "پلیٹ والا کف" + <strong>Cuff Style:</strong> "گول" + <strong>Length:</strong> "25" → <strong>Display:</strong> "پلیٹ والا کف گول 25"</li>
+                    <li><strong>Cuff Plate:</strong> "پلیٹ کے بغیر" + <strong>Cuff Style:</strong> "چورس" + <strong>Length:</strong> "24" → <strong>Display:</strong> "پلیٹ کے بغیر چورس 24"</li>
+                    <li><strong>Cuff Plate:</strong> "پلیٹ والا کف" + <strong>Cuff Style:</strong> "کٹ" + <strong>Length:</strong> "" → <strong>Display:</strong> "پلیٹ والا کف کٹ"</li>
+                    <li><strong>Cuff Plate:</strong> "NO" + <strong>Cuff Style:</strong> "گول" + <strong>Length:</strong> "25" → <strong>Display:</strong> "گول 25"</li>
+                    <li><strong>Cuff Plate:</strong> "" + <strong>Cuff Style:</strong> "گول" + <strong>Length:</strong> "25" → <strong>Display:</strong> "گول 25"</li>
+                </ul>
+            </div>
+            
+            <h4>Test the Combination Logic:</h4>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="test-cuff-plate" class="form-label fw-semibold">پلیٹ والا کف / پلیٹ کے بغیر</label>
+                    <select class="form-select form-select-sm" id="test-cuff-plate">
+                        <option value="">منتخب کریں</option>
+                        <option value="پلیٹ والا کف">پلیٹ والا کف</option>
+                        <option value="پلیٹ کے بغیر">پلیٹ کے بغیر</option>
+                        <option value="NO">NO</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="test-cuff-style" class="form-label fw-semibold">کف اسٹائل</label>
+                    <select class="form-select form-select-sm" id="test-cuff-style">
+                        <option value="">منتخب کریں</option>
+                        <option value="چورس">چورس</option>
+                        <option value="گول">گول</option>
+                        <option value="کٹ">کٹ</option>
+                        <option value="سٹڈ">سٹڈ</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="test-cuff-length" class="form-label fw-semibold">کف لمبائی</label>
+                    <input type="text" class="form-control form-control-sm" id="test-cuff-length" placeholder="25">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Combined Result:</label>
+                    <div class="demo-cuff-display" id="combined-cuff-result">Select values to see result</div>
+                </div>
+            </div>
+            
+            <div class="mt-3">
+                <button class="btn btn-primary btn-sm" onclick="testCuffCombination()">Test Combination</button>
+            </div>
+        </div>
+        
+        <div class="test-card">
+            <h3>📋 Testing Instructions</h3>
+            <div class="test-result info">
+                <strong>To verify the implementation:</strong>
+                <ol>
+                    <li>Add a new customer with cuff plate, cuff style, and cuff length values</li>
+                    <li>Go to the customer's print preview page</li>
+                    <li>Check the cuff field display</li>
+                    <li>Verify it shows: "<strong>Cuff Plate Cuff Style Cuff Length</strong>" (e.g., "پلیٹ والا کف گول 25")</li>
+                    <li>Test with different combinations including "NO" and empty values</li>
+                    <li>Verify the same behavior in print-form.html and print-form-fixed.html</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="test-card">
+            <h3>✅ Files Modified</h3>
+            <div class="test-result success">
+                <strong>Successfully Updated:</strong>
+                <ul class="mb-0">
+                    <li><code>src/pages/print-preview.html</code> - Added cuff plate prefix logic</li>
+                    <li><code>src/pages/print-form.html</code> - Added cuff plate prefix logic</li>
+                    <li><code>src/pages/print-form-fixed.html</code> - Added cuff plate prefix logic</li>
+                </ul>
+            </div>
+            <div class="test-result info">
+                <strong>Prefix Logic:</strong>
+                <ul class="mb-0">
+                    <li>Combines: Cuff Style + Cuff Length</li>
+                    <li>Adds Cuff Plate prefix if not "NO" or empty</li>
+                    <li>Only adds prefix if there's a cuff value to prefix</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-card">
+            <h3>🎯 Sample Test Cases</h3>
+            <div class="test-result example">
+                <strong>Create test customers with these combinations:</strong>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Cuff Plate</th>
+                            <th>Cuff Style</th>
+                            <th>Cuff Length</th>
+                            <th>Expected Display</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>پلیٹ والا کف</td>
+                            <td>گول</td>
+                            <td>25</td>
+                            <td><strong>پلیٹ والا کف گول 25</strong></td>
+                        </tr>
+                        <tr>
+                            <td>پلیٹ کے بغیر</td>
+                            <td>چورس</td>
+                            <td>24</td>
+                            <td><strong>پلیٹ کے بغیر چورس 24</strong></td>
+                        </tr>
+                        <tr>
+                            <td>پلیٹ والا کف</td>
+                            <td>کٹ</td>
+                            <td>(empty)</td>
+                            <td><strong>پلیٹ والا کف کٹ</strong></td>
+                        </tr>
+                        <tr>
+                            <td>NO</td>
+                            <td>گول</td>
+                            <td>25</td>
+                            <td><strong>گول 25</strong></td>
+                        </tr>
+                        <tr>
+                            <td>(empty)</td>
+                            <td>سٹڈ</td>
+                            <td>26</td>
+                            <td><strong>سٹڈ 26</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function testCuffCombination() {
+            const cuffPlate = document.getElementById('test-cuff-plate').value;
+            const cuffStyle = document.getElementById('test-cuff-style').value;
+            const cuffLength = document.getElementById('test-cuff-length').value;
+            const resultDiv = document.getElementById('combined-cuff-result');
+            
+            // Same logic as implemented in the print forms
+            let cuffCombined = '';
+            if (cuffStyle) cuffCombined += cuffStyle;
+            if (cuffLength) cuffCombined += (cuffCombined ? ' ' : '') + cuffLength;
+            
+            // Add cuff plate prefix if available and not "NO"
+            if (cuffPlate && cuffPlate !== 'NO' && cuffPlate !== '' && cuffCombined) {
+                cuffCombined = cuffPlate + ' ' + cuffCombined;
+            }
+            
+            if (cuffCombined) {
+                resultDiv.textContent = cuffCombined;
+                resultDiv.style.color = '#155724';
+                resultDiv.style.backgroundColor = '#d4edda';
+            } else {
+                resultDiv.textContent = 'No values selected';
+                resultDiv.style.color = '#856404';
+                resultDiv.style.backgroundColor = '#fff3cd';
+            }
+        }
+        
+        // Auto-update on change
+        document.getElementById('test-cuff-plate').addEventListener('change', testCuffCombination);
+        document.getElementById('test-cuff-style').addEventListener('change', testCuffCombination);
+        document.getElementById('test-cuff-length').addEventListener('input', testCuffCombination);
+    </script>
+</body>
+</html>

@@ -766,11 +766,31 @@
                 safeSetTextContent('qameez-collar-style', measurements.collar_style);
                 safeSetTextContent('qameez-pocket-type', measurements.single_pocket || measurements.double_side_pocket);
                 safeSetTextContent('qameez-front-pocket-style', measurements.front_pocket);
-                safeSetTextContent('qameez-front-pocket-size', measurements.front_pocket_size);
-                safeSetTextContent('qameez-silai', measurements.silai);
+                safeSetTextContent('qameez-front-pocket-size', measurements.front_pocket_size);                safeSetTextContent('qameez-silai', measurements.silai);
                 safeSetTextContent('qameez-button-color', measurements.button_color);
-                safeSetTextContent('qameez-button-size', measurements.button_size);
-                safeSetTextContent('qameez-cuff-style', measurements.cuff_style); safeSetTextContent('qameez-cuff-kaj', measurements.cuff_kaj); safeSetTextContent('qameez-chak-patti', measurements.chak_patti);                safeSetTextContent('qameez-chak-patti-kaj', measurements.chak_patti_kaj);
+                safeSetTextContent('qameez-button-size', measurements.button_size);                // Combine button type and button size for qameez-button field
+                let buttonCombined = '';
+                if (measurements.button && measurements.button !== '') {
+                    if (measurements.button_size && measurements.button_size !== '') {
+                        buttonCombined = measurements.button_size + ' ' + measurements.button;
+                    } else {
+                        buttonCombined = measurements.button;
+                    }
+                } else if (measurements.button_size && measurements.button_size !== '') {
+                    buttonCombined = measurements.button_size;                }
+                safeSetTextContent('qameez-button', buttonCombined);
+                
+                // Combine cuff style and length with cuff plate prefix
+                let cuffCombined = '';
+                if (measurements.cuff_style) cuffCombined += measurements.cuff_style;
+                if (measurements.cuff_length) cuffCombined += (cuffCombined ? ' ' : '') + measurements.cuff_length;
+                
+                // Add cuff plate prefix if available and not "NO"
+                if (measurements.cuff_plate && measurements.cuff_plate !== 'NO' && measurements.cuff_plate !== '' && cuffCombined) {
+                    cuffCombined = measurements.cuff_plate + ' ' + cuffCombined;
+                }
+                
+                safeSetTextContent('qameez-cuff-style', cuffCombined); safeSetTextContent('qameez-cuff-kaj', measurements.cuff_kaj); safeSetTextContent('qameez-chak-patti', measurements.chak_patti);safeSetTextContent('qameez-chak-patti-kaj', measurements.chak_patti_kaj);
                 
                 // Handle gum_patti prefix for patti field
                 let pattiValue = measurements.patti;
@@ -779,11 +799,20 @@
                 }
                 safeSetTextContent('qameez-patti', pattiValue);
                 
-                safeSetTextContent('qameez-patti-churai', measurements.patti_churai);
-
-                // Populate grouped options section
-                safeSetTextContent('qameez-button-color-grouped', measurements.button_color);
-                safeSetTextContent('qameez-button-size-grouped', measurements.button_size);
+                safeSetTextContent('qameez-patti-churai', measurements.patti_churai);                // Populate grouped options section
+                safeSetTextContent('qameez-button-color-grouped', measurements.button_color);                // Combine button type and size for grouped section
+                let buttonGroupedCombined = '';
+                if (measurements.button && measurements.button !== '') {
+                    if (measurements.button_size && measurements.button_size !== '') {
+                        buttonGroupedCombined = measurements.button_size + ' ' + measurements.button;
+                    } else {
+                        buttonGroupedCombined = measurements.button;
+                    }
+                } else if (measurements.button_size && measurements.button_size !== '') {
+                    buttonGroupedCombined = measurements.button_size;
+                }
+                safeSetTextContent('qameez-button-size-grouped', buttonGroupedCombined);
+                
                 safeSetTextContent('qameez-silai-grouped', measurements.silai);
 
                 // Generate Shalwar measurements HTML with error handling

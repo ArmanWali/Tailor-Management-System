@@ -839,12 +839,16 @@
                 setTextWithVisibility('qameez-collar-combined', collarDisplay);                // Qameez details
                 setTextWithVisibility('qameez-pocket', m.single_pocket || m.double_side_pocket || 'No');
                 setTextWithVisibility('qameez-front-pocket-style', m.front_pocket);
-                setTextWithVisibility('qameez-front-pocket-size', m.front_pocket_size);
-
-                // Combine cuff style and length
+                setTextWithVisibility('qameez-front-pocket-size', m.front_pocket_size);                // Combine cuff style and length with cuff plate prefix
                 let cuffCombined = '';
                 if (m.cuff_style) cuffCombined += m.cuff_style;
                 if (m.cuff_length) cuffCombined += (cuffCombined ? ' ' : '') + m.cuff_length;
+                
+                // Add cuff plate prefix if available and not "NO"
+                if (m.cuff_plate && m.cuff_plate !== 'NO' && m.cuff_plate !== '' && cuffCombined) {
+                    cuffCombined = m.cuff_plate + ' ' + cuffCombined;
+                }
+                
                 setTextWithVisibility('qameez-cuff-style', cuffCombined);
 
                 setTextWithVisibility('qameez-cuff-kaj', m.cuff_kaj);
@@ -860,12 +864,22 @@
                 if (m.gum_patti === 'Yes' && pattiCombined) {
                     pattiCombined = 'گم ' + pattiCombined;
                 }
-                
-                setTextWithVisibility('qameez-patti-combined', pattiCombined);
+                  setTextWithVisibility('qameez-patti-combined', pattiCombined);
                 // Grouped options
-                setTextWithVisibility('qameez-button-color', m.button_color);
-                setTextWithVisibility('qameez-button', m.button);
-                setTextWithVisibility('qameez-silai', m.silai);                // Shalwar measurements
+                setTextWithVisibility('qameez-button-color', m.button_color);                // Combine button type and button size
+                let buttonCombined = '';
+                if (m.button && m.button !== '') {
+                    if (m.button_size && m.button_size !== '') {
+                        buttonCombined = m.button_size + ' ' + m.button;
+                    } else {
+                        buttonCombined = m.button;
+                    }
+                } else if (m.button_size && m.button_size !== '') {
+                    buttonCombined = m.button_size;
+                }
+                setTextWithVisibility('qameez-button', buttonCombined);
+                
+                setTextWithVisibility('qameez-silai', m.silai);// Shalwar measurements
                 setTextWithVisibility('shalwar-lambai', m.shalwar_lambai);
                 setTextWithVisibility('shalwar-pacha', m.pacha);
                 setTextWithVisibility('shalwar-hip', m.lib);
