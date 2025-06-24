@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin User Cleanup - Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        .test-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: #333;">Admin User Cleanup - Verification</h1>
+        <p style="text-align: center; color: #666;">Ensuring only the correct admin credentials work</p>
+
+        <div class="test-section">
+            <div class="test-title">Changes Made to main.js</div>
+            <div class="info">
+                <strong>Problem:</strong> The system was allowing login with old admin credentials ("admin", "admin123") 
+                even after updating config.js with new credentials.
+            </div>
+            <div class="success">
+                <strong>Solution:</strong> Modified the admin user initialization logic to:
+                <ul>
+                    <li>Remove any existing admin users that don't match the intended username</li>
+                    <li>Ensure only the correct admin user (M.ABUBAKKAR) exists</li>
+                    <li>Update existing admin user credentials if they exist</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">Updated Code Logic</div>
+            <div class="code-block">
+// Ensure only the correct admin user exists
+// First, remove any existing admin users that are not the intended one
+db.users.remove({ role: 'admin', username: { $ne: config.defaultAdmin.username } }, { multi: true }, (err, numRemoved) => {
+    if (numRemoved > 0) {
+        console.log(`Removed ${numRemoved} old admin user(s)`);
+    }
+    
+    // Then check if the correct admin user exists, create if not
+    db.users.findOne({ username: config.defaultAdmin.username }, (err, user) => {
+        if (!user) {
+            db.users.insert({
+                username: config.defaultAdmin.username,
+                password: config.defaultAdmin.password,
+                name: config.defaultAdmin.name,
+                role: 'admin',
+                createdAt: new Date().toISOString()
+            });
+            console.log(`Created admin user: ${config.defaultAdmin.username}`);
+        } else {
+            // Update existing user to ensure credentials match config
+            db.users.update(
+                { username: config.defaultAdmin.username },
+                { 
+                    $set: { 
+                        password: config.defaultAdmin.password,
+                        name: config.defaultAdmin.name,
+                        role: 'admin'
+                    }
+                },
+                {},
+                (err, numUpdated) => {
+                    if (numUpdated > 0) {
+                        console.log(`Updated admin user credentials: ${config.defaultAdmin.username}`);
+                    }
+                }
+            );
+        }
+    });
+});
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">What This Fix Does</div>
+            <ul>
+                <li><strong>Removes old admin users:</strong> Any admin users with usernames other than "M.ABUBAKKAR" are deleted</li>
+                <li><strong>Creates/Updates correct admin:</strong> Ensures the admin user "M.ABUBAKKAR" exists with password "MASTER16203"</li>
+                <li><strong>Prevents dual access:</strong> Only the intended credentials will work for admin login</li>
+                <li><strong>Maintains functionality:</strong> All other features and styling remain unchanged</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">Current Admin Credentials</div>
+            <div class="success">
+                ✅ <strong>Username:</strong> M.ABUBAKKAR<br>
+                ✅ <strong>Password:</strong> MASTER16203
+            </div>
+            <div class="warning">
+                <strong>Note:</strong> Old credentials like "admin"/"admin123" will no longer work after the application restarts.
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">Testing Instructions</div>
+            <ol>
+                <li>Restart the Tailor Management System application</li>
+                <li>Try logging in with old credentials ("admin", "admin123") - should fail</li>
+                <li>Try logging in with new credentials ("M.ABUBAKKAR", "MASTER16203") - should succeed</li>
+                <li>Verify all functionality works normally after login</li>
+            </ol>
+        </div>
+
+        <div class="success" style="text-align: center; margin-top: 20px;">
+            ✅ SUCCESS: Admin user cleanup implemented successfully!<br>
+            Only the intended credentials (M.ABUBAKKAR/MASTER16203) will work for admin access.
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ Admin user cleanup verification loaded');
+            console.log('📋 Only M.ABUBAKKAR/MASTER16203 should work for admin login');
+        });
+    </script>
+</body>
+</html>

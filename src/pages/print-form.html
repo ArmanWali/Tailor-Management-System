@@ -219,28 +219,29 @@
             gap: 8px;
             font-size: 11px;
             line-height: 1.4;
-        }
-
-        .qameez-label {
-            font-weight: normal;
+        }        .qameez-label {
+            font-weight: bold;
             white-space: nowrap;
             min-width: 60px;
-        }
-
-        .qameez-value {
+        }        .qameez-value {
             border-bottom: none;
             min-width: 60px;
             width: fit-content;
             max-width: 100px;
             min-height: 16px;
             padding: 1px 2px;
-        }
-
-        .qameez-style {
-            font-size: 10px;
-            color: #666;
+            font-weight: bold;
+            color: #000;
+        }        .qameez-style {
+            font-size: 12px;
+            color: #000;
             white-space: nowrap;
             margin-left: 4px;
+            font-weight: bold;
+        }
+
+        .qameez-collar-combined {
+            font-weight: bold;
         }
 
         /* Compact styling for collar/ben field */
@@ -260,6 +261,19 @@
             border-bottom: none;
             color: #000;
             font-weight: normal;
+        }
+
+        /* Prevent text wrapping in second column */
+        .qameez-column-2 .qameez-style {
+            white-space: nowrap;
+        }
+
+        .qameez-column-2 .qameez-value {
+            white-space: nowrap;
+        }
+
+        .qameez-column-2 .qameez-collar-combined {
+            white-space: nowrap;
         }
 
         /* Grouped options section below qameez columns */
@@ -293,15 +307,14 @@
             font-weight: normal;
             white-space: nowrap;
             font-size: 9px;
-        }
-
-        .option-value {
+        }        .option-value {
             border-bottom: 1px solid #999;
             min-width: 30px;
             min-height: 12px;
             padding: 1px 2px;
             font-size: 9px;
             flex-shrink: 0;
+            color: #000;
         }
 
         /* Shalwar two-column layout */
@@ -341,21 +354,19 @@
             gap: 8px;
             font-size: 11px;
             line-height: 1.4;
-        }
-
-        .shalwar-label {
-            font-weight: normal;
+        }        .shalwar-label {
+            font-weight: bold;
             white-space: nowrap;
             min-width: 60px;
-        }
-
-        .shalwar-value {
+        }        .shalwar-value {
             border-bottom: none;
             min-width: 60px;
             width: fit-content;
             max-width: 100px;
             min-height: 16px;
             padding: 1px 2px;
+            font-weight: bold;
+            color: #000;
         }
 
         /* Regular measurements grid for Shalwar */
@@ -388,14 +399,13 @@
 
         .measure-label {
             margin-right: 10px;
-        }
-
-        .measure-value {
+        }        .measure-value {
             border-bottom: none;
             min-width: 60px;
             width: fit-content;
             max-width: 100px;
             text-align: center;
+            color: #000;
         }
 
         /* Separator line */
@@ -985,7 +995,7 @@
                     } else if (collarElement) {
                         const value = collarElement.textContent.trim();
 
-                        // Hide if collar combined value is empty, just "بین / کالر", or "NO"
+                        // Hide if collar combined value is empty, just "بین / کالر" or "NO"
                         if (!value || value === 'بین / کالر' || value.toLowerCase() === 'no') {
                             item.classList.add('print-hide-empty');
                         } else {

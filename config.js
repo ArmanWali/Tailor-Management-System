@@ -18,12 +18,10 @@ module.exports = {
             customers: 'customers.db',
             settings: 'settings.db'
         }
-    },
-
-    // Default admin credentials (only used if no admin user exists)
+    },    // Default admin credentials (only used if no admin user exists)
     defaultAdmin: {
-        username: 'admin',
-        password: 'admin123', // Should be changed after first login
+        username: 'M.ABUBAKKAR',
+        password: 'MASTER16203', // Should be changed after first login
         name: 'Administrator'
     },
 

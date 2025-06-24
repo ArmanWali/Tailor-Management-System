@@ -32,17 +32,44 @@ const db = {
     })
 };
 
-// Create admin user if not exists
-db.users.findOne({ username: config.defaultAdmin.username }, (err, user) => {
-    if (!user) {
-        db.users.insert({
-            username: config.defaultAdmin.username,
-            password: config.defaultAdmin.password, // In production, use a hashed password
-            name: config.defaultAdmin.name,
-            role: 'admin',
-            createdAt: new Date().toISOString()
-        });
+// Ensure only the correct admin user exists
+// First, remove any existing admin users that are not the intended one
+db.users.remove({ role: 'admin', username: { $ne: config.defaultAdmin.username } }, { multi: true }, (err, numRemoved) => {
+    if (numRemoved > 0) {
+        console.log(`Removed ${numRemoved} old admin user(s)`);
     }
+    
+    // Then check if the correct admin user exists, create if not
+    db.users.findOne({ username: config.defaultAdmin.username }, (err, user) => {
+        if (!user) {
+            db.users.insert({
+                username: config.defaultAdmin.username,
+                password: config.defaultAdmin.password, // In production, use a hashed password
+                name: config.defaultAdmin.name,
+                role: 'admin',
+                createdAt: new Date().toISOString()
+            });
+            console.log(`Created admin user: ${config.defaultAdmin.username}`);
+        } else {
+            // Update existing user to ensure credentials match config
+            db.users.update(
+                { username: config.defaultAdmin.username },
+                { 
+                    $set: { 
+                        password: config.defaultAdmin.password,
+                        name: config.defaultAdmin.name,
+                        role: 'admin'
+                    }
+                },
+                {},
+                (err, numUpdated) => {
+                    if (numUpdated > 0) {
+                        console.log(`Updated admin user credentials: ${config.defaultAdmin.username}`);
+                    }
+                }
+            );
+        }
+    });
 });
 
 // Keep a global reference of the window object

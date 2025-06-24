@@ -250,10 +250,8 @@
         /* Second column mirrored layout */
         .qameez-column-2 .qameez-measure-item {
             flex-direction: row-reverse;
-        }
-
-        .qameez-label {
-            font-weight: normal;
+        }        .qameez-label {
+            font-weight: bold;
             text-align: right;
             direction: rtl;
             min-width: 80px;
@@ -262,26 +260,37 @@
         /* Second column label alignment */
         .qameez-column-2 .qameez-label {
             text-align: left;
-        }
-
-        .qameez-value {
+        }        .qameez-value {
             min-width: 60px;
             padding: 2px 5px;
             text-align: center;
-        }
-
-        .qameez-style {
-            font-size: 12px;
-            color: #666;
+            font-weight: bold;
+            color: #000;
+        }        .qameez-style {
+            font-size: 14px;
+            color: #000;
             margin-left: 10px;
             direction: rtl;
-        }
-
-        .qameez-collar-combined {
+            font-weight: bold;
+        }.qameez-collar-combined {
             min-width: 100px;
             padding: 2px 5px;
             text-align: center;
             direction: rtl;
+            font-weight: bold;
+        }
+
+        /* Prevent text wrapping in second column */
+        .qameez-column-2 .qameez-style {
+            white-space: nowrap;
+        }
+
+        .qameez-column-2 .qameez-value {
+            white-space: nowrap;
+        }
+
+        .qameez-column-2 .qameez-collar-combined {
+            white-space: nowrap;
         }
 
         /* Grouped Options */
@@ -311,20 +320,17 @@
             gap: 0px;
             text-align: center;
             font-size: 0;
-        }
-
-        .option-label {
+        }        .option-label {
             font-size: 14px;
-            color: #333;
+            color: #000;
             direction: rtl;
             font-weight: bold;
-        }
-
-        .option-value {
+        }        .option-value {
             text-align: center;
             direction: rtl;
             font-size: 14px;
             font-weight: bold;
+            color: #000;
             background: white;
             display: inline-block;
         }
@@ -359,20 +365,18 @@
             margin-bottom: 8px;
             padding: 4px 0;
             gap: 15px;
-        }
-
-        .shalwar-label {
-            font-weight: normal;
+        }        .shalwar-label {
+            font-weight: bold;
             text-align: right;
             direction: rtl;
             min-width: 80px;
-        }
-
-        .shalwar-value {
+        }        .shalwar-value {
             min-width: 60px;
             padding: 2px 5px;
             text-align: center;
             direction: rtl;
+            font-weight: bold;
+            color: #000;
         }
 
         /* Extra Demand */

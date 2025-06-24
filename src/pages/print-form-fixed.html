@@ -210,30 +210,27 @@
             gap: 8px;
             font-size: 11px;
             line-height: 1.4;
-        }
-
-        .qameez-label {
-            font-weight: normal;
+        }        .qameez-label {
+            font-weight: bold;
             white-space: nowrap;
             min-width: 60px;
-        }
-
-        .qameez-value {
+        }        .qameez-value {
             border-bottom: 1px solid #999;
             min-width: 80px;
             min-height: 16px;
             flex: 1;
             padding: 1px 2px;
-        }
-
-        .qameez-style {
+            font-weight: bold;
+            color: #000;
+        }        .qameez-style {
             border-bottom: none;
             min-height: 18px;
-            font-size: 12px;
+            font-size: 13px;
             color: #000;
             min-width: 40px;
             padding: 1px 3px;
             margin-left: 5px;
+            font-weight: bold;
         }
 
         /* Compact styling for collar/ben field */
@@ -281,16 +278,15 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
-        }
-
-        .measure-label {
+        }        .measure-label {
             margin-right: 10px;
-        }
-
-        .measure-value {
+            font-weight: bold;
+        }        .measure-value {
             border-bottom: 1px solid #999;
             min-width: 80px;
             text-align: center;
+            font-weight: bold;
+            color: #000;
         }
 
         /* Separator line */
@@ -405,18 +401,15 @@
             font-weight: normal;
             white-space: nowrap;
             font-size: 9px;
-        }
-
-        .option-value {
+        }        .option-value {
             border-bottom: 1px solid #999;
             min-width: 30px;
             min-height: 12px;
             padding: 1px 2px;
             font-size: 9px;
             flex-shrink: 0;
-        }
-
-        /* Collar combined field styling */
+            color: #000;
+        }/* Collar combined field styling */
         .qameez-collar-combined {
             border-bottom: none;
             min-height: 18px;
@@ -426,11 +419,25 @@
             padding: 1px 3px;
             direction: rtl;
             text-align: right;
+            font-weight: bold;
         }
 
         /* Hide empty fields for print */
         .print-hide-empty {
             display: none !important;
+        }
+
+        /* Prevent text wrapping in second column */
+        .qameez-column-2 .qameez-style {
+            white-space: nowrap;
+        }
+
+        .qameez-column-2 .qameez-value {
+            white-space: nowrap;
+        }
+
+        .qameez-column-2 .qameez-collar-combined {
+            white-space: nowrap;
         }
     </style>
 </head>

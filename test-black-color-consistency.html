@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Color Verification - Print Forms</title>
+    <link href="src/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .urdu {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            text-align: right;
+            direction: rtl;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .pass { background-color: #d4edda; color: #155724; }
+        .improvement { background-color: #cce5ff; color: #004085; }
+        .print-form-link {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .print-form-link:hover {
+            background-color: #0056b3;
+            color: white;
+            text-decoration: none;
+        }
+        .css-class {
+            background-color: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            border: 1px solid #dee2e6;
+        }
+        .color-sample {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        .black { background-color: #000; }
+        .grey666 { background-color: #666; }
+        .grey333 { background-color: #333; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Black Color Implementation - Print Forms</h1>
+        <p><strong>Issue Fixed:</strong> Some measurement values had grey color instead of black in print forms.</p>
+        
+        <div class="test-section success">
+            <h3>✅ Color Consistency Fixed</h3>
+            <p>All measurement values in Qameez and Shalwar sections now use consistent black color:</p>
+            
+            <div class="test-result improvement">
+                🔧 FIXED: .qameez-style class - Changed from <span class="color-sample grey666"></span> #666 (grey) to <span class="color-sample black"></span> #000 (black)
+            </div>
+            
+            <div class="test-result improvement">
+                🔧 FIXED: .option-label class - Changed from <span class="color-sample grey333"></span> #333 (dark grey) to <span class="color-sample black"></span> #000 (black)
+            </div>
+            
+            <div class="test-result pass">
+                ✅ MAINTAINED: Header and shop info colors remain unchanged (not measurement values)
+            </div>
+            
+            <div class="test-result pass">
+                ✅ CONSISTENT: All three print forms now use black for measurement text
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📋 Color Changes Applied</h3>
+            
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>CSS Class</th>
+                        <th>Used For</th>
+                        <th>Before</th>
+                        <th>After</th>
+                        <th>Files Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="css-class">.qameez-style</span></td>
+                        <td class="urdu">Style values: گول، فل، سادہ</td>
+                        <td><span class="color-sample grey666"></span> #666</td>
+                        <td><span class="color-sample black"></span> #000</td>
+                        <td>print-preview.html, print-form.html</td>
+                    </tr>
+                    <tr>
+                        <td><span class="css-class">.option-label</span></td>
+                        <td class="urdu">Option labels: رنگ بٹن، سلائی</td>
+                        <td><span class="color-sample grey333"></span> #333</td>
+                        <td><span class="color-sample black"></span> #000</td>
+                        <td>print-preview.html</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="test-section">
+            <h3>🎯 Measurement Values Now Black</h3>
+            
+            <h4>Qameez (قمیض) Section Values:</h4>
+            <ul class="urdu">
+                <li>گول (next to measurements) ✅ Black</li>
+                <li>فل (sleeve style) ✅ Black</li>
+                <li>سادہ (various styles) ✅ Black</li>
+                <li>کف (cuff styles) ✅ Black</li>
+                <li>سنگل (kaj values) ✅ Black</li>
+                <li>رنگ بٹن (button color label) ✅ Black</li>
+                <li>سلائی (sewing label) ✅ Black</li>
+            </ul>
+            
+            <h4>Shalwar (شلوار) Section Values:</h4>
+            <ul class="urdu">
+                <li>All measurement values ✅ Black</li>
+                <li>All style descriptions ✅ Black</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔧 Implementation Details</h3>
+            
+            <h4>Changes Made to print-preview.html:</h4>
+            <pre style="background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+/* BEFORE */
+.qameez-style {
+    color: #666; /* Grey */
+}
+
+.option-label {
+    color: #333; /* Dark grey */
+}
+
+/* AFTER */
+.qameez-style {
+    color: #000; /* Black */
+}
+
+.option-label {
+    color: #000; /* Black */
+}
+            </pre>
+            
+            <h4>Changes Made to print-form.html:</h4>
+            <pre style="background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+/* BEFORE */
+.qameez-style {
+    color: #666; /* Grey */
+}
+
+/* AFTER */
+.qameez-style {
+    color: #000; /* Black */
+}
+            </pre>
+            
+            <h4>print-form-fixed.html:</h4>
+            <pre style="background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+/* Already using black color */
+.qameez-style {
+    color: #000; /* Already black - no change needed */
+}
+            </pre>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔍 Colors Preserved (Not Changed)</h3>
+            <p>These elements kept their original colors as they are not measurement values:</p>
+            <ul>
+                <li><strong>Shop Info:</strong> Header text and shop name remain as designed</li>
+                <li><strong>Section Headers:</strong> Qameez and Shalwar section titles remain as designed</li>
+                <li><strong>Customer Info:</strong> Customer details section unchanged</li>
+                <li><strong>Background Colors:</strong> No background colors modified</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3>🧪 Manual Testing</h3>
+            <p>Click the links below to verify that ALL measurement values appear in solid black color:</p>
+            
+            <div style="text-align: center;">
+                <a href="src/pages/print-preview.html" target="_blank" class="print-form-link">
+                    📄 Print Preview Form
+                </a>
+                
+                <a href="src/pages/print-form.html" target="_blank" class="print-form-link">
+                    📄 Print Form
+                </a>
+                
+                <a href="src/pages/print-form-fixed.html" target="_blank" class="print-form-link">
+                    📄 Print Form Fixed
+                </a>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <button onclick="createBlackColorTestCustomer()" class="btn btn-primary">Create Test Customer</button>
+                <button onclick="openPrintPreview()" class="btn btn-success" id="printBtn" disabled>Test Print Preview</button>
+                <button onclick="cleanupTestCustomer()" class="btn btn-danger">Cleanup Test</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>✅ Verification Checklist</h3>
+            <div style="background-color: white; padding: 15px; border-radius: 5px;">
+                <h4>Print Form Should Show:</h4>
+                <ul>
+                    <li>✅ All measurement labels in solid black</li>
+                    <li>✅ All measurement values in solid black</li>
+                    <li>✅ All style descriptors in solid black</li>
+                    <li>✅ All option labels in solid black</li>
+                    <li>✅ No grey or faded text in measurement sections</li>
+                    <li>✅ Consistent black color throughout Qameez section</li>
+                    <li>✅ Consistent black color throughout Shalwar section</li>
+                    <li>✅ Header information unchanged</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h4>Status:</h4>
+            <div id="status" style="padding: 10px; border-radius: 5px; background-color: #f8f9fa;"></div>
+        </div>
+    </div>
+
+    <script>
+        let testCustomerId = null;
+        
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            const bgClass = type === 'success' ? 'bg-success text-white' : type === 'error' ? 'bg-danger text-white' : 'bg-info text-white';
+            statusDiv.innerHTML = `<div class="${bgClass} p-2 rounded">${message}</div>`;
+        }
+        
+        function createBlackColorTestCustomer() {
+            const testCustomer = {
+                id: 'test-black-color-' + Date.now(),
+                codeNumber: 'BLACK001',
+                name: 'Black Color Test Customer',
+                cellNumber: '1234567890',
+                age: '30',
+                address: 'Test Address',
+                quantity: '1',
+                cuttingNo: 'CUT001',
+                enteredBy: 'Test User',
+                orderDate: new Date().toISOString().split('T')[0],
+                returnDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                measurements: {
+                    // Include measurements that use .qameez-style class (previously grey)
+                    lambai: '42',
+                    asteen: '24',
+                    tera: '18',
+                    chati: '44',
+                    kamar: '42',
+                    gira: '22',
+                    moza: '8',
+                    gol_asteen: 'فل', // .qameez-style - should be black now
+                    collar_type: 'کالر',
+                    collar_style: 'کالر فرنچ',
+                    collar_measurement: '15',
+                    cuff_plate: 'YES',
+                    cuff_style: 'گول', // .qameez-style - should be black now
+                    cuff_length: '25',
+                    cuff_kaj: 'سنگل',
+                    chak_patti: 'گول', // .qameez-style - should be black now
+                    chak_patti_kaj: 'سنگل',
+                    button: 'سٹیل',
+                    button_size: '12',
+                    button_color: 'کراچی', // .option-value - should be black
+                    front_pocket: 'ہاں',
+                    front_pocket_size: '5 انچ',
+                    silai: 'سادہ سلائی', // .option-value - should be black
+                    shoulder_style: 'سادہ',
+                    sleeve_type: 'فل', // .qameez-style - should be black now
+                    daman: 'گول', // .qameez-style - should be black now
+                    
+                    // Shalwar measurements
+                    shalwar_lambai: '42',
+                    shalwar_type: 'کشادہ',
+                    pacha: '22',
+                    lib: '12',
+                    ander: '8',
+                    shalwar_pocket: 'ہاں',
+                    patti: 'کلف',
+                    gum_patti: 'NO',
+                    patti_churai: '3',
+                    patti_lambai: '5',
+                    extra_demand: 'تمام ٹیکسٹ کالا ہونا چاہیے'
+                }
+            };
+            
+            try {
+                // Get existing customers
+                const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+                
+                // Remove any existing test customer
+                const filteredCustomers = customers.filter(c => !c.id.startsWith('test-black-color-'));
+                
+                // Add new test customer
+                filteredCustomers.push(testCustomer);
+                
+                // Save to localStorage
+                localStorage.setItem('customers', JSON.stringify(filteredCustomers));
+                
+                testCustomerId = testCustomer.id;
+                
+                // Enable print button
+                document.getElementById('printBtn').disabled = false;
+                
+                updateStatus('Black color test customer created! This customer has all style values that were previously grey to verify they now appear in black.', 'success');
+                
+            } catch (error) {
+                updateStatus('Error creating test customer: ' + error.message, 'error');
+            }
+        }
+        
+        function openPrintPreview() {
+            if (!testCustomerId) {
+                updateStatus('No test customer created yet', 'error');
+                return;
+            }
+            
+            // Open print preview with test customer data
+            const url = `src/pages/print-preview.html?id=${testCustomerId}`;
+            window.open(url, '_blank');
+            
+            updateStatus('Print preview opened! Verify that ALL measurement text appears in solid black color with no grey or faded text.', 'success');
+        }
+        
+        function cleanupTestCustomer() {
+            try {
+                // Get existing customers
+                const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+                
+                // Remove test customers
+                const filteredCustomers = customers.filter(c => !c.id.startsWith('test-black-color-'));
+                
+                // Save back to localStorage
+                localStorage.setItem('customers', JSON.stringify(filteredCustomers));
+                
+                testCustomerId = null;
+                document.getElementById('printBtn').disabled = true;
+                
+                updateStatus('Test customer cleaned up successfully', 'success');
+                
+            } catch (error) {
+                updateStatus('Error cleaning up test customer: ' + error.message, 'error');
+            }
+        }
+        
+        // Initialize
+        updateStatus('Ready to test black color consistency. Create a test customer to verify all measurement text appears in solid black.');
+    </script>
+</body>
+</html>
