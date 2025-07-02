@@ -291,7 +291,7 @@ function displayCustomerData(customer) {
             if (elements.cuff_plate) {
                 elements.cuff_plate.dispatchEvent(new Event('change'));
             }
-            safeSetValue(elements.cuff_style, m.cuff_style);safeSetValue(elements.cuff_kaj, m.cuff_kaj);
+            safeSetValue(elements.cuff_style, m.cuff_style); safeSetValue(elements.cuff_kaj, m.cuff_kaj);
             safeSetValue(elements.cuff_length, m.cuff_length);
             safeSetValue(elements.chak_patti, m.chak_patti);
             safeSetValue(elements.chak_patti_kaj, m.chak_patti_kaj);
@@ -303,7 +303,7 @@ function displayCustomerData(customer) {
             safeSetValue(elements.shalwar_type, m.shalwar_type);
             safeSetValue(elements.pacha, m.pacha);
             safeSetValue(elements.lib, m.lib); safeSetValue(elements.ander, m.ander);
-            safeSetValue(elements.shalwar_pocket, m.shalwar_pocket);            safeSetValue(elements.patti, m.patti);
+            safeSetValue(elements.shalwar_pocket, m.shalwar_pocket); safeSetValue(elements.patti, m.patti);
             safeSetValue(elements.gum_patti, m.gum_patti);
             safeSetValue(elements.patti_churai, m.patti_churai);
             safeSetValue(elements.patti_lambai, m.patti_lambai);
@@ -443,7 +443,7 @@ function saveCustomerChanges() {
                 pacha: safeGetValue(elements.pacha),
                 lib: safeGetValue(elements.lib),
                 ander: safeGetValue(elements.ander),
-                shalwar_pocket: safeGetValue(elements.shalwar_pocket),                patti: safeGetValue(elements.patti),
+                shalwar_pocket: safeGetValue(elements.shalwar_pocket), patti: safeGetValue(elements.patti),
                 gum_patti: safeGetValue(elements.gum_patti),
                 patti_churai: safeGetValue(elements.patti_churai),
                 patti_lambai: safeGetValue(elements.patti_lambai)

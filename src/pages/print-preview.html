@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Print Preview</title>
+    <!-- Print Form Styles - Updated for layout spacing fixes v1.1 -->
     <style>
         * {
             margin: 0;
@@ -83,10 +84,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            /* Reduced from 20px */
+            padding-bottom: 12px;
+            /* Reduced from 15px */
             border-bottom: 2px solid #333;
-            gap: 30px;
+            gap: 20px;
+            /* Reduced from 30px to bring logos closer to center */
             position: relative;
             z-index: 1;
         }
@@ -134,7 +138,8 @@
 
         /* Customer Info */
         .customer-info {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            /* Reduced from 20px */
             position: relative;
             z-index: 1;
         }
@@ -142,13 +147,16 @@
         .info-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
+            /* Further reduced from 8px */
         }
 
         .info-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            /* Reduced from 10px */
+            flex: 1;
         }
 
         .info-item.grid-span-3 {
@@ -157,7 +165,8 @@
 
         .info-label {
             font-weight: bold;
-            min-width: 100px;
+            min-width: 80px;
+            /* Reduced from 100px to save space */
             text-align: left;
             direction: ltr;
         }
@@ -175,8 +184,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding: 10px;
+            margin-bottom: 15px;
+            /* Reduced from 20px */
+            padding: 8px;
+            /* Reduced from 10px */
             border: 1px solid #ccc;
             position: relative;
             z-index: 1;
@@ -204,7 +215,8 @@
 
         /* Measurement Sections */
         .measurement-section {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            /* Reduced from 20px */
             position: relative;
             z-index: 1;
         }
@@ -231,6 +243,14 @@
             width: 45%;
         }
 
+        .qameez-column-1 .qameez-style,
+        .qameez-column-1 .qameez-value,
+        .qameez-column-1 .qameez-label,
+        .qameez-column-1 .qameez-collar-combined {
+            white-space: nowrap;
+            /* Prevent text wrapping in first column */
+        }
+
         .qameez-column-2 {
             width: 200px;
             position: absolute;
@@ -242,15 +262,20 @@
         .qameez-measure-item {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
-            padding: 4px 0;
-            gap: 15px;
+            margin-bottom: 5px;
+            /* Reduced from 8px */
+            padding: 2px 0;
+            /* Reduced from 4px */
+            gap: 12px;
+            /* Reduced from 15px */
         }
 
         /* Second column mirrored layout */
         .qameez-column-2 .qameez-measure-item {
             flex-direction: row-reverse;
-        }        .qameez-label {
+        }
+
+        .qameez-label {
             font-weight: bold;
             text-align: right;
             direction: rtl;
@@ -260,24 +285,33 @@
         /* Second column label alignment */
         .qameez-column-2 .qameez-label {
             text-align: left;
-        }        .qameez-value {
+        }
+
+        .qameez-value {
             min-width: 60px;
             padding: 2px 5px;
             text-align: center;
             font-weight: bold;
             color: #000;
-        }        .qameez-style {
+        }
+
+        .qameez-style {
             font-size: 14px;
             color: #000;
             margin-left: 10px;
             direction: rtl;
             font-weight: bold;
-        }.qameez-collar-combined {
+        }
+
+        .qameez-collar-combined {
             min-width: 100px;
             padding: 2px 5px;
             text-align: center;
             direction: rtl;
             font-weight: bold;
+            font-size: 10px;
+            /* Further reduced font size to be smaller than other measurements */
+            color: #000;
         }
 
         /* Prevent text wrapping in second column */
@@ -320,12 +354,16 @@
             gap: 0px;
             text-align: center;
             font-size: 0;
-        }        .option-label {
+        }
+
+        .option-label {
             font-size: 14px;
             color: #000;
             direction: rtl;
             font-weight: bold;
-        }        .option-value {
+        }
+
+        .option-value {
             text-align: center;
             direction: rtl;
             font-size: 14px;
@@ -339,7 +377,8 @@
         .separator {
             height: 2px;
             background: #333;
-            margin: 20px 0;
+            margin: 15px 0;
+            /* Reduced from 20px */
         }
 
         /* Shalwar Three-Column Layout (2 rows x 3 columns) */
@@ -347,8 +386,10 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             grid-template-rows: auto auto;
-            gap: 15px 20px;
-            margin-bottom: 20px;
+            gap: 12px 18px;
+            /* Reduced from 15px 20px */
+            margin-bottom: 15px;
+            /* Reduced from 20px */
         }
 
         .shalwar-column-1 {
@@ -362,15 +403,22 @@
         .shalwar-measure-item {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
-            padding: 4px 0;
-            gap: 15px;
-        }        .shalwar-label {
+            margin-bottom: 5px;
+            /* Reduced from 8px */
+            padding: 2px 0;
+            /* Reduced from 4px */
+            gap: 12px;
+            /* Reduced from 15px */
+        }
+
+        .shalwar-label {
             font-weight: bold;
             text-align: right;
             direction: rtl;
             min-width: 80px;
-        }        .shalwar-value {
+        }
+
+        .shalwar-value {
             min-width: 60px;
             padding: 2px 5px;
             text-align: center;
@@ -381,10 +429,15 @@
 
         /* Extra Demand */
         .extra-demand {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 10px;
+            /* Further reduced from 15px */
+            padding: 10px;
+            /* Further reduced from 12px */
             border: 1px solid #ccc;
             background: #f9f9f9;
+            position: relative;
+            transform: translateY(-8px);
+            /* Reduced from -15px to prevent overlap */
         }
 
         .extra-demand-label {
@@ -404,7 +457,8 @@
         @media print {
             @page {
                 margin: 0.3in;
-                size: A4;
+                size: 421px 595px;
+                /* Custom size: 421px width × 595px height at 72 DPI */
             }
 
             * {
@@ -434,50 +488,93 @@
             }
 
             .form-header {
-                margin-bottom: 10px !important;
-                padding-bottom: 8px !important;
+                margin-bottom: 8px !important;
+                /* Reduced from 10px */
+                padding-bottom: 6px !important;
+                /* Reduced from 8px */
+                gap: 15px !important;
+                /* Tighter spacing in print mode */
             }
 
             .customer-info {
-                margin-bottom: 12px !important;
+                margin-bottom: 8px !important;
+                /* Reduced from 12px */
             }
 
             .cutting-section {
-                margin-bottom: 12px !important;
-                padding: 6px !important;
+                margin-bottom: 8px !important;
+                /* Reduced from 15px */
+                padding: 5px !important;
+                /* Reduced from 8px */
             }
 
             .measurement-section {
-                margin-bottom: 12px !important;
-            }
-
-            .section-title {
                 margin-bottom: 8px !important;
-                padding-bottom: 3px !important;
+                /* Reduced from 15px */
             }
 
-            .qameez-two-column-grid {
-                margin-bottom: 12px !important;
-            }
-
-            .measurement-row {
-                margin-bottom: 5px !important;
-            }
-
-            .grouped-options {
-                margin-top: -10px !important;
-            }
-
-            .shalwar-grid {
-                margin-bottom: 12px !important;
+            .separator {
+                margin: 5px 0 !important;
+                /* Further reduced from 8px */
             }
 
             .extra-demand {
-                margin-bottom: 8px !important;
+                margin-top: 5px !important;
+                /* Further reduced */
+                padding: 6px !important;
+                /* Further reduced */
+                transform: translateY(-10px) !important;
+                /* Reduced from -20px to prevent overlap */
             }
 
-            .info-row {
-                margin-bottom: 6px !important;
+            /* Font size reductions for better fit */
+            .shop-info h2 {
+                font-size: 20px !important;
+                /* Further reduced from 22px */
+                margin-bottom: 3px !important;
+                /* Further reduced */
+            }
+
+            .shop-info p {
+                font-size: 12px !important;
+                /* Reduced font size */
+                margin-bottom: 2px !important;
+            }
+
+            .info-label,
+            .info-value {
+                font-size: 11px !important;
+                /* Reduced from 12px */
+            }
+
+            .cutting-item label,
+            .cutting-value {
+                font-size: 11px !important;
+                /* Reduced font size */
+            }
+
+            .qameez-style,
+            .qameez-value,
+            .qameez-label,
+            .qameez-collar-combined,
+            .shalwar-label,
+            .shalwar-value,
+            .measure-label,
+            .measure-value {
+                font-size: 11px !important;
+                /* Standard measurement font size */
+            }
+
+            .qameez-collar-combined {
+                font-size: 10px !important;
+                /* Collar/ben field slightly smaller than other measurements */
+            }
+
+            .extra-demand-value {
+                font-size: 11px !important;
+                /* Reduced font size */
+                padding: 3px !important;
+                /* Reduced padding */
             }
 
             .print-preview::before {
@@ -539,6 +636,72 @@
             .qameez-column-2 .qameez-label {
                 text-align: left !important;
             }
+        }
+
+        /* Additional print optimizations for better space management */
+        .info-item {
+            gap: 6px !important;
+            /* Further reduced from 8px */
+        }
+
+        .info-label {
+            min-width: 70px !important;
+            /* Further reduced from 80px */
+            font-size: 12px !important;
+        }
+
+        .info-value {
+            font-size: 12px !important;
+        }
+
+        .separator {
+            margin: 8px 0 !important;
+            /* Further reduced from 15px */
+        }
+
+        .shalwar-two-column-grid {
+            gap: 8px 12px !important;
+            /* Further reduced */
+            margin-bottom: 8px !important;
+            /* Further reduced from 15px */
+        }
+
+        .extra-demand {
+            margin-top: 8px !important;
+            /* Further reduced from 15px */
+            padding: 8px !important;
+            /* Further reduced from 12px */
+        }
+
+        /* Ultra-tight row spacing for maximum space saving */
+        .info-row {
+            margin-bottom: 3px !important;
+            /* Ultra-reduced from 6px */
+        }
+
+        .qameez-measure-item {
+            margin-bottom: 3px !important;
+            /* Ultra-reduced from 5px */
+            padding: 1px 0 !important;
+            /* Ultra-reduced from 2px */
+            gap: 10px !important;
+            /* Ultra-reduced from 12px */
+        }
+
+        .shalwar-measure-item {
+            margin-bottom: 3px !important;
+            /* Ultra-reduced from 5px */
+            padding: 1px 0 !important;
+            /* Ultra-reduced from 2px */
+            gap: 10px !important;
+            /* Ultra-reduced from 12px */
+        }
+
+        .shalwar-two-column-grid {
+            gap: 6px 10px !important;
+            /* Ultra-reduced from 8px 12px */
+            margin-bottom: 5px !important;
+            /* Ultra-reduced from 8px */
         }
     </style>
 </head>
@@ -617,7 +780,8 @@
                 </div><!-- Qameez Section -->
                 <div class="measurement-section">
                     <div class="qameez-two-column-grid">
-                        <div class="qameez-column-1">                            <div class="qameez-measure-item">
+                        <div class="qameez-column-1">
+                            <div class="qameez-measure-item">
                                 <span class="qameez-label">لمبائی</span>
                                 <span class="qameez-value" id="qameez-lambai">42</span>
                                 <span class="qameez-style" id="qameez-daman"></span>
@@ -847,28 +1011,28 @@
                 let cuffCombined = '';
                 if (m.cuff_style) cuffCombined += m.cuff_style;
                 if (m.cuff_length) cuffCombined += (cuffCombined ? ' ' : '') + m.cuff_length;
-                
+
                 // Add cuff plate prefix if available and not "NO"
                 if (m.cuff_plate && m.cuff_plate !== 'NO' && m.cuff_plate !== '' && cuffCombined) {
                     cuffCombined = m.cuff_plate + ' ' + cuffCombined;
                 }
-                
+
                 setTextWithVisibility('qameez-cuff-style', cuffCombined);
 
                 setTextWithVisibility('qameez-cuff-kaj', m.cuff_kaj);
-                setTextWithVisibility('qameez-chak-patti', m.chak_patti);                setTextWithVisibility('qameez-chak-patti-kaj', m.chak_patti_kaj);// Combine patti type and width
+                setTextWithVisibility('qameez-chak-patti', m.chak_patti); setTextWithVisibility('qameez-chak-patti-kaj', m.chak_patti_kaj);// Combine patti type and width
                 let pattiCombined = '';
                 // Only show patti if it's not the default "پٹی" option
                 if (m.patti && m.patti !== 'پٹی') {
                     pattiCombined += m.patti;
                 } if (m.patti_churai) pattiCombined += (pattiCombined ? ' ' : '') + m.patti_churai;
                 if (m.patti_lambai) pattiCombined += (pattiCombined ? ' ' : '') + m.patti_lambai;
-                
+
                 // Add "گم" prefix if gum_patti is "Yes"
                 if (m.gum_patti === 'Yes' && pattiCombined) {
                     pattiCombined = 'گم ' + pattiCombined;
                 }
-                  setTextWithVisibility('qameez-patti-combined', pattiCombined);
+                setTextWithVisibility('qameez-patti-combined', pattiCombined);
                 // Grouped options
                 setTextWithVisibility('qameez-button-color', m.button_color);                // Combine button type and button size
                 let buttonCombined = '';
@@ -882,7 +1046,7 @@
                     buttonCombined = m.button_size;
                 }
                 setTextWithVisibility('qameez-button', buttonCombined);
-                
+
                 setTextWithVisibility('qameez-silai', m.silai);// Shalwar measurements
                 setTextWithVisibility('shalwar-lambai', m.shalwar_lambai);
                 setTextWithVisibility('shalwar-pacha', m.pacha);

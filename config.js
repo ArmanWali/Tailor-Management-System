@@ -23,12 +23,17 @@ module.exports = {
         username: 'M.ABUBAKKAR',
         password: 'MASTER16203', // Should be changed after first login
         name: 'Administrator'
-    },
-
-    // Print settings
+    },    // Print settings
     print: {
-        // Paper size options for printing
-        paperSize: 'A4', // 'A4', 'Letter', etc.
+        // Paper size options for printing - Custom size (421px × 595px at 72 DPI)
+        paperSize: 'custom', // 'A4', 'Letter', 'custom', etc.
+
+        // Custom page dimensions (421px × 595px at 72 DPI = 5.85in × 8.26in)
+        customSize: {
+            width: '421px',    // 5.85 inches at 72 DPI
+            height: '595px',   // 8.26 inches at 72 DPI
+            unit: 'px'
+        },
 
         // Print margins (in mm)
         margins: {

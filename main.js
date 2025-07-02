@@ -38,7 +38,7 @@ db.users.remove({ role: 'admin', username: { $ne: config.defaultAdmin.username }
     if (numRemoved > 0) {
         console.log(`Removed ${numRemoved} old admin user(s)`);
     }
-    
+
     // Then check if the correct admin user exists, create if not
     db.users.findOne({ username: config.defaultAdmin.username }, (err, user) => {
         if (!user) {
@@ -54,8 +54,8 @@ db.users.remove({ role: 'admin', username: { $ne: config.defaultAdmin.username }
             // Update existing user to ensure credentials match config
             db.users.update(
                 { username: config.defaultAdmin.username },
-                { 
-                    $set: { 
+                {
+                    $set: {
                         password: config.defaultAdmin.password,
                         name: config.defaultAdmin.name,
                         role: 'admin'
